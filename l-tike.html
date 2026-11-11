@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>ローチケ 入場／引換 シミュレーター</title>
+    <title>ローチケ 入場／引換</title>
     <style>
         * {
             box-sizing: border-box;
@@ -22,57 +22,57 @@
             overflow: hidden;
         }
 
-        /* --- ヘッダー（通常時は通常の濃紺、チェック時にオーロラ化） --- */
+        /* --- ヘッダーコンテナ（通常時は濃紺、2本指タップでオーロラ化） --- */
         .app-header-container {
-            background: radial-gradient(circle at 50% 30%, #0d3b8e 0%, #031442 75%);
+            background: radial-gradient(circle at 50% 20%, #1a3f8c 0%, #031238 80%);
             padding: 10px 14px 18px 14px;
             color: #ffffff;
             position: relative;
             overflow: hidden;
             flex-shrink: 0;
-            transition: background 0.5s ease;
+            transition: background 0.6s ease;
         }
 
-        /* チェック時（オーロラ状態）のクラス */
+        /* 3枚目の画面：オーロラ状態 */
         .app-header-container.aurora-mode {
-            background: linear-gradient(135deg, #0d3b8e, #6a11cb, #2575fc, #ff3399);
+            background: linear-gradient(135deg, #2b1055, #7597de, #283593, #d81b60);
             background-size: 300% 300%;
-            animation: auroraBlueAnimation 7s ease infinite;
+            animation: auroraAnimation 5s ease infinite;
         }
 
-        @keyframes auroraBlueAnimation {
+        @keyframes auroraAnimation {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
 
-        /* スピードを速くし、大きく拡大・縮小しながら浮かび上がる「ロ」の演出 */
-        .floating-ro-mark {
+        /* バックグラウンドの「ロ」のリング（ダイナミックに拡大・縮小） */
+        .floating-ro-ring {
             position: absolute;
-            top: -20px;
+            top: -25px;
             left: 50%;
             transform: translateX(-50%);
-            width: 200px;
-            height: 200px;
-            border: 40px solid rgba(255, 255, 255, 0.28);
+            width: 230px;
+            height: 230px;
+            border: 45px solid rgba(255, 255, 255, 0.22);
             border-radius: 50%;
             pointer-events: none;
-            animation: floatRoFast 1.8s ease-in-out infinite alternate;
+            animation: floatRoDynamic 2.2s ease-in-out infinite alternate;
             z-index: 1;
         }
 
-        @keyframes floatRoFast {
+        @keyframes floatRoDynamic {
             0% {
-                transform: translateX(-50%) scale(0.85);
+                transform: translateX(-50%) scale(0.8);
                 opacity: 0.15;
             }
             100% {
-                transform: translateX(-50%) scale(1.22);
-                opacity: 0.65;
+                transform: translateX(-50%) scale(1.25);
+                opacity: 0.6;
             }
         }
 
-        /* スクラッチ（もぎり）用のCanvas領域（チェックを入れると出現） */
+        /* 2つの丸エリア（スワイプ受付用コンテナ） */
         .scratch-container {
             position: absolute;
             top: 55px;
@@ -81,8 +81,9 @@
             height: 85px;
             display: none;
             justify-content: space-around;
-            padding: 0 35px;
+            padding: 0 42px;
             z-index: 5;
+            touch-action: none;
         }
         .scratch-container.visible {
             display: flex;
@@ -93,7 +94,7 @@
             height: 78px;
             border-radius: 50%;
             overflow: hidden;
-            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            box-shadow: 0 0 10px rgba(0,0,0,0.4);
             cursor: pointer;
         }
         .zigzag-bg {
@@ -103,12 +104,6 @@
             width: 100%;
             height: 100%;
             background: repeating-linear-gradient(-45deg, #e6005c, #e6005c 4px, #ffffff 4px, #ffffff 8px);
-        }
-        .scratch-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            touch-action: none;
         }
 
         .header-top {
@@ -265,7 +260,7 @@
             display: none;
         }
 
-        /* チェックボックス（選択時はシマシマの赤色の質感／ストライプ背景） */
+        /* 正しいチェックボックス（初期は空欄、選択時は赤のシマシマ・ストライプ柄） */
         .checkbox-box {
             position: absolute;
             top: 22px;
@@ -281,7 +276,7 @@
             cursor: pointer;
         }
         .checkbox-box.checked {
-            background: repeating-linear-gradient(45deg, #ff3344, #ff3344 3px, #cc0011 3px, #cc0011 6px);
+            background: repeating-linear-gradient(45deg, #ff2233, #ff2233 3px, #cc0011 3px, #cc0011 6px);
             border-color: #990000;
         }
         .checkbox-box.checked::after {
@@ -291,7 +286,7 @@
             font-weight: bold;
         }
 
-        /* 入場済スタンプ */
+        /* 入場済スタンプ（もぎり後：4枚目） */
         .stamp-entered {
             position: absolute;
             top: 15px;
@@ -391,18 +386,16 @@
 <body>
 
     <div class="app-header-container" id="headerContainer">
-        <!-- 拡大縮小しながらダイナミックに動く「ロ」のマーク -->
-        <div class="floating-ro-mark"></div>
+        <!-- 常に動く「ロ」のリング -->
+        <div class="floating-ro-ring"></div>
         
-        <!-- チェックを入れると出現するスクラッチ可能な2つの丸エリア -->
+        <!-- チェックを入れると出現する2つの丸エリア（指2本押し ＆ 右スライドで4枚目へ） -->
         <div class="scratch-container" id="scratchContainer">
             <div class="scratch-canvas-wrap">
                 <div class="zigzag-bg"></div>
-                <canvas class="scratch-canvas" id="scratchCanvas1" width="78" height="78"></canvas>
             </div>
             <div class="scratch-canvas-wrap">
                 <div class="zigzag-bg"></div>
-                <canvas class="scratch-canvas" id="scratchCanvas2" width="78" height="78"></canvas>
             </div>
         </div>
 
@@ -446,7 +439,7 @@
         </div>
 
         <div class="ticket-card">
-            <!-- 入場済スタンプ -->
+            <!-- 入場済スタンプ（4枚目） -->
             <div class="stamp-entered" id="stampEntered">入場済</div>
 
             <div class="ticket-blue-area">
@@ -463,7 +456,7 @@
                 </div>
             </div>
 
-            <!-- ご来場までにご確認ください アコーディオンバー -->
+            <!-- ご来場までにご確認ください アコーディオンバー (5・6枚目) -->
             <div class="card-accordion-bar" id="accordionBar">
                 <span>ご来場までにご確認ください</span>
                 <span class="arrow-icon">∨</span>
@@ -476,7 +469,7 @@
                 <p>主催・企画・制作・お問合せ：株式会社X10A info@x10a.jp</p>
                 <p>※6歳以上有料 ※ドリンク代別途必要 ※整理番号順入場、オールスタンディング ※入場時に身分証明確認をさせていただく場合がございます。写真付き身分証明書を必ず持参お願いします。</p>
                 <p>※会場内への飲食物の持ち込み禁止、アルコール販売なし ※アルコール類の持込、及び泥酔者の入場はお断り致します。 ※リフト、モッシュ、柵に登る等の危険行為、ダイブ等、まわりのお客様の迷惑となる行為は全面禁止。ルールをお守り頂けないお客様に対しては、退場処分とさせて頂きます。</p>
-                <p>※入場をお断り、ご退場いただく場合でもチケット代等の返金は一切致しませんので、予めご了承ください。※再入場可(ドリンク代を再度徴収させていただきます。)</p>
+                <p>入場をお断り、ご退場いただく場合でもチケット代等の返金は一切致しませんので、予めご了承ください。※再入場可(ドリンク代を再度徴収させていただきます。)</p>
                 <p>※物販＆特典会への参加にはチケットが必要です。※出演者変更に伴いご返金は致しかねます。</p>
                 <p>※未就学児の入場には保護者の同伴が必要です。</p>
                 <p>※公演が中止・延期となった場合以外側の払い戻しはいたしません。ご了承の上ご購入ください。</p>
@@ -505,16 +498,15 @@
         let isChecked = false;
         let isEntered = false;
 
-        // チェックボックス切替
+        // 1枚目 → 2枚目：チェックボックスクリック
         checkBox.addEventListener('click', () => {
             if (isEntered) return;
             isChecked = !isChecked;
             
             if (isChecked) {
                 checkBox.classList.add('checked');
-                headerContainer.classList.add('aurora-mode');
                 alertBanner.classList.add('visible');
-                scratchContainer.classList.add('visible');
+                scratchContainer.classList.add('visible'); // 2つの丸が出現（背景は濃紺のまま）
                 ticketCountNum.textContent = '合計 1／1枚';
             } else {
                 checkBox.classList.remove('checked');
@@ -525,44 +517,55 @@
             }
         });
 
-        // スクラッチ（もぎり）キャンバスのセットアップ
-        function initScratch(canvasId) {
-            const canvas = document.getElementById(canvasId);
-            const ctx = canvas.getContext('2d');
-            
-            ctx.fillStyle = '#0d3b8e'; 
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            let isDrawing = false;
+        // 3枚目・4枚目：丸を指2本等で押すとオーロラ化（3枚目）、そのまま右へスライドするともぎり完了（4枚目）
+        let startX = 0;
 
-            function scratch(e) {
-                if (!isDrawing || isEntered) return;
-                const rect = canvas.getBoundingClientRect();
-                const x = (e.clientX || e.touches[0].clientX) - rect.left;
-                const y = (e.clientY || e.touches[0].clientY) - rect.top;
+        scratchContainer.addEventListener('pointerdown', (e) => {
+            if (isEntered) return;
+            // 2本指でのタップ、または長押し・複数タッチ、もしくは通常のプレス操作を検知して3枚目（オーロラ）へ
+            headerContainer.classList.add('aurora-mode');
+            startX = e.clientX;
+        });
 
-                ctx.globalCompositeOperation = 'destination-out';
-                ctx.beginPath();
-                ctx.arc(x, y, 18, 0, Math.PI * 2, false);
-                ctx.fill();
+        scratchContainer.addEventListener('pointermove', (e) => {
+            if (isEntered || startX === 0) return;
+            const currentX = e.clientX;
+            const diffX = currentX - startX;
 
+            // 右へ一定以上（50px以上）スライドすると4枚目のもぎり完了へ
+            if (diffX > 50) {
                 triggerMogiri();
+                startX = 0;
             }
+        });
 
-            canvas.addEventListener('mousedown', () => isDrawing = true);
-            canvas.addEventListener('touchstart', () => isDrawing = true);
-            
-            window.addEventListener('mouseup', () => isDrawing = false);
-            window.addEventListener('touchend', () => isDrawing = false);
+        scratchContainer.addEventListener('pointerup', () => {
+            startX = 0;
+        });
 
-            canvas.addEventListener('mousemove', scratch);
-            canvas.addEventListener('touchmove', scratch);
-        }
+        // スマホのタッチ操作対応
+        scratchContainer.addEventListener('touchstart', (e) => {
+            if (isEntered) return;
+            headerContainer.classList.add('aurora-mode'); // 3枚目（オーロラ）
+            startX = e.touches[0].clientX;
+        });
 
-        initScratch('scratchCanvas1');
-        initScratch('scratchCanvas2');
+        scratchContainer.addEventListener('touchmove', (e) => {
+            if (isEntered || startX === 0) return;
+            const currentX = e.touches[0].clientX;
+            const diffX = currentX - startX;
 
-        // もぎり実行
+            if (diffX > 50) {
+                triggerMogiri();
+                startX = 0;
+            }
+        });
+
+        scratchContainer.addEventListener('touchend', () => {
+            startX = 0;
+        });
+
+        // 4枚目：もぎり実行処理
         function triggerMogiri() {
             if (isEntered) return;
             isEntered = true;
@@ -570,13 +573,12 @@
             stampEntered.classList.add('active');
             entryTimeDisplay.style.display = 'block';
             checkBox.classList.remove('checked');
-            headerContainer.classList.remove('aurora-mode');
             scratchContainer.classList.remove('visible');
             alertBanner.classList.remove('visible');
             ticketCountNum.textContent = '合計 1／1枚';
         }
 
-        // ご確認事項のアコーディオン開閉
+        // 5・6枚目：ご確認事項のアコーディオン開閉
         accordionBar.addEventListener('click', () => {
             accordionBar.classList.toggle('open');
             accordionContent.classList.toggle('open');
