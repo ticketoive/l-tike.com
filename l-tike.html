@@ -12,7 +12,7 @@
             -webkit-tap-highlight-color: transparent;
         }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Hiragino Kaku Gothic ProN", "Hiragino Sans", sans-serif;
             background-color: #e5ebf0;
             color: #000000;
             width: 100vw;
@@ -22,7 +22,7 @@
             overflow: hidden;
         }
 
-        /* --- ヘッダーコンテナ（通常時は濃紺、2本指タップでオーロラ化） --- */
+        /* --- ヘッダー（通常時は濃紺、3枚目の時だけオーロラ） --- */
         .app-header-container {
             background: radial-gradient(circle at 50% 20%, #1a3f8c 0%, #031238 80%);
             padding: 10px 14px 18px 14px;
@@ -33,7 +33,6 @@
             transition: background 0.6s ease;
         }
 
-        /* 3枚目の画面：オーロラ状態 */
         .app-header-container.aurora-mode {
             background: linear-gradient(135deg, #2b1055, #7597de, #283593, #d81b60);
             background-size: 300% 300%;
@@ -46,7 +45,7 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* バックグラウンドの「ロ」のリング（ダイナミックに拡大・縮小） */
+        /* 常に動く「ロ」のリング */
         .floating-ro-ring {
             position: absolute;
             top: -25px;
@@ -72,7 +71,7 @@
             }
         }
 
-        /* 2つの丸エリア（スワイプ受付用コンテナ） */
+        /* もぎり用の2つの丸エリア */
         .scratch-container {
             position: absolute;
             top: 55px;
@@ -209,11 +208,17 @@
             position: relative;
         }
 
+        /* チケット券面：初期（1〜3枚目）は青、もぎり後（4枚目）は白 */
         .ticket-blue-area {
             background-color: #0088cc;
             color: #ffffff;
             padding: 14px;
             position: relative;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+        .ticket-blue-area.entered-white {
+            background-color: #ffffff;
+            color: #222222;
         }
 
         .badge-anata {
@@ -230,6 +235,11 @@
             font-size: 9px;
             font-weight: 700;
             background: rgba(255, 255, 255, 0.1);
+        }
+        .ticket-blue-area.entered-white .badge-anata {
+            border-color: #0088cc;
+            color: #0088cc;
+            background: transparent;
         }
 
         .text-group-main {
@@ -253,14 +263,19 @@
             opacity: 0.95;
             line-height: 1.35;
         }
+        .ticket-blue-area.entered-white .user-meta-text {
+            color: #333333;
+        }
+
         .entry-time-display {
             font-size: 12px;
             font-weight: 600;
             margin-top: 4px;
+            color: #333333;
             display: none;
         }
 
-        /* 正しいチェックボックス（初期は空欄、選択時は赤のシマシマ・ストライプ柄） */
+        /* チェックボックス（初期は空欄、選択時は赤のシマシマ・ストライプ柄） */
         .checkbox-box {
             position: absolute;
             top: 22px;
@@ -286,26 +301,22 @@
             font-weight: bold;
         }
 
-        /* 入場済スタンプ（もぎり後：4枚目） */
+        /* 枠なしの文字だけの「入場済」スタンプ */
         .stamp-entered {
             position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 44px;
+            top: 25px;
+            right: 18px;
+            font-size: 46px;
             font-weight: 900;
-            color: #ff5588;
-            border: 4px solid #ff5588;
-            padding: 2px 14px;
-            border-radius: 8px;
-            transform: rotate(-12deg);
+            color: #ff4477;
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.4s ease;
-            box-shadow: 0 0 0 2px #fff;
             z-index: 10;
+            letter-spacing: 4px;
         }
         .stamp-entered.active {
-            opacity: 0.9;
+            opacity: 0.95;
         }
 
         /* ご確認事項アコーディオンバー */
@@ -389,7 +400,7 @@
         <!-- 常に動く「ロ」のリング -->
         <div class="floating-ro-ring"></div>
         
-        <!-- チェックを入れると出現する2つの丸エリア（指2本押し ＆ 右スライドで4枚目へ） -->
+        <!-- チェックを入れると出現する2つの丸エリア -->
         <div class="scratch-container" id="scratchContainer">
             <div class="scratch-canvas-wrap">
                 <div class="zigzag-bg"></div>
@@ -439,10 +450,10 @@
         </div>
 
         <div class="ticket-card">
-            <!-- 入場済スタンプ（4枚目） -->
+            <!-- 枠なしの「入場済」文字 -->
             <div class="stamp-entered" id="stampEntered">入場済</div>
 
-            <div class="ticket-blue-area">
+            <div class="ticket-blue-area" id="ticketArea">
                 <div class="badge-anata">あなた</div>
                 <div class="checkbox-box" id="checkBox"></div>
                 
@@ -456,7 +467,7 @@
                 </div>
             </div>
 
-            <!-- ご来場までにご確認ください アコーディオンバー (5・6枚目) -->
+            <!-- ご来場までにご確認ください アコーディオンバー -->
             <div class="card-accordion-bar" id="accordionBar">
                 <span>ご来場までにご確認ください</span>
                 <span class="arrow-icon">∨</span>
@@ -489,6 +500,7 @@
         const alertBanner = document.getElementById('alertBanner');
         const scratchContainer = document.getElementById('scratchContainer');
         const stampEntered = document.getElementById('stampEntered');
+        const ticketArea = document.getElementById('ticketArea');
         const entryTimeDisplay = document.getElementById('entryTimeDisplay');
         const ticketCountNum = document.getElementById('ticketCountNum');
         
@@ -506,7 +518,7 @@
             if (isChecked) {
                 checkBox.classList.add('checked');
                 alertBanner.classList.add('visible');
-                scratchContainer.classList.add('visible'); // 2つの丸が出現（背景は濃紺のまま）
+                scratchContainer.classList.add('visible');
                 ticketCountNum.textContent = '合計 1／1枚';
             } else {
                 checkBox.classList.remove('checked');
@@ -517,13 +529,12 @@
             }
         });
 
-        // 3枚目・4枚目：丸を指2本等で押すとオーロラ化（3枚目）、そのまま右へスライドするともぎり完了（4枚目）
+        // 3枚目・4枚目：2つの丸を同時に押すとオーロラ化（3枚目）、右へスライドでもぎり完了（4枚目）
         let startX = 0;
 
         scratchContainer.addEventListener('pointerdown', (e) => {
             if (isEntered) return;
-            // 2本指でのタップ、または長押し・複数タッチ、もしくは通常のプレス操作を検知して3枚目（オーロラ）へ
-            headerContainer.classList.add('aurora-mode');
+            headerContainer.classList.add('aurora-mode'); // 3枚目：オーロラ化
             startX = e.clientX;
         });
 
@@ -532,7 +543,6 @@
             const currentX = e.clientX;
             const diffX = currentX - startX;
 
-            // 右へ一定以上（50px以上）スライドすると4枚目のもぎり完了へ
             if (diffX > 50) {
                 triggerMogiri();
                 startX = 0;
@@ -543,10 +553,9 @@
             startX = 0;
         });
 
-        // スマホのタッチ操作対応
         scratchContainer.addEventListener('touchstart', (e) => {
             if (isEntered) return;
-            headerContainer.classList.add('aurora-mode'); // 3枚目（オーロラ）
+            headerContainer.classList.add('aurora-mode'); // 3枚目：オーロラ化
             startX = e.touches[0].clientX;
         });
 
@@ -565,14 +574,16 @@
             startX = 0;
         });
 
-        // 4枚目：もぎり実行処理
+        // 4枚目：もぎり実行処理（背景は濃紺に戻り、券面が白になり、枠なしの「入場済」文字が出る）
         function triggerMogiri() {
             if (isEntered) return;
             isEntered = true;
             
             stampEntered.classList.add('active');
             entryTimeDisplay.style.display = 'block';
+            ticketArea.classList.add('entered-white'); // 券面を白に変更
             checkBox.classList.remove('checked');
+            headerContainer.classList.remove('aurora-mode'); // 背景を初期の濃紺に戻す
             scratchContainer.classList.remove('visible');
             alertBanner.classList.remove('visible');
             ticketCountNum.textContent = '合計 1／1枚';
