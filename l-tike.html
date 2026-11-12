@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <!-- ステータスバーを完全に透明にし、ヘッダーのグラデーションを裏まで透けさせる設定 -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>ローチケ 入場／引換</title>
@@ -14,7 +13,6 @@
             padding: 0;
             -webkit-tap-highlight-color: transparent;
         }
-        /* html, body全体をヘッダーと同じベースの紺色で満たし、ステータスバー裏までグラデーションが生きるようにする */
         html, body {
             width: 100vw;
             height: 100vh;
@@ -27,15 +25,14 @@
             font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Roboto", "Helvetica Neue", sans-serif;
         }
 
-        /* --- ヘッダーコンテナ（ステータスバー裏の「時間・充電アイコン」の裏までグラデーションを完全透過・拡張） --- */
+        /* --- ヘッダーコンテナ（濃い青のグラデーション部分を下に少し拡張） --- */
         .app-header-container {
             background: 
                 radial-gradient(ellipse 68% 88% at 32% 18%, rgba(28, 152, 255, 0.92) 0%, rgba(0, 92, 214, 0.78) 45%, rgba(5, 34, 117, 0.92) 82%, #072882 100%),
                 linear-gradient(105deg, #688ec4 0%, #145cc4 35%, #06257d 72%, #5972ab 100%);
-            /* env(safe-area-inset-top) を活用して、時間や充電表示の領域（約44px以上）をしっかりと確保しつつ背景を完全に敷き詰める */
-            padding-top: calc(env(safe-area-inset-top, 44px) + 6px);
+            padding-top: calc(env(safe-area-inset-top, 44px) + 8px);
             padding-right: 14px;
-            padding-bottom: 18px;
+            padding-bottom: 24px; /* 下方向への広がりを少し持たせました */
             padding-left: 14px;
             color: #ffffff;
             position: relative;
@@ -44,10 +41,10 @@
             width: 100%;
         }
 
-        /* --- オーロラ＆スライド用レイヤー（「入場／引換」行より下、角丸なしで赤色バナーまで伸びる） --- */
+        /* --- オーロラ＆スライド用レイヤー --- */
         .aurora-slide-layer {
             position: absolute;
-            top: calc(env(safe-area-inset-top, 44px) + 40px);
+            top: calc(env(safe-area-inset-top, 44px) + 42px);
             bottom: -55px;
             left: 0;
             right: 0;
@@ -248,7 +245,7 @@
             padding: 9px 14px;
         }
 
-        /* --- チケットコンテンツ（グレー背景はこちらに指定） --- */
+        /* --- チケットコンテンツ --- */
         .ticket-content-section {
             background-color: #dfe3e6;
             padding: 14px 12px;
@@ -704,7 +701,7 @@
                 triggerMogiri();
             } else {
                 auroraSlideLayer.style.transition = 'transform 0.3s ease';
-                auroraSlideLayer.style.transition = 'translateX(0px)';
+                auroraSlideLayer.style.transform = 'translateX(0px)';
                 setTimeout(() => { auroraSlideLayer.style.transition = ''; }, 300);
             }
             startX = 0;
