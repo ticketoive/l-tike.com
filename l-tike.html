@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>ローチケ 入場／引換</title>
     <style>
         * {
@@ -22,17 +22,17 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* --- ヘッダーコンテナ（上部パディングを深くし、時計・充電マークの裏まで青背景を確実に伸ばす） --- */
+        /* --- ヘッダーコンテナ（セーフエリア・ステータスバー裏まで青背景を確実に拡張） --- */
         .app-header-container {
             background: radial-gradient(circle at 50% 25%, #0077ff 0%, #002266 50%, #01081a 90%);
-            padding: 50px 14px 18px 14px;
+            padding: calc(env(safe-area-inset-top, 44px) + 6px) 14px 18px 14px;
             color: #ffffff;
             position: relative;
             overflow: hidden;
             flex-shrink: 0;
         }
 
-        /* --- 上にかぶさるオーロラ＆スライド用レイヤー（ヘッダー内部に美しく収まる構造） --- */
+        /* --- 上にかぶさるオーロラ＆スライド用レイヤー --- */
         .aurora-slide-layer {
             position: absolute;
             top: 0;
@@ -63,7 +63,7 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* 元通りの「ロ」のリングが中央からふわっと浮かび上がるアニメーション */
+        /* 「ロ」のリングが中央からふわっと浮かび上がるアニメーション */
         .floating-ro-ring {
             position: absolute;
             top: 45px;
@@ -477,7 +477,7 @@
             </div>
         </div>
 
-        <!-- オーロラ＆スライド用レイヤー（ヘッダー内部に美しく収まる構造） -->
+        <!-- オーロラ＆スライド用レイヤー -->
         <div class="aurora-slide-layer" id="auroraSlideLayer">
             <div class="scratch-container visible" id="auroraScratchContainer" style="position: relative; top: 0; padding: 0 46px; height: 100%; align-items: center;">
                 <div class="scratch-canvas-wrap">
@@ -683,7 +683,7 @@
                 triggerMogiri();
             } else {
                 auroraSlideLayer.style.transition = 'transform 0.3s ease';
-                auroraSlideLayer.style.transform = 'translateX(0px)';
+                auroraSlideLayer.style.transition = 'translateX(0px)';
                 setTimeout(() => { auroraSlideLayer.style.transition = ''; }, 300);
             }
             startX = 0;
