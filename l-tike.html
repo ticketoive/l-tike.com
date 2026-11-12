@@ -64,29 +64,32 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* 常に動く「ロ」のリング */
+        /* 動画通りのサイズ感・スケールに最適化した「ロ」のリングアニメーション */
         .floating-ro-ring {
             position: absolute;
-            top: -25px;
+            top: 35px;
             left: 50%;
             transform: translateX(-50%);
-            width: 230px;
-            height: 230px;
-            border: 45px solid rgba(255, 255, 255, 0.22);
-            border-radius: 50%;
+            width: 90px;
+            height: 48px;
+            border: 14px solid rgba(255, 255, 255, 0.32);
+            border-radius: 16px;
             pointer-events: none;
-            animation: floatRoDynamic 2.2s ease-in-out infinite alternate;
+            animation: floatRoVideoSize 2.2s cubic-bezier(0.2, 0.8, 0.3, 1) infinite;
             z-index: 1;
         }
 
-        @keyframes floatRoDynamic {
+        @keyframes floatRoVideoSize {
             0% {
-                transform: translateX(-50%) scale(0.8);
-                opacity: 0.15;
+                transform: translateX(-50%) scale(0.6);
+                opacity: 0;
+            }
+            15% {
+                opacity: 0.7;
             }
             100% {
-                transform: translateX(-50%) scale(1.25);
-                opacity: 0.6;
+                transform: translateX(-50%) scale(4.2);
+                opacity: 0;
             }
         }
 
@@ -150,7 +153,7 @@
             font-weight: 500;
         }
 
-        /* 画像を完全に再現した「O-チケ」公式ロゴスタイル（「ロ」の枠をより太く調整） */
+        /* 「O-チケ」公式ロゴスタイル */
         .logo-mark-wrap {
             display: flex;
             align-items: center;
@@ -161,7 +164,7 @@
             position: relative;
             width: 26px;
             height: 26px;
-            border: 4px solid #ffffff; /* 枠線を太く修正 */
+            border: 4px solid #ffffff;
             border-radius: 50%;
             flex-shrink: 0;
         }
@@ -192,7 +195,6 @@
             font-size: 18px;
         }
 
-        /* イベントタイトル：等幅感と広めの文字間隔 */
         .event-title {
             font-family: "SFMono-Regular", Menlo, Monaco, Consolas, "Courier New", Courier, monospace;
             font-size: 21px;
@@ -259,7 +261,6 @@
             position: relative;
         }
 
-        /* チケット券面：通常時は白、チェック時は鮮やかなブルー、もぎり後はライトグレー（#e8ecef） */
         .ticket-main-area {
             background-color: #ffffff;
             color: #222222;
@@ -276,7 +277,6 @@
             color: #222222;
         }
 
-        /* 「あなた」バッジ */
         .badge-anata {
             position: absolute;
             top: 28px;
@@ -336,7 +336,6 @@
             font-variant-numeric: tabular-nums;
         }
 
-        /* チェックボックス（初期は白、チェック時は青背景＋ピンクのチェック） */
         .checkbox-box {
             position: absolute;
             top: 34px;
@@ -364,12 +363,10 @@
             font-weight: 900;
             text-shadow: 0 0 2px rgba(0,0,0,0.2);
         }
-        /* 入場済のときはチェックボックスを非表示に */
         .ticket-card.entered .checkbox-box {
             display: none;
         }
 
-        /* 画像から正確に読み取った「入場済」スタンプ（ピンク色・太字・広い文字間隔） */
         .stamp-entered {
             position: absolute;
             top: 14px;
@@ -387,7 +384,6 @@
             opacity: 1;
         }
 
-        /* ご確認事項アコーディオンバー（もぎり後のみグレーに変化） */
         .card-accordion-bar {
             background-color: #ffffff;
             color: #333333;
@@ -415,7 +411,6 @@
             transform: rotate(180deg);
         }
 
-        /* 展開される注意事項 */
         .accordion-content {
             background-color: #ffffff;
             padding: 0 14px;
@@ -437,7 +432,6 @@
             margin-bottom: 8px;
         }
 
-        /* チケットの丸いくぼみ */
         .ticket-notch-top, .ticket-notch-bottom {
             position: absolute;
             right: 52px;
@@ -451,7 +445,6 @@
         .ticket-notch-top { top: -5px; }
         .ticket-notch-bottom { bottom: -5px; }
 
-        /* --- フッター --- */
         .app-footer {
             height: 48px;
             background-color: #e6f0f8;
@@ -475,10 +468,9 @@
 <body>
 
     <div class="app-header-container" id="headerContainer">
-        <!-- 常に動く「ロ」のリング -->
+        <!-- 動画通りのサイズ・挙動を再現した「ロ」のリング -->
         <div class="floating-ro-ring"></div>
 
-        <!-- チェック時にすぐ出現する赤ギザギザボタン（静的表示） -->
         <div class="scratch-container" id="scratchContainer">
             <div class="scratch-canvas-wrap">
                 <div class="zigzag-bg"></div>
@@ -488,7 +480,6 @@
             </div>
         </div>
 
-        <!-- タップ・スワイプ時に発動し、オーロラとボタンだけがスライドするレイヤー -->
         <div class="aurora-slide-layer" id="auroraSlideLayer">
             <div class="scratch-container visible" style="position: relative; top: 0; padding: 0 46px; height: 100%; align-items: center;">
                 <div class="scratch-canvas-wrap">
@@ -502,7 +493,6 @@
 
         <div class="header-top">
             <div class="header-left">
-                <!-- 輪郭を太くした「O-チケ」公式ロゴ -->
                 <div class="logo-mark-wrap">
                     <div class="logo-o-box"></div>
                     <div class="logo-text-group">
@@ -540,7 +530,6 @@
         </div>
     </div>
 
-    <!-- 警告バナー（鮮やかな赤 #ff0000） -->
     <div class="alert-banner" id="alertBanner">
         入場手続きは一度行うと元に戻せません。係員の指示に従い操作いただきますようお願いいたします。
     </div>
@@ -552,11 +541,9 @@
         </div>
 
         <div class="ticket-card" id="ticketCard">
-            <!-- 上下の切り込みノッチ -->
             <div class="ticket-notch-top"></div>
             <div class="ticket-notch-bottom"></div>
 
-            <!-- 画像から完全に再現した「入場済」スタンプ -->
             <div class="stamp-entered" id="stampEntered">入場済</div>
 
             <div class="ticket-main-area" id="ticketArea">
@@ -573,13 +560,11 @@
                 </div>
             </div>
 
-            <!-- ご来場までにご確認ください アコーディオンバー -->
             <div class="card-accordion-bar" id="accordionBar">
                 <span>ご来場までにご確認ください</span>
                 <span class="arrow-icon">∨</span>
             </div>
 
-            <!-- 注意事項詳細 -->
             <div class="accordion-content" id="accordionContent">
                 <p><strong>Massive Music Showcase Vol.1</strong></p>
                 <p>&lt;営利目的の転売禁止&gt;</p>
@@ -720,7 +705,7 @@
                 checkBox.classList.remove('checked');
                 auroraSlideLayer.classList.remove('active');
                 scratchContainer.classList.remove('visible');
-                scratchContainer.style.display = '';
+                scratchContainer.style.display = 'none'; // もぎり後は赤丸を完全に非表示に
                 alertBanner.classList.remove('visible');
                 ticketCountNum.textContent = '合計 1／1枚';
 
