@@ -23,15 +23,12 @@
             overflow: hidden;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            /* すべてのベース文字を元の自然な標準ゴシック体に統一 */
             font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
         }
 
-        /* --- ヘッダーコンテナ --- */
+        /* --- ヘッダーコンテナ（グラデーションの境界線や区切りを完全に排除した滑らかな構造） --- */
         .app-header-container {
-            background: 
-                radial-gradient(ellipse 70% 90% at 32% 18%, rgba(28, 152, 255, 0.92) 0%, rgba(0, 92, 214, 0.78) 45%, rgba(5, 34, 117, 0.92) 82%, #072882 100%),
-                linear-gradient(105deg, #688ec4 0%, #145cc4 35%, #06257d 72%, #5972ab 100%);
+            background: linear-gradient(135deg, #1c75ff 0%, #004ac9 40%, #06257d 85%, #041c60 100%);
             padding-top: calc(env(safe-area-inset-top, 44px) + 14px);
             padding-right: 16px;
             padding-bottom: 42px;
@@ -76,16 +73,16 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* --- 「ロ」のリング（濃い青エリア内だけで中央から縦横いっぱいに広がる） --- */
+        /* --- 「ロ」のリング（極小サイズから中央発生物のように大きく拡大） --- */
         .floating-ro-ring {
             position: absolute;
             top: 55%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 90px;
-            height: 45px;
-            border: 11px solid rgba(255, 255, 255, 0.13);
-            border-radius: 16px;
+            width: 50px;
+            height: 25px;
+            border: 6px solid rgba(255, 255, 255, 0.16);
+            border-radius: 10px;
             pointer-events: none;
             animation: floatRoVideoSize 2.4s cubic-bezier(0.2, 0.8, 0.3, 1) infinite;
             z-index: 1;
@@ -93,14 +90,14 @@
 
         @keyframes floatRoVideoSize {
             0% {
-                transform: translate(-50%, -50%) scale(0.3);
+                transform: translate(-50%, -50%) scale(0.05);
                 opacity: 0;
             }
-            30% {
-                opacity: 0.5;
+            25% {
+                opacity: 0.6;
             }
             100% {
-                transform: translate(-50%, -50%) scale(6.5);
+                transform: translate(-50%, -50%) scale(10);
                 opacity: 0;
             }
         }
@@ -159,7 +156,7 @@
         .header-left {
             display: flex;
             align-items: center;
-            font-size: 16px;
+            font-size: 15.5px;
             font-weight: 400;
         }
 
@@ -171,9 +168,9 @@
         }
         .logo-o-box {
             position: relative;
-            width: 24px;
-            height: 24px;
-            border: 3.5px solid #ffffff;
+            width: 23px;
+            height: 23px;
+            border: 3.2px solid #ffffff;
             border-radius: 50%;
             flex-shrink: 0;
         }
@@ -183,7 +180,7 @@
             line-height: 1;
         }
         .logo-sub-eng {
-            font-size: 5.5px;
+            font-size: 5px;
             font-weight: 700;
             letter-spacing: 0.5px;
             color: #ffffff;
@@ -192,7 +189,7 @@
             transform-origin: left;
         }
         .logo-main-kana {
-            font-size: 14px;
+            font-size: 13.5px;
             font-weight: 700;
             letter-spacing: -0.5px;
             color: #ffffff;
@@ -201,16 +198,16 @@
         .header-right {
             display: flex;
             gap: 16px;
-            font-size: 17px;
+            font-size: 16.5px;
             font-weight: 300;
         }
 
-        /* --- イベント名（自然なゴシックで適度な文字間に調整） --- */
+        /* --- イベント名（広めの文字間・自然な太さとサイズ感を保持） --- */
         .event-title {
             font-size: 21px;
             font-weight: 700;
             line-height: 1.35;
-            letter-spacing: 1.2px;
+            letter-spacing: 2px; /* ご指定の広い文字間に設定 */
             margin-bottom: 16px;
             position: relative;
             z-index: 4;
@@ -219,9 +216,9 @@
         .event-meta-row {
             display: flex;
             align-items: center;
-            font-size: 14.5px;
+            font-size: 14px;
             font-weight: 400;
-            margin-bottom: 6px;
+            margin-bottom: 5px;
             gap: 8px;
             position: relative;
             z-index: 4;
@@ -233,7 +230,7 @@
             background-color: #ff0000;
             color: #ffffff;
             padding: 0 14px;
-            font-size: 11.5px;
+            font-size: 11px;
             line-height: 1.4;
             font-weight: 600;
             max-height: 0;
@@ -277,7 +274,7 @@
         .ticket-main-area {
             background-color: #ffffff;
             color: #222222;
-            padding: 22px 20px 22px 20px;
+            padding: 20px 18px;
             position: relative;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
@@ -292,17 +289,17 @@
 
         .badge-anata {
             position: absolute;
-            top: 36px;
-            left: 16px;
-            width: 42px;
-            height: 42px;
+            top: 32px;
+            left: 14px;
+            width: 40px;
+            height: 40px;
             border: 1.5px solid #4a89bd;
             color: #4a89bd;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 11px;
+            font-size: 10.5px;
             font-weight: 600;
             background: #ffffff;
             transition: all 0.3s ease;
@@ -314,22 +311,22 @@
         }
 
         .text-group-main {
-            margin-left: 56px;
+            margin-left: 52px;
             display: flex;
             flex-direction: column;
         }
         
         .area-type {
-            font-size: 16px;
-            font-weight: 500;
-            margin-bottom: 5px;
+            font-size: 15px;
+            font-weight: 400;
+            margin-bottom: 4px;
             color: #333333;
         }
         .ticket-main-area.checked-blue .area-type {
             color: rgba(255, 255, 255, 0.9);
         }
         .seat-number {
-            font-size: 22px;
+            font-size: 21px;
             font-weight: 800;
             letter-spacing: 0.3px;
             margin-bottom: 6px;
@@ -340,7 +337,7 @@
             color: #ffffff;
         }
         .user-meta-text {
-            font-size: 13.5px;
+            font-size: 12.5px;
             line-height: 1.45;
             color: #444444;
             font-variant-numeric: tabular-nums;
@@ -351,7 +348,7 @@
         }
 
         .entry-time-display {
-            font-size: 12px;
+            font-size: 11.5px;
             font-weight: 500;
             margin-top: 6px;
             color: #333333;
@@ -361,10 +358,10 @@
 
         .checkbox-box {
             position: absolute;
-            top: 40px;
-            right: 16px;
-            width: 25px;
-            height: 25px;
+            top: 36px;
+            right: 14px;
+            width: 24px;
+            height: 24px;
             border: 1.5px solid #cccccc;
             border-radius: 3px;
             background-color: #ffffff;
@@ -382,7 +379,7 @@
         .checkbox-box.checked::after {
             content: '✓';
             color: #ff2a75;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 900;
             text-shadow: 0 0 2px rgba(0,0,0,0.2);
         }
@@ -394,7 +391,7 @@
             position: absolute;
             top: 4px;
             right: 8px;
-            font-size: 50px;
+            font-size: 48px;
             font-weight: 900;
             color: rgba(235, 90, 150, 0.42);
             opacity: 0;
@@ -410,11 +407,11 @@
         .card-accordion-bar {
             background-color: #ffffff;
             color: #333333;
-            padding: 14px 16px 14px 70px;
+            padding: 13px 14px 13px 64px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 14px;
+            font-size: 13.5px;
             font-weight: 400;
             border-top: 1px solid #eceff1;
             cursor: pointer;
@@ -426,7 +423,7 @@
         }
 
         .arrow-icon {
-            font-size: 12px;
+            font-size: 11px;
             color: #777777;
             transition: transform 0.2s ease;
         }
@@ -436,8 +433,8 @@
 
         .accordion-content {
             background-color: #ffffff;
-            padding: 0 16px;
-            font-size: 12.5px;
+            padding: 0 14px;
+            font-size: 12px;
             line-height: 1.5;
             color: #333333;
             max-height: 0;
@@ -447,7 +444,7 @@
         }
         .accordion-content.open {
             max-height: 400px;
-            padding: 10px 16px 16px 16px;
+            padding: 10px 14px 16px 14px;
             border-top: 1px solid #eeeeee;
             overflow-y: auto;
         }
@@ -457,7 +454,7 @@
 
         .ticket-notch-top, .ticket-notch-bottom {
             position: absolute;
-            right: 56px;
+            right: 52px;
             width: 9.5px;
             height: 9.5px;
             background-color: #dfe3e6;
@@ -493,7 +490,7 @@
 <body>
 
     <div class="app-header-container" id="headerContainer">
-        <!-- 「ロ」のリング（濃い青のヘッダー領域内だけで中央から縦横いっぱいに広がる） -->
+        <!-- 「ロ」のリング（極小サイズから中央発生物のように大きく広がる） -->
         <div class="floating-ro-ring"></div>
 
         <!-- 通常時の赤丸コンテナ -->
