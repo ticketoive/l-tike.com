@@ -12,31 +12,50 @@
             -webkit-tap-highlight-color: transparent;
         }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Hiragino Kaku Gothic ProN", "Hiragino Sans", sans-serif;
-            background-color: #e5ebf0;
-            color: #000000;
+            font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Roboto", "Helvetica Neue", sans-serif;
+            background-color: #dfe3e6;
+            color: #111111;
             width: 100vw;
             height: 100vh;
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* --- ヘッダー（通常時は濃紺、3枚目の時だけオーロラ） --- */
+        /* --- ヘッダーコンテナ（固定の青背景） --- */
         .app-header-container {
-            background: radial-gradient(circle at 50% 20%, #1a3f8c 0%, #031238 80%);
+            background: radial-gradient(circle at 50% 25%, #0077ff 0%, #002266 50%, #01081a 90%);
             padding: 10px 14px 18px 14px;
             color: #ffffff;
             position: relative;
             overflow: hidden;
             flex-shrink: 0;
-            transition: background 0.6s ease;
         }
 
-        .app-header-container.aurora-mode {
-            background: linear-gradient(135deg, #2b1055, #7597de, #283593, #d81b60);
+        /* --- 上にかぶさるオーロラ＆スライド用レイヤー（タップ・スワイプ時のみ発動） --- */
+        .aurora-slide-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            touch-action: pan-y;
+            will-change: transform;
+            z-index: 3;
+        }
+        .aurora-slide-layer.active {
+            opacity: 1;
+            pointer-events: auto;
+            background: 
+                radial-gradient(circle at 35% 40%, rgba(0, 242, 254, 0.65) 0%, transparent 50%),
+                radial-gradient(circle at 75% 70%, rgba(216, 27, 96, 0.45) 0%, transparent 60%),
+                linear-gradient(135deg, #021B79, #0575E6, #00f2fe, #7b1fa2);
             background-size: 300% 300%;
-            animation: auroraAnimation 5s ease infinite;
+            animation: auroraAnimation 4.5s ease infinite;
         }
 
         @keyframes auroraAnimation {
@@ -74,35 +93,46 @@
         /* もぎり用の2つの丸エリア */
         .scratch-container {
             position: absolute;
-            top: 55px;
+            top: 52px;
             left: 0;
             right: 0;
-            height: 85px;
+            height: 90px;
             display: none;
             justify-content: space-around;
-            padding: 0 42px;
+            padding: 0 46px;
             z-index: 5;
-            touch-action: none;
         }
         .scratch-container.visible {
             display: flex;
         }
         .scratch-canvas-wrap {
             position: relative;
-            width: 78px;
-            height: 78px;
+            width: 72px;
+            height: 72px;
             border-radius: 50%;
             overflow: hidden;
-            box-shadow: 0 0 10px rgba(0,0,0,0.4);
-            cursor: pointer;
+            box-shadow: 0 0 8px rgba(0,0,0,0.3);
+            background-color: transparent;
         }
+        
+        /* 通常（チェック直後）の赤ギザギザ波線パターン */
         .zigzag-bg {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: repeating-linear-gradient(-45deg, #e6005c, #e6005c 4px, #ffffff 4px, #ffffff 8px);
+            background-color: transparent;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 5 L5 1 L10 5' fill='none' stroke='%23ff2a75' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-size: 10px 6px;
+        }
+
+        /* タップ・スワイプ時に白のギザギザ＆半透明背景に変化 */
+        .aurora-slide-layer.active .scratch-canvas-wrap {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .aurora-slide-layer.active .zigzag-bg {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 5 L5 1 L10 5' fill='none' stroke='%23ffffff' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
         }
 
         .header-top {
@@ -111,7 +141,7 @@
             align-items: center;
             margin-bottom: 16px;
             position: relative;
-            z-index: 2;
+            z-index: 4;
         }
         .header-left {
             display: flex;
@@ -119,39 +149,59 @@
             font-size: 17px;
             font-weight: 500;
         }
+
+        /* 画像を完全に再現した「O-チケ」公式ロゴスタイル（「ロ」の枠をより太く調整） */
         .logo-mark-wrap {
             display: flex;
             align-items: center;
-            gap: 4px;
-            margin-right: 8px;
+            gap: 6px;
+            margin-right: 10px;
         }
-        .logo-circle {
-            width: 22px;
-            height: 22px;
-            border: 3px solid #ffffff;
+        .logo-o-box {
+            position: relative;
+            width: 26px;
+            height: 26px;
+            border: 4px solid #ffffff; /* 枠線を太く修正 */
             border-radius: 50%;
-            display: inline-block;
+            flex-shrink: 0;
         }
-        .logo-sub {
-            font-size: 9px;
-            font-weight: bold;
+        .logo-text-group {
+            display: flex;
+            flex-direction: column;
+            line-height: 1;
         }
+        .logo-sub-eng {
+            font-size: 6px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: #ffffff;
+            margin-bottom: 2px;
+            transform: scale(0.9);
+            transform-origin: left;
+        }
+        .logo-main-kana {
+            font-size: 15px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: #ffffff;
+        }
+
         .header-right {
             display: flex;
             gap: 16px;
             font-size: 18px;
         }
 
+        /* イベントタイトル：等幅感と広めの文字間隔 */
         .event-title {
-            font-family: "Courier New", Courier, monospace;
-            font-size: 22px;
-            font-weight: 900;
-            line-height: 1.25;
-            letter-spacing: 3px;
+            font-family: "SFMono-Regular", Menlo, Monaco, Consolas, "Courier New", Courier, monospace;
+            font-size: 21px;
+            font-weight: 700;
+            line-height: 1.3;
+            letter-spacing: 2px;
             margin-bottom: 18px;
             position: relative;
-            z-index: 2;
-            text-transform: uppercase;
+            z-index: 4;
         }
 
         .event-meta-row {
@@ -159,18 +209,19 @@
             align-items: center;
             font-size: 15px;
             font-weight: 600;
-            margin-bottom: 4px;
-            gap: 6px;
+            margin-bottom: 6px;
+            gap: 8px;
             position: relative;
-            z-index: 2;
+            z-index: 4;
+            font-variant-numeric: tabular-nums;
         }
 
-        /* --- 警告バナー --- */
+        /* --- 警告バナー（鮮やかな赤 #ff0000） --- */
         .alert-banner {
             background-color: #ff0000;
             color: #ffffff;
             padding: 0 14px;
-            font-size: 12px;
+            font-size: 11.5px;
             line-height: 1.4;
             font-weight: 700;
             max-height: 0;
@@ -194,148 +245,170 @@
             justify-content: space-between;
             align-items: center;
             padding: 0 2px 10px 2px;
-            font-size: 17px;
-            font-weight: 700;
-            color: #111111;
+            font-size: 16px;
+            font-weight: 600;
+            color: #222222;
         }
 
         .ticket-card {
             background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+            border-radius: 6px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.12);
             overflow: hidden;
-            border: 1px solid #d0d7de;
+            border: 1px solid #d4d8dc;
             position: relative;
         }
 
-        /* チケット券面：初期（1〜3枚目）は青、もぎり後（4枚目）は白 */
-        .ticket-blue-area {
-            background-color: #0088cc;
-            color: #ffffff;
+        /* チケット券面：通常時は白、チェック時は鮮やかなブルー、もぎり後はライトグレー（#e8ecef） */
+        .ticket-main-area {
+            background-color: #ffffff;
+            color: #222222;
             padding: 14px;
             position: relative;
-            transition: background-color 0.4s ease, color 0.4s ease;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
-        .ticket-blue-area.entered-white {
-            background-color: #ffffff;
+        .ticket-main-area.checked-blue {
+            background-color: #0078d4;
+            color: #ffffff;
+        }
+        .ticket-card.entered .ticket-main-area {
+            background-color: #e8ecef;
             color: #222222;
         }
 
+        /* 「あなた」バッジ */
         .badge-anata {
             position: absolute;
-            top: 24px;
+            top: 28px;
             left: 12px;
-            width: 36px;
-            height: 36px;
-            border: 1px solid rgba(255, 255, 255, 0.8);
+            width: 38px;
+            height: 38px;
+            border: 1.5px solid #4a89bd;
+            color: #4a89bd;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 9px;
             font-weight: 700;
-            background: rgba(255, 255, 255, 0.1);
+            background: #ffffff;
+            transition: all 0.3s ease;
         }
-        .ticket-blue-area.entered-white .badge-anata {
-            border-color: #0088cc;
-            color: #0088cc;
-            background: transparent;
+        .ticket-main-area.checked-blue .badge-anata {
+            border-color: rgba(255, 255, 255, 0.85);
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.12);
         }
 
         .text-group-main {
-            margin-left: 44px;
+            margin-left: 46px;
             display: flex;
             flex-direction: column;
         }
         .area-type {
-            font-size: 15px;
-            font-weight: 700;
-            margin-bottom: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 3px;
         }
         .seat-number {
-            font-size: 20px;
+            font-size: 19px;
             font-weight: 800;
-            letter-spacing: 0.8px;
+            letter-spacing: 0.5px;
             margin-bottom: 4px;
+            font-variant-numeric: tabular-nums;
         }
         .user-meta-text {
-            font-size: 12px;
-            opacity: 0.95;
-            line-height: 1.35;
-        }
-        .ticket-blue-area.entered-white .user-meta-text {
+            font-size: 11.5px;
+            line-height: 1.4;
             color: #333333;
+            font-variant-numeric: tabular-nums;
+        }
+        .ticket-main-area.checked-blue .user-meta-text {
+            color: rgba(255, 255, 255, 0.95);
         }
 
         .entry-time-display {
-            font-size: 12px;
+            font-size: 11.5px;
             font-weight: 600;
             margin-top: 4px;
             color: #333333;
             display: none;
+            font-variant-numeric: tabular-nums;
         }
 
-        /* チェックボックス（初期は空欄、選択時は赤のシマシマ・ストライプ柄） */
+        /* チェックボックス（初期は白、チェック時は青背景＋ピンクのチェック） */
         .checkbox-box {
             position: absolute;
-            top: 22px;
+            top: 34px;
             right: 14px;
-            width: 22px;
-            height: 22px;
-            border: 2px solid #5ab0ea;
+            width: 24px;
+            height: 24px;
+            border: 1.5px solid #cccccc;
             border-radius: 3px;
-            background-color: transparent;
+            background-color: #ffffff;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
+            transition: all 0.2s ease;
         }
         .checkbox-box.checked {
-            background: repeating-linear-gradient(45deg, #ff2233, #ff2233 3px, #cc0011 3px, #cc0011 6px);
-            border-color: #990000;
+            background-color: #0078d4;
+            border-color: #4a89bd;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
         }
         .checkbox-box.checked::after {
             content: '✓';
-            color: #ffffff;
-            font-size: 14px;
-            font-weight: bold;
+            color: #ff2a75;
+            font-size: 16px;
+            font-weight: 900;
+            text-shadow: 0 0 2px rgba(0,0,0,0.2);
+        }
+        /* 入場済のときはチェックボックスを非表示に */
+        .ticket-card.entered .checkbox-box {
+            display: none;
         }
 
-        /* 枠なしの文字だけの「入場済」スタンプ */
+        /* 画像から正確に読み取った「入場済」スタンプ（ピンク色・太字・広い文字間隔） */
         .stamp-entered {
             position: absolute;
-            top: 25px;
-            right: 18px;
-            font-size: 46px;
+            top: 14px;
+            right: 14px;
+            font-size: 38px;
             font-weight: 900;
-            color: #ff4477;
+            color: rgba(255, 82, 154, 0.82);
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.4s ease;
             z-index: 10;
-            letter-spacing: 4px;
+            letter-spacing: 6px;
         }
         .stamp-entered.active {
-            opacity: 0.95;
+            opacity: 1;
         }
 
-        /* ご確認事項アコーディオンバー */
+        /* ご確認事項アコーディオンバー（もぎり後のみグレーに変化） */
         .card-accordion-bar {
             background-color: #ffffff;
             color: #333333;
-            padding: 14px;
+            padding: 13px 14px 13px 60px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 14px;
-            font-weight: 600;
-            border-top: 1px dashed #e0e0e0;
+            font-size: 13.5px;
+            font-weight: 500;
+            border-top: 1px solid #eceff1;
             cursor: pointer;
             position: relative;
+            transition: background-color 0.3s ease;
         }
+        .ticket-card.entered .card-accordion-bar {
+            background-color: #e8ecef;
+        }
+
         .arrow-icon {
             font-size: 12px;
-            color: #666;
+            color: #777777;
             transition: transform 0.2s ease;
         }
         .card-accordion-bar.open .arrow-icon {
@@ -348,7 +421,7 @@
             padding: 0 14px;
             font-size: 12.5px;
             line-height: 1.6;
-            color: #222;
+            color: #222222;
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease, padding 0.3s ease;
@@ -357,7 +430,7 @@
         .accordion-content.open {
             max-height: 400px;
             padding: 10px 14px 16px 14px;
-            border-top: 1px solid #eee;
+            border-top: 1px solid #eeeeee;
             overflow-y: auto;
         }
         .accordion-content p {
@@ -365,32 +438,37 @@
         }
 
         /* チケットの丸いくぼみ */
-        .ticket-card::before, .ticket-card::after {
-            content: '';
+        .ticket-notch-top, .ticket-notch-bottom {
             position: absolute;
-            bottom: 48px;
-            width: 12px;
-            height: 12px;
-            background-color: #e5ebf0;
+            right: 52px;
+            width: 10px;
+            height: 10px;
+            background-color: #dfe3e6;
             border-radius: 50%;
-            z-index: 3;
+            z-index: 4;
+            border: 1px solid #d4d8dc;
         }
-        .ticket-card::before { left: -6px; }
-        .ticket-card::after { right: -6px; }
+        .ticket-notch-top { top: -5px; }
+        .ticket-notch-bottom { bottom: -5px; }
 
         /* --- フッター --- */
         .app-footer {
             height: 48px;
-            background-color: #e3effa;
-            border-top: 1px solid #b8d4ed;
+            background-color: #e6f0f8;
+            border-top: 1px solid #cddbe6;
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 0 16px;
-            font-size: 14px;
-            font-weight: 700;
-            color: #0066cc;
+            font-size: 13.5px;
+            font-weight: 600;
+            color: #2185d0;
             flex-shrink: 0;
+        }
+        .footer-right-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
     </style>
 </head>
@@ -399,8 +477,8 @@
     <div class="app-header-container" id="headerContainer">
         <!-- 常に動く「ロ」のリング -->
         <div class="floating-ro-ring"></div>
-        
-        <!-- チェックを入れると出現する2つの丸エリア -->
+
+        <!-- チェック時にすぐ出現する赤ギザギザボタン（静的表示） -->
         <div class="scratch-container" id="scratchContainer">
             <div class="scratch-canvas-wrap">
                 <div class="zigzag-bg"></div>
@@ -410,11 +488,27 @@
             </div>
         </div>
 
+        <!-- タップ・スワイプ時に発動し、オーロラとボタンだけがスライドするレイヤー -->
+        <div class="aurora-slide-layer" id="auroraSlideLayer">
+            <div class="scratch-container visible" style="position: relative; top: 0; padding: 0 46px; height: 100%; align-items: center;">
+                <div class="scratch-canvas-wrap">
+                    <div class="zigzag-bg"></div>
+                </div>
+                <div class="scratch-canvas-wrap">
+                    <div class="zigzag-bg"></div>
+                </div>
+            </div>
+        </div>
+
         <div class="header-top">
             <div class="header-left">
+                <!-- 輪郭を太くした「O-チケ」公式ロゴ -->
                 <div class="logo-mark-wrap">
-                    <span class="logo-circle"></span>
-                    <span class="logo-sub">ーチケ</span>
+                    <div class="logo-o-box"></div>
+                    <div class="logo-text-group">
+                        <span class="logo-sub-eng">LAWSON TICKET</span>
+                        <span class="logo-main-kana">ーチケ</span>
+                    </div>
                 </div>
                 <span>入場／引換</span>
             </div>
@@ -429,16 +523,24 @@
         </div>
 
         <div class="event-meta-row">
-            <span>📅</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
             <span>2026.11.11(Wed)</span>
         </div>
         <div class="event-meta-row">
-            <span>🕒</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
             <span>開場 16:00 開演 17:00</span>
         </div>
     </div>
 
-    <!-- 警告バナー（チェックで展開） -->
+    <!-- 警告バナー（鮮やかな赤 #ff0000） -->
     <div class="alert-banner" id="alertBanner">
         入場手続きは一度行うと元に戻せません。係員の指示に従い操作いただきますようお願いいたします。
     </div>
@@ -449,11 +551,15 @@
             <span id="ticketCountNum">合計 1枚</span>
         </div>
 
-        <div class="ticket-card">
-            <!-- 枠なしの「入場済」文字 -->
+        <div class="ticket-card" id="ticketCard">
+            <!-- 上下の切り込みノッチ -->
+            <div class="ticket-notch-top"></div>
+            <div class="ticket-notch-bottom"></div>
+
+            <!-- 画像から完全に再現した「入場済」スタンプ -->
             <div class="stamp-entered" id="stampEntered">入場済</div>
 
-            <div class="ticket-blue-area" id="ticketArea">
+            <div class="ticket-main-area" id="ticketArea">
                 <div class="badge-anata">あなた</div>
                 <div class="checkbox-box" id="checkBox"></div>
                 
@@ -490,16 +596,20 @@
 
     <div class="app-footer">
         <span>←</span>
-        <span>チケット詳細／分配／受取</span>
-        <span>→</span>
+        <div class="footer-right-group">
+            <span>チケット詳細／分配／受取</span>
+            <span>→</span>
+        </div>
     </div>
 
     <script>
         const checkBox = document.getElementById('checkBox');
         const headerContainer = document.getElementById('headerContainer');
-        const alertBanner = document.getElementById('alertBanner');
+        const auroraSlideLayer = document.getElementById('auroraSlideLayer');
         const scratchContainer = document.getElementById('scratchContainer');
+        const alertBanner = document.getElementById('alertBanner');
         const stampEntered = document.getElementById('stampEntered');
+        const ticketCard = document.getElementById('ticketCard');
         const ticketArea = document.getElementById('ticketArea');
         const entryTimeDisplay = document.getElementById('entryTimeDisplay');
         const ticketCountNum = document.getElementById('ticketCountNum');
@@ -510,86 +620,116 @@
         let isChecked = false;
         let isEntered = false;
 
-        // 1枚目 → 2枚目：チェックボックスクリック
         checkBox.addEventListener('click', () => {
             if (isEntered) return;
             isChecked = !isChecked;
             
             if (isChecked) {
                 checkBox.classList.add('checked');
+                ticketArea.classList.add('checked-blue');
                 alertBanner.classList.add('visible');
                 scratchContainer.classList.add('visible');
                 ticketCountNum.textContent = '合計 1／1枚';
             } else {
                 checkBox.classList.remove('checked');
-                headerContainer.classList.remove('aurora-mode');
+                ticketArea.classList.remove('checked-blue');
+                auroraSlideLayer.classList.remove('active');
+                auroraSlideLayer.style.transform = 'translateX(0px)';
                 alertBanner.classList.remove('visible');
                 scratchContainer.classList.remove('visible');
                 ticketCountNum.textContent = '合計 1枚';
             }
         });
 
-        // 3枚目・4枚目：2つの丸を同時に押すとオーロラ化（3枚目）、右へスライドでもぎり完了（4枚目）
         let startX = 0;
+        let currentTranslateX = 0;
 
-        scratchContainer.addEventListener('pointerdown', (e) => {
-            if (isEntered) return;
-            headerContainer.classList.add('aurora-mode'); // 3枚目：オーロラ化
+        headerContainer.addEventListener('pointerdown', (e) => {
+            if (!isChecked || isEntered) return;
+            scratchContainer.style.display = 'none';
+            auroraSlideLayer.classList.add('active');
             startX = e.clientX;
         });
 
-        scratchContainer.addEventListener('pointermove', (e) => {
-            if (isEntered || startX === 0) return;
+        headerContainer.addEventListener('pointermove', (e) => {
+            if (!isChecked || isEntered || startX === 0) return;
             const currentX = e.clientX;
             const diffX = currentX - startX;
 
-            if (diffX > 50) {
-                triggerMogiri();
-                startX = 0;
+            if (diffX > 0) {
+                currentTranslateX = diffX;
+                auroraSlideLayer.style.transform = `translateX(${currentTranslateX}px)`;
             }
         });
 
-        scratchContainer.addEventListener('pointerup', () => {
+        headerContainer.addEventListener('pointerup', () => {
+            if (!isChecked || isEntered) return;
+            if (currentTranslateX > 80) {
+                triggerMogiri();
+            } else {
+                auroraSlideLayer.style.transition = 'transform 0.3s ease';
+                auroraSlideLayer.style.transform = 'translateX(0px)';
+                setTimeout(() => { auroraSlideLayer.style.transition = ''; }, 300);
+            }
             startX = 0;
+            currentTranslateX = 0;
         });
 
-        scratchContainer.addEventListener('touchstart', (e) => {
-            if (isEntered) return;
-            headerContainer.classList.add('aurora-mode'); // 3枚目：オーロラ化
+        headerContainer.addEventListener('touchstart', (e) => {
+            if (!isChecked || isEntered) return;
+            scratchContainer.style.display = 'none';
+            auroraSlideLayer.classList.add('active');
             startX = e.touches[0].clientX;
-        });
+        }, {passive: true});
 
-        scratchContainer.addEventListener('touchmove', (e) => {
-            if (isEntered || startX === 0) return;
+        headerContainer.addEventListener('touchmove', (e) => {
+            if (!isChecked || isEntered || startX === 0) return;
             const currentX = e.touches[0].clientX;
             const diffX = currentX - startX;
 
-            if (diffX > 50) {
-                triggerMogiri();
-                startX = 0;
+            if (diffX > 0) {
+                currentTranslateX = diffX;
+                auroraSlideLayer.style.transform = `translateX(${currentTranslateX}px)`;
             }
-        });
+        }, {passive: true});
 
-        scratchContainer.addEventListener('touchend', () => {
+        headerContainer.addEventListener('touchend', () => {
+            if (!isChecked || isEntered) return;
+            if (currentTranslateX > 80) {
+                triggerMogiri();
+            } else {
+                auroraSlideLayer.style.transition = 'transform 0.3s ease';
+                auroraSlideLayer.style.transform = 'translateX(0px)';
+                setTimeout(() => { auroraSlideLayer.style.transition = ''; }, 300);
+            }
             startX = 0;
+            currentTranslateX = 0;
         });
 
-        // 4枚目：もぎり実行処理（背景は濃紺に戻り、券面が白になり、枠なしの「入場済」文字が出る）
         function triggerMogiri() {
-            if (isEntered) return;
             isEntered = true;
-            
-            stampEntered.classList.add('active');
-            entryTimeDisplay.style.display = 'block';
-            ticketArea.classList.add('entered-white'); // 券面を白に変更
-            checkBox.classList.remove('checked');
-            headerContainer.classList.remove('aurora-mode'); // 背景を初期の濃紺に戻す
-            scratchContainer.classList.remove('visible');
-            alertBanner.classList.remove('visible');
-            ticketCountNum.textContent = '合計 1／1枚';
+            auroraSlideLayer.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+            auroraSlideLayer.style.transform = 'translateX(100vw)';
+            auroraSlideLayer.style.opacity = '0';
+
+            setTimeout(() => {
+                stampEntered.classList.add('active');
+                entryTimeDisplay.style.display = 'block';
+                ticketArea.classList.remove('checked-blue');
+                ticketCard.classList.add('entered');
+                checkBox.classList.remove('checked');
+                auroraSlideLayer.classList.remove('active');
+                scratchContainer.classList.remove('visible');
+                scratchContainer.style.display = '';
+                alertBanner.classList.remove('visible');
+                ticketCountNum.textContent = '合計 1／1枚';
+
+                auroraSlideLayer.style.transition = '';
+                auroraSlideLayer.style.transform = 'translateX(0px)';
+                auroraSlideLayer.style.opacity = '1';
+            }, 300);
         }
 
-        // 5・6枚目：ご確認事項のアコーディオン開閉
         accordionBar.addEventListener('click', () => {
             accordionBar.classList.toggle('open');
             accordionContent.classList.toggle('open');
