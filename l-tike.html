@@ -11,37 +11,40 @@
             padding: 0;
             -webkit-tap-highlight-color: transparent;
         }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Roboto", "Helvetica Neue", sans-serif;
-            background-color: #dfe3e6;
-            color: #111111;
+        html, body {
             width: 100vw;
             height: 100vh;
+            background-color: #dfe3e6;
+            color: #111111;
             display: flex;
             flex-direction: column;
             overflow: hidden;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* --- ヘッダーコンテナ（上部パディングを深くして時計・充電マークの裏まで青背景を完全カバー） --- */
+        /* --- ヘッダーコンテナ（最上部0の位置から配置し、時計・充電マークの裏まで完全カバー） --- */
         .app-header-container {
-            background: radial-gradient(circle at 50% 25%, #0077ff 0%, #002266 50%, #01081a 90%);
-            padding: 50px 14px 44px 14px;
-            color: #ffffff;
             position: relative;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: radial-gradient(circle at 50% 25%, #0077ff 0%, #002266 50%, #01081a 90%);
+            padding: 54px 14px 44px 14px; /* 上部パディングをさらに深くし、一番上の端まで青背景を確実に伸ばす */
+            color: #ffffff;
             overflow: hidden;
             flex-shrink: 0;
             border-radius: 0px;
             box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+            z-index: 10;
         }
 
-        /* --- オーロラ＆スライド用レイヤー（上部端まで行かず、ヘッダー内側に収める） --- */
+        /* --- オーロラ＆スライド用レイヤー --- */
         .aurora-slide-layer {
             position: absolute;
-            top: 30px;
+            top: 34px;
             left: 0;
             width: 100%;
-            height: calc(100% - 30px);
+            height: calc(100% - 34px);
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.3s ease;
@@ -70,7 +73,7 @@
         /* 「ロ」のリングのサイズと配置 */
         .floating-ro-ring {
             position: absolute;
-            top: 78px;
+            top: 82px;
             left: 50%;
             transform: translateX(-50%);
             width: 130px;
@@ -99,7 +102,7 @@
         /* もぎり用の2つの丸エリア */
         .scratch-container {
             position: absolute;
-            top: 92px;
+            top: 96px;
             left: 0;
             right: 0;
             height: 75px;
