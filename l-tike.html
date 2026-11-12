@@ -43,7 +43,7 @@
             width: 100%;
         }
 
-        /* --- オーロラ＆スライド用レイヤー（イベント名にギリギリ被る位置） --- */
+        /* --- オーロラ＆スライド用レイヤー --- */
         .aurora-slide-layer {
             position: absolute;
             top: calc(env(safe-area-inset-top, 44px) + 54px);
@@ -76,31 +76,31 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* --- 「ロ」のリング（真ん中スタート） --- */
+        /* --- 「ロ」のリング（極小スタート＆しっかりとした太さと濃い白発色） --- */
         .floating-ro-ring {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 50px;
-            height: 25px;
-            border: 6px solid rgba(255, 255, 255, 0.16);
+            width: 48px;
+            height: 24px;
+            border: 4.5px solid rgba(255, 255, 255, 0.75);
             border-radius: 10px;
             pointer-events: none;
-            animation: floatRoVideoSize 2.4s cubic-bezier(0.2, 0.8, 0.3, 1) infinite;
+            animation: floatRoVideoSize 2.2s cubic-bezier(0.15, 0.75, 0.25, 1) infinite;
             z-index: 1;
         }
 
         @keyframes floatRoVideoSize {
             0% {
-                transform: translate(-50%, -50%) scale(0.05);
+                transform: translate(-50%, -50%) scale(0.01);
                 opacity: 0;
             }
-            25% {
-                opacity: 0.6;
+            15% {
+                opacity: 0.95;
             }
             100% {
-                transform: translate(-50%, -50%) scale(11);
+                transform: translate(-50%, -50%) scale(12);
                 opacity: 0;
             }
         }
@@ -122,7 +122,7 @@
             display: flex;
         }
 
-        /* オーロラレイヤー内の白丸コンテナ（位置のズレを解消するため、絶対位置を統一） */
+        /* オーロラレイヤー内の白丸コンテナ */
         .aurora-scratch-wrap {
             position: absolute;
             top: 0;
@@ -524,7 +524,7 @@
 <body>
 
     <div class="app-header-container" id="headerContainer">
-        <!-- 「ロ」のリング（真ん中スタート） -->
+        <!-- 「ロ」のリング（極小スタート＆太く濃い白発色） -->
         <div class="floating-ro-ring"></div>
 
         <!-- 通常時の赤丸コンテナ -->
@@ -539,7 +539,7 @@
 
         <!-- オーロラレイヤー -->
         <div class="aurora-slide-layer" id="auroraSlideLayer">
-            <!-- スライド時に一緒に動く白丸（赤丸と位置を完全に同期） -->
+            <!-- スライド時に一緒に動く白丸 -->
             <div class="aurora-scratch-wrap">
                 <div class="scratch-container visible" style="top: calc(116px - 54px); display: flex;">
                     <div class="scratch-canvas-wrap">
