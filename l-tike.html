@@ -26,16 +26,15 @@
             font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
         }
 
-        /* --- ヘッダーコンテナ（ステータスバーからチケット位置までグラデーションを完全に一体化・横線なし） --- */
+        /* --- ヘッダーコンテナ（ステータスバーからチケット位置まで完全に一体化） --- */
         .app-header-container {
             background: 
                 radial-gradient(ellipse 70% 65% at 35% 22%, rgba(20, 160, 255, 0.95) 0%, rgba(0, 105, 230, 0.65) 45%, transparent 75%),
                 radial-gradient(ellipse 95% 85% at 50% 35%, #083ac9 0%, #04228c 50%, #03135c 80%, #020a3d 100%),
                 linear-gradient(135deg, #1c75ff 0%, #0630b0 45%, #020d40 100%);
-            /* ステータスバー領域（safe-area-inset-top）を含めて上部まで背景を透過・一体化させる */
             padding-top: calc(env(safe-area-inset-top, 44px) + 12px);
             padding-right: 16px;
-            padding-bottom: 56px;
+            padding-bottom: 24px;
             padding-left: 16px;
             color: #ffffff;
             position: relative;
@@ -44,10 +43,10 @@
             width: 100%;
         }
 
-        /* --- オーロラ＆スライド用レイヤー --- */
+        /* --- オーロラ＆スライド用レイヤー（ボタン位置に合わせて下げる） --- */
         .aurora-slide-layer {
             position: absolute;
-            top: calc(env(safe-area-inset-top, 44px) + 38px);
+            top: calc(env(safe-area-inset-top, 44px) + 60px);
             bottom: -30px;
             left: 0;
             right: 0;
@@ -80,7 +79,7 @@
         /* --- 「ロ」のリング --- */
         .floating-ro-ring {
             position: absolute;
-            top: 54%;
+            top: 58%;
             left: 50%;
             transform: translate(-50%, -50%);
             width: 50px;
@@ -106,10 +105,10 @@
             }
         }
 
-        /* もぎり用の2つの丸エリア */
+        /* もぎり用の2つの丸エリア（ボタン位置を大きく下方へ調整） */
         .scratch-container {
             position: absolute;
-            top: calc(env(safe-area-inset-top, 44px) + 42px);
+            top: calc(env(safe-area-inset-top, 44px) + 64px);
             left: 0;
             right: 0;
             height: 84px;
@@ -153,7 +152,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 14px;
+            margin-bottom: 6px;
             position: relative;
             z-index: 4;
         }
@@ -206,20 +205,22 @@
             font-weight: 300;
         }
 
-        /* --- イベント名 --- */
+        /* --- イベント名（さらに下方向へ配置） --- */
         .event-title {
             font-size: 20px;
             font-weight: 700;
             line-height: 1.35;
             letter-spacing: 3.5px;
-            margin-top: 14px;
-            margin-bottom: 14px;
+            margin-top: 44px;
+            margin-bottom: 18px;
             position: relative;
             z-index: 4;
         }
 
+        /* --- 日時ブロック（さらに下方向へ配置） --- */
         .event-meta-block {
-            margin-top: 6px;
+            margin-top: 14px;
+            margin-bottom: 10px;
             position: relative;
             z-index: 4;
         }
@@ -229,7 +230,7 @@
             align-items: center;
             font-size: 13.5px;
             font-weight: 400;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
             gap: 8px;
             font-variant-numeric: tabular-nums;
         }
