@@ -23,10 +23,10 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* --- ヘッダーコンテナ（上下ともに角丸なしのフラットな形状） --- */
+        /* --- ヘッダーコンテナ（上部パディングを深くして時計・充電マークの裏まで青背景を完全カバー） --- */
         .app-header-container {
             background: radial-gradient(circle at 50% 25%, #0077ff 0%, #002266 50%, #01081a 90%);
-            padding: 44px 14px 44px 14px;
+            padding: 50px 14px 44px 14px;
             color: #ffffff;
             position: relative;
             overflow: hidden;
@@ -35,13 +35,13 @@
             box-shadow: 0 3px 8px rgba(0,0,0,0.2);
         }
 
-        /* --- オーロラ＆スライド用レイヤー --- */
+        /* --- オーロラ＆スライド用レイヤー（上部端まで行かず、ヘッダー内側に収める） --- */
         .aurora-slide-layer {
             position: absolute;
-            top: 24px;
+            top: 30px;
             left: 0;
             width: 100%;
-            height: calc(100% - 24px);
+            height: calc(100% - 30px);
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.3s ease;
@@ -70,7 +70,7 @@
         /* 「ロ」のリングのサイズと配置 */
         .floating-ro-ring {
             position: absolute;
-            top: 72px;
+            top: 78px;
             left: 50%;
             transform: translateX(-50%);
             width: 130px;
@@ -99,7 +99,7 @@
         /* もぎり用の2つの丸エリア */
         .scratch-container {
             position: absolute;
-            top: 86px;
+            top: 92px;
             left: 0;
             right: 0;
             height: 75px;
