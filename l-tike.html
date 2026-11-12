@@ -23,24 +23,28 @@
             font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Roboto", "Helvetica Neue", sans-serif;
         }
 
-        /* --- ヘッダーコンテナ（ステータスバー裏まで広がる美しいラジアルグラデーション） --- */
+        /* --- ヘッダーコンテナ（画面最上部・ステータスバー裏まで完全に拡張） --- */
         .app-header-container {
             background: radial-gradient(circle at 50% 25%, #0077ff 0%, #002266 50%, #01081a 90%);
-            padding: calc(env(safe-area-inset-top, 44px) + 6px) 14px 18px 14px;
+            padding-top: max(env(safe-area-inset-top), 44px);
+            padding-right: 14px;
+            padding-bottom: 18px;
+            padding-left: 14px;
             color: #ffffff;
             position: relative;
             overflow: hidden;
             flex-shrink: 0;
+            width: 100%;
         }
 
-        /* --- オーロラ＆スライド用レイヤー（「入場／引換」行より下のエリアに完全に収める仕様） --- */
+        /* --- オーロラ＆スライド用レイヤー --- */
         .aurora-slide-layer {
             position: absolute;
             top: 48px;
-            bottom: 6px;
-            left: 6px;
-            right: 6px;
-            border-radius: 12px;
+            bottom: -50px;
+            left: 0;
+            right: 0;
+            border-radius: 0;
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.3s ease;
@@ -69,7 +73,7 @@
         /* 中央からふわっと浮かび上がる「ロ」のリングアニメーション */
         .floating-ro-ring {
             position: absolute;
-            top: 45px;
+            top: calc(max(env(safe-area-inset-top), 44px) + 10px);
             left: 50%;
             transform: translateX(-50%);
             width: 110px;
@@ -98,7 +102,7 @@
         /* もぎり用の2つの丸エリア */
         .scratch-container {
             position: absolute;
-            top: 52px;
+            top: calc(max(env(safe-area-inset-top), 44px) + 16px);
             left: 0;
             right: 0;
             height: 90px;
@@ -263,7 +267,7 @@
         .ticket-main-area {
             background-color: #ffffff;
             color: #222222;
-            padding: 14px;
+            padding: 16px;
             position: relative;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
@@ -279,16 +283,16 @@
         .badge-anata {
             position: absolute;
             top: 28px;
-            left: 12px;
-            width: 38px;
-            height: 38px;
+            left: 14px;
+            width: 40px;
+            height: 40px;
             border: 1.5px solid #4a89bd;
             color: #4a89bd;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 9px;
+            font-size: 10px;
             font-weight: 700;
             background: #ffffff;
             transition: all 0.3s ease;
@@ -300,24 +304,26 @@
         }
 
         .text-group-main {
-            margin-left: 46px;
+            margin-left: 50px;
             display: flex;
             flex-direction: column;
         }
+        
+        /* 項目を全体的に見やすく大きく調整 */
         .area-type {
-            font-size: 14px;
-            font-weight: 500;
-            margin-bottom: 3px;
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 4px;
         }
         .seat-number {
-            font-size: 19px;
-            font-weight: 800;
+            font-size: 21px;
+            font-weight: 900;
             letter-spacing: 0.5px;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
             font-variant-numeric: tabular-nums;
         }
         .user-meta-text {
-            font-size: 11.5px;
+            font-size: 12.5px;
             line-height: 1.4;
             color: #333333;
             font-variant-numeric: tabular-nums;
@@ -327,9 +333,9 @@
         }
 
         .entry-time-display {
-            font-size: 11.5px;
+            font-size: 12px;
             font-weight: 600;
-            margin-top: 4px;
+            margin-top: 6px;
             color: #333333;
             display: none;
             font-variant-numeric: tabular-nums;
@@ -366,18 +372,19 @@
             display: none;
         }
 
+        /* 迫力のある大きな「入場済」スタンプ */
         .stamp-entered {
             position: absolute;
-            top: 14px;
-            right: 14px;
-            font-size: 38px;
+            top: 4px;
+            right: 8px;
+            font-size: 46px;
             font-weight: 900;
-            color: rgba(255, 82, 154, 0.82);
+            color: rgba(230, 45, 110, 0.85);
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.4s ease;
             z-index: 10;
-            letter-spacing: 6px;
+            letter-spacing: 8px;
         }
         .stamp-entered.active {
             opacity: 1;
@@ -386,7 +393,7 @@
         .card-accordion-bar {
             background-color: #ffffff;
             color: #333333;
-            padding: 13px 14px 13px 60px;
+            padding: 13px 14px 13px 64px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -480,7 +487,7 @@
             </div>
         </div>
 
-        <!-- オーロラレイヤー（ヘッダー下部に綺麗に収まる設計） -->
+        <!-- オーロラレイヤー -->
         <div class="aurora-slide-layer" id="auroraSlideLayer">
             <div class="scratch-container visible" id="auroraScratchContainer" style="position: relative; top: 0; padding: 0 46px; height: 100%; align-items: center;">
                 <div class="scratch-canvas-wrap">
@@ -538,7 +545,7 @@
     <div class="ticket-content-section">
         <div class="section-title-row">
             <span id="ticketCountLabel">お手持ちのチケット</span>
-            <span id="ticketCountNum">合計 1 / 1枚</span>
+            <span id="ticketCountNum">合計 1枚</span>
         </div>
 
         <div class="ticket-card" id="ticketCard">
@@ -680,7 +687,7 @@
             }
         }, {passive: true});
 
-        headerContainer.addEventListener('touchend', () => {
+        headerContainer.addEventListener('touched', () => {
             if (!isChecked || isEntered) return;
             if (currentTranslateX > 80) {
                 triggerMogiri();
@@ -707,7 +714,6 @@
                 checkBox.classList.remove('checked');
                 auroraSlideLayer.classList.remove('active');
                 
-                /* もぎり後はすべての赤丸要素を完全に非表示にし、二度と表示させない */
                 scratchContainer.classList.remove('visible');
                 scratchContainer.style.display = 'none';
                 if (auroraScratchContainer) {
