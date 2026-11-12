@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <!-- ステータスバーを完全に透明にし、ヘッダーのグラデーションを裏まで透けさせる設定 -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>ローチケ 入場／引換</title>
     <style>
         * {
@@ -11,10 +14,11 @@
             padding: 0;
             -webkit-tap-highlight-color: transparent;
         }
+        /* html, body全体をヘッダーと同じベースの紺色で満たし、ステータスバー裏までグラデーションが生きるようにする */
         html, body {
             width: 100vw;
             height: 100vh;
-            background-color: #dfe3e6;
+            background-color: #06257d;
             color: #111111;
             display: flex;
             flex-direction: column;
@@ -23,10 +27,13 @@
             font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Roboto", "Helvetica Neue", sans-serif;
         }
 
-        /* --- ヘッダーコンテナ（画面最上部・ステータスバー裏まで完全に拡張） --- */
+        /* --- ヘッダーコンテナ（ステータスバー裏の「時間・充電アイコン」の裏までグラデーションを完全透過・拡張） --- */
         .app-header-container {
-            background: radial-gradient(circle at 50% 25%, #0077ff 0%, #002266 50%, #01081a 90%);
-            padding-top: max(env(safe-area-inset-top), 44px);
+            background: 
+                radial-gradient(ellipse 68% 88% at 32% 18%, rgba(28, 152, 255, 0.92) 0%, rgba(0, 92, 214, 0.78) 45%, rgba(5, 34, 117, 0.92) 82%, #072882 100%),
+                linear-gradient(105deg, #688ec4 0%, #145cc4 35%, #06257d 72%, #5972ab 100%);
+            /* env(safe-area-inset-top) を活用して、時間や充電表示の領域（約44px以上）をしっかりと確保しつつ背景を完全に敷き詰める */
+            padding-top: calc(env(safe-area-inset-top, 44px) + 6px);
             padding-right: 14px;
             padding-bottom: 18px;
             padding-left: 14px;
@@ -37,11 +44,11 @@
             width: 100%;
         }
 
-        /* --- オーロラ＆スライド用レイヤー --- */
+        /* --- オーロラ＆スライド用レイヤー（「入場／引換」行より下、角丸なしで赤色バナーまで伸びる） --- */
         .aurora-slide-layer {
             position: absolute;
-            top: 48px;
-            bottom: -50px;
+            top: calc(env(safe-area-inset-top, 44px) + 40px);
+            bottom: -55px;
             left: 0;
             right: 0;
             border-radius: 0;
@@ -57,9 +64,9 @@
             opacity: 1;
             pointer-events: auto;
             background: 
-                radial-gradient(circle at 35% 40%, rgba(0, 242, 254, 0.65) 0%, transparent 50%),
-                radial-gradient(circle at 75% 70%, rgba(216, 27, 96, 0.45) 0%, transparent 60%),
-                linear-gradient(135deg, #021B79, #0575E6, #00f2fe, #7b1fa2);
+                radial-gradient(circle at 35% 40%, rgba(0, 242, 254, 0.7) 0%, transparent 52%),
+                radial-gradient(circle at 80% 65%, rgba(186, 45, 165, 0.55) 0%, transparent 60%),
+                linear-gradient(125deg, #2b58b8, #0095ff, #00f2fe, #7b2cbf);
             background-size: 300% 300%;
             animation: auroraAnimation 4.5s ease infinite;
         }
@@ -70,31 +77,31 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* 中央からふわっと浮かび上がる「ロ」のリングアニメーション */
+        /* 中央の「ロ」のリング */
         .floating-ro-ring {
             position: absolute;
-            top: calc(max(env(safe-area-inset-top), 44px) + 10px);
+            top: calc(env(safe-area-inset-top, 44px) + 16px);
             left: 50%;
             transform: translateX(-50%);
-            width: 110px;
-            height: 54px;
-            border: 14px solid rgba(255, 255, 255, 0.28);
-            border-radius: 18px;
+            width: 104px;
+            height: 50px;
+            border: 12px solid rgba(255, 255, 255, 0.12);
+            border-radius: 16px;
             pointer-events: none;
-            animation: floatRoVideoSize 2.4s cubic-bezier(0.2, 0.8, 0.3, 1) infinite;
+            animation: floatRoVideoSize 2.6s cubic-bezier(0.2, 0.8, 0.3, 1) infinite;
             z-index: 1;
         }
 
         @keyframes floatRoVideoSize {
             0% {
-                transform: translateX(-50%) scale(0.4);
+                transform: translateX(-50%) scale(0.45);
                 opacity: 0;
             }
-            20% {
-                opacity: 0.6;
+            25% {
+                opacity: 0.45;
             }
             100% {
-                transform: translateX(-50%) scale(2.8);
+                transform: translateX(-50%) scale(2.6);
                 opacity: 0;
             }
         }
@@ -102,10 +109,10 @@
         /* もぎり用の2つの丸エリア */
         .scratch-container {
             position: absolute;
-            top: calc(max(env(safe-area-inset-top), 44px) + 16px);
+            top: calc(env(safe-area-inset-top, 44px) + 52px);
             left: 0;
             right: 0;
-            height: 90px;
+            height: 84px;
             display: none;
             justify-content: space-around;
             padding: 0 46px;
@@ -120,7 +127,7 @@
             height: 72px;
             border-radius: 50%;
             overflow: hidden;
-            box-shadow: 0 0 8px rgba(0,0,0,0.3);
+            box-shadow: 0 0 8px rgba(0,0,0,0.25);
             background-color: transparent;
         }
         
@@ -136,7 +143,7 @@
         }
 
         .aurora-slide-layer.active .scratch-canvas-wrap {
-            background-color: rgba(255, 255, 255, 0.2);
+            background-color: rgba(255, 255, 255, 0.22);
         }
         .aurora-slide-layer.active .zigzag-bg {
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 5 L5 1 L10 5' fill='none' stroke='%23ffffff' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
@@ -202,7 +209,7 @@
             font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Courier New", Courier, monospace;
             font-size: 21px;
             font-weight: 700;
-            line-height: 1.3;
+            line-height: 1.35;
             letter-spacing: 2px;
             margin-bottom: 16px;
             position: relative;
@@ -233,14 +240,17 @@
             overflow: hidden;
             transition: max-height 0.3s ease, padding 0.3s ease;
             flex-shrink: 0;
+            position: relative;
+            z-index: 2;
         }
         .alert-banner.visible {
             max-height: 60px;
             padding: 9px 14px;
         }
 
-        /* --- チケットコンテンツ --- */
+        /* --- チケットコンテンツ（グレー背景はこちらに指定） --- */
         .ticket-content-section {
+            background-color: #dfe3e6;
             padding: 14px 12px;
             flex: 1;
             overflow-y: auto;
@@ -309,7 +319,6 @@
             flex-direction: column;
         }
         
-        /* 項目を全体的に見やすく大きく調整 */
         .area-type {
             font-size: 15px;
             font-weight: 600;
@@ -379,7 +388,7 @@
             right: 8px;
             font-size: 46px;
             font-weight: 900;
-            color: rgba(230, 45, 110, 0.85);
+            color: rgba(235, 70, 130, 0.8);
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.4s ease;
@@ -452,13 +461,15 @@
         .ticket-notch-bottom { bottom: -5px; }
 
         .app-footer {
-            height: 48px;
+            height: calc(48px + env(safe-area-inset-bottom, 0px));
+            padding-bottom: env(safe-area-inset-bottom, 0px);
             background-color: #e6f0f8;
             border-top: 1px solid #cddbe6;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 16px;
+            padding-left: 16px;
+            padding-right: 16px;
             font-size: 13.5px;
             font-weight: 600;
             color: #2185d0;
@@ -489,7 +500,7 @@
 
         <!-- オーロラレイヤー -->
         <div class="aurora-slide-layer" id="auroraSlideLayer">
-            <div class="scratch-container visible" id="auroraScratchContainer" style="position: relative; top: 0; padding: 0 46px; height: 100%; align-items: center;">
+            <div class="scratch-container visible" id="auroraScratchContainer" style="position: relative; top: 12px; padding: 0 46px; height: 84px; align-items: center;">
                 <div class="scratch-canvas-wrap">
                     <div class="zigzag-bg"></div>
                 </div>
@@ -687,7 +698,7 @@
             }
         }, {passive: true});
 
-        headerContainer.addEventListener('touched', () => {
+        headerContainer.addEventListener('touchend', () => {
             if (!isChecked || isEntered) return;
             if (currentTranslateX > 80) {
                 triggerMogiri();
