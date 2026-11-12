@@ -33,7 +33,7 @@
             flex-shrink: 0;
         }
 
-        /* --- オーロラ＆スライド用レイヤー（上部から少し下げて配置し、最上部までいかないようにする） --- */
+        /* --- オーロラ＆スライド用レイヤー --- */
         .aurora-slide-layer {
             position: absolute;
             top: 24px;
@@ -64,7 +64,7 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* 元通りの「ロ」のリングが中央からふわっと浮かび上がるアニメーション */
+        /* 「ロ」のリングが中央からふわっと浮かび上がるアニメーション */
         .floating-ro-ring {
             position: absolute;
             top: 45px;
@@ -465,9 +465,10 @@
 <body>
 
     <div class="app-header-container" id="headerContainer">
-        <!-- 元通りのふわっと浮かび上がる「ロ」のリング -->
+        <!-- 「ロ」のリング -->
         <div class="floating-ro-ring"></div>
 
+        <!-- 通常時の赤丸コンテナ -->
         <div class="scratch-container" id="scratchContainer">
             <div class="scratch-canvas-wrap">
                 <div class="zigzag-bg"></div>
@@ -477,9 +478,9 @@
             </div>
         </div>
 
-        <!-- オーロラレイヤー -->
+        <!-- オーロラレイヤー（中に含まれる赤丸も含めて完全制御） -->
         <div class="aurora-slide-layer" id="auroraSlideLayer">
-            <div class="scratch-container visible" style="position: relative; top: 0; padding: 0 46px; height: 100%; align-items: center;">
+            <div class="scratch-container visible" id="auroraScratchContainer" style="position: relative; top: 0; padding: 0 46px; height: 100%; align-items: center;">
                 <div class="scratch-canvas-wrap">
                     <div class="zigzag-bg"></div>
                 </div>
@@ -590,6 +591,7 @@
         const headerContainer = document.getElementById('headerContainer');
         const auroraSlideLayer = document.getElementById('auroraSlideLayer');
         const scratchContainer = document.getElementById('scratchContainer');
+        const auroraScratchContainer = document.getElementById('auroraScratchContainer');
         const alertBanner = document.getElementById('alertBanner');
         const stampEntered = document.getElementById('stampEntered');
         const ticketCard = document.getElementById('ticketCard');
@@ -703,9 +705,12 @@
                 checkBox.classList.remove('checked');
                 auroraSlideLayer.classList.remove('active');
                 
-                // もぎり後は赤丸を完全に非表示にし、再表示させない
+                // 【完全修復】もぎり後はすべての赤丸要素を完全に非表示にし、再表示させない
                 scratchContainer.classList.remove('visible');
                 scratchContainer.style.display = 'none';
+                if (auroraScratchContainer) {
+                    auroraScratchContainer.style.display = 'none';
+                }
                 
                 alertBanner.classList.remove('visible');
                 ticketCountNum.textContent = '合計 1／1枚';
