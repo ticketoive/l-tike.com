@@ -26,7 +26,7 @@
             font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
         }
 
-        /* --- ヘッダーコンテナ（ステータスバーからチケット位置まで完全に一体化） --- */
+        /* --- ヘッダーコンテナ --- */
         .app-header-container {
             background: 
                 radial-gradient(ellipse 70% 65% at 35% 22%, rgba(20, 160, 255, 0.95) 0%, rgba(0, 105, 230, 0.65) 45%, transparent 75%),
@@ -43,11 +43,11 @@
             width: 100%;
         }
 
-        /* --- オーロラ＆スライド用レイヤー（ボタン位置に合わせて下げる） --- */
+        /* --- オーロラ＆スライド用レイヤー --- */
         .aurora-slide-layer {
             position: absolute;
-            top: calc(env(safe-area-inset-top, 44px) + 60px);
-            bottom: -30px;
+            top: calc(env(safe-area-inset-top, 44px) + 72px);
+            bottom: 0;
             left: 0;
             right: 0;
             border-radius: 0;
@@ -76,10 +76,10 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* --- 「ロ」のリング --- */
+        /* --- 「ロ」のリング（濃い青の範囲の真ん中からスタート） --- */
         .floating-ro-ring {
             position: absolute;
-            top: 58%;
+            top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             width: 50px;
@@ -105,10 +105,10 @@
             }
         }
 
-        /* もぎり用の2つの丸エリア（ボタン位置を大きく下方へ調整） */
+        /* もぎり用の2つの丸エリア（通常時） */
         .scratch-container {
             position: absolute;
-            top: calc(env(safe-area-inset-top, 44px) + 64px);
+            top: calc(env(safe-area-inset-top, 44px) + 116px);
             left: 0;
             right: 0;
             height: 84px;
@@ -116,10 +116,26 @@
             justify-content: space-around;
             padding: 0 46px;
             z-index: 5;
+            pointer-events: none;
         }
         .scratch-container.visible {
             display: flex;
         }
+
+        /* オーロラレイヤー内の白丸コンテナ */
+        .aurora-scratch-wrap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            pointer-events: none;
+            display: none;
+        }
+        .aurora-slide-layer.active .aurora-scratch-wrap {
+            display: block;
+        }
+
         .scratch-canvas-wrap {
             position: relative;
             width: 72px;
@@ -205,7 +221,7 @@
             font-weight: 300;
         }
 
-        /* --- イベント名（さらに下方向へ配置） --- */
+        /* --- イベント名 --- */
         .event-title {
             font-size: 20px;
             font-weight: 700;
@@ -217,10 +233,10 @@
             z-index: 4;
         }
 
-        /* --- 日時ブロック（さらに下方向へ配置） --- */
+        /* --- 日時ブロック --- */
         .event-meta-block {
-            margin-top: 14px;
-            margin-bottom: 10px;
+            margin-top: 20px;
+            margin-bottom: 6px;
             position: relative;
             z-index: 4;
         }
@@ -228,11 +244,12 @@
         .event-meta-row {
             display: flex;
             align-items: center;
-            font-size: 13.5px;
-            font-weight: 400;
+            font-size: 14px;
+            font-weight: 600;
             margin-bottom: 6px;
             gap: 8px;
             font-variant-numeric: tabular-nums;
+            letter-spacing: 0.3px;
         }
 
         /* --- 警告バナー --- */
@@ -502,7 +519,7 @@
 <body>
 
     <div class="app-header-container" id="headerContainer">
-        <!-- 「ロ」のリング -->
+        <!-- 「ロ」のリング（ヘッダー領域の中央からスタート） -->
         <div class="floating-ro-ring"></div>
 
         <!-- 通常時の赤丸コンテナ -->
@@ -517,12 +534,15 @@
 
         <!-- オーロラレイヤー -->
         <div class="aurora-slide-layer" id="auroraSlideLayer">
-            <div class="scratch-container visible" id="auroraScratchContainer" style="position: relative; top: 8px; padding: 0 46px; height: 84px; align-items: center;">
-                <div class="scratch-canvas-wrap">
-                    <div class="zigzag-bg"></div>
-                </div>
-                <div class="scratch-canvas-wrap">
-                    <div class="zigzag-bg"></div>
+            <!-- スライド時に一緒に動く白丸 -->
+            <div class="aurora-scratch-wrap">
+                <div class="scratch-container visible" style="top: calc(116px - 72px); display: flex;">
+                    <div class="scratch-canvas-wrap">
+                        <div class="zigzag-bg"></div>
+                    </div>
+                    <div class="scratch-canvas-wrap">
+                        <div class="zigzag-bg"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -550,7 +570,7 @@
 
         <div class="event-meta-block">
             <div class="event-meta-row">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
                     <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
                     <line x1="16" y1="2" x2="16" y2="6"></line>
                     <line x1="8" y1="2" x2="8" y2="6"></line>
@@ -559,7 +579,7 @@
                 <span>2026.11.11(Wed)</span>
             </div>
             <div class="event-meta-row">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
                     <circle cx="12" cy="12" r="10"></circle>
                     <polyline points="12 6 12 12 16 14"></polyline>
                 </svg>
@@ -630,7 +650,6 @@
         const headerContainer = document.getElementById('headerContainer');
         const auroraSlideLayer = document.getElementById('auroraSlideLayer');
         const scratchContainer = document.getElementById('scratchContainer');
-        const auroraScratchContainer = document.getElementById('auroraScratchContainer');
         const alertBanner = document.getElementById('alertBanner');
         const stampEntered = document.getElementById('stampEntered');
         const ticketCard = document.getElementById('ticketCard');
@@ -723,7 +742,7 @@
                 triggerMogiri();
             } else {
                 auroraSlideLayer.style.transition = 'transform 0.3s ease';
-                auroraSlideLayer.style.transition = 'translateX(0px)';
+                auroraSlideLayer.style.transform = 'translateX(0px)';
                 setTimeout(() => { auroraSlideLayer.style.transition = ''; }, 300);
             }
             startX = 0;
@@ -746,9 +765,6 @@
                 
                 scratchContainer.classList.remove('visible');
                 scratchContainer.style.display = 'none';
-                if (auroraScratchContainer) {
-                    auroraScratchContainer.style.display = 'none';
-                }
                 
                 alertBanner.classList.remove('visible');
                 ticketCountNum.textContent = '合計 1 / 1枚';
