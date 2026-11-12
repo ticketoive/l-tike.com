@@ -22,17 +22,19 @@
             flex-direction: column;
             overflow: hidden;
             -webkit-font-smoothing: antialiased;
-            font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Roboto", "Helvetica Neue", sans-serif;
+            -moz-osx-font-smoothing: grayscale;
+            /* 全体のフォントをローチケ公式アプリ風のクリーンなゴシックに完全統一 */
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
         }
 
-        /* --- ヘッダーコンテナ（濃い青のグラデーション部分を下に少し拡張） --- */
+        /* --- ヘッダーコンテナ --- */
         .app-header-container {
             background: 
                 radial-gradient(ellipse 68% 88% at 32% 18%, rgba(28, 152, 255, 0.92) 0%, rgba(0, 92, 214, 0.78) 45%, rgba(5, 34, 117, 0.92) 82%, #072882 100%),
                 linear-gradient(105deg, #688ec4 0%, #145cc4 35%, #06257d 72%, #5972ab 100%);
             padding-top: calc(env(safe-area-inset-top, 44px) + 8px);
             padding-right: 14px;
-            padding-bottom: 24px; /* 下方向への広がりを少し持たせました */
+            padding-bottom: 24px;
             padding-left: 14px;
             color: #ffffff;
             position: relative;
@@ -204,7 +206,7 @@
 
         .event-title {
             font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Courier New", Courier, monospace;
-            font-size: 21px;
+            font-size: 21.5px;
             font-weight: 700;
             line-height: 1.35;
             letter-spacing: 2px;
@@ -245,10 +247,10 @@
             padding: 9px 14px;
         }
 
-        /* --- チケットコンテンツ --- */
+        /* --- チケットコンテンツセクション --- */
         .ticket-content-section {
             background-color: #dfe3e6;
-            padding: 14px 12px;
+            padding: 16px 14px;
             flex: 1;
             overflow-y: auto;
         }
@@ -257,15 +259,15 @@
             justify-content: space-between;
             align-items: center;
             padding: 0 2px 10px 2px;
-            font-size: 16px;
+            font-size: 16.5px;
             font-weight: 600;
             color: #222222;
         }
 
         .ticket-card {
             background-color: #ffffff;
-            border-radius: 6px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+            border-radius: 8px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.14);
             overflow: hidden;
             border: 1px solid #d4d8dc;
             position: relative;
@@ -274,7 +276,7 @@
         .ticket-main-area {
             background-color: #ffffff;
             color: #222222;
-            padding: 16px;
+            padding: 18px;
             position: relative;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
@@ -289,17 +291,17 @@
 
         .badge-anata {
             position: absolute;
-            top: 28px;
+            top: 32px;
             left: 14px;
-            width: 40px;
-            height: 40px;
+            width: 42px;
+            height: 42px;
             border: 1.5px solid #4a89bd;
             color: #4a89bd;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 10px;
+            font-size: 10.5px;
             font-weight: 700;
             background: #ffffff;
             transition: all 0.3s ease;
@@ -311,26 +313,27 @@
         }
 
         .text-group-main {
-            margin-left: 50px;
+            margin-left: 54px;
             display: flex;
             flex-direction: column;
         }
         
         .area-type {
-            font-size: 15px;
+            font-size: 15.5px;
             font-weight: 600;
-            margin-bottom: 4px;
+            margin-bottom: 5px;
+            letter-spacing: 0.3px;
         }
         .seat-number {
-            font-size: 21px;
+            font-size: 22.5px;
             font-weight: 900;
             letter-spacing: 0.5px;
-            margin-bottom: 6px;
+            margin-bottom: 7px;
             font-variant-numeric: tabular-nums;
         }
         .user-meta-text {
-            font-size: 12.5px;
-            line-height: 1.4;
+            font-size: 13px;
+            line-height: 1.45;
             color: #333333;
             font-variant-numeric: tabular-nums;
         }
@@ -339,9 +342,9 @@
         }
 
         .entry-time-display {
-            font-size: 12px;
+            font-size: 12.5px;
             font-weight: 600;
-            margin-top: 6px;
+            margin-top: 8px;
             color: #333333;
             display: none;
             font-variant-numeric: tabular-nums;
@@ -349,10 +352,10 @@
 
         .checkbox-box {
             position: absolute;
-            top: 34px;
+            top: 36px;
             right: 14px;
-            width: 24px;
-            height: 24px;
+            width: 25px;
+            height: 25px;
             border: 1.5px solid #cccccc;
             border-radius: 3px;
             background-color: #ffffff;
@@ -378,14 +381,14 @@
             display: none;
         }
 
-        /* 迫力のある大きな「入場済」スタンプ */
+        /* 絶妙な薄さと透け感のある「入場済」スタンプ */
         .stamp-entered {
             position: absolute;
             top: 4px;
             right: 8px;
-            font-size: 46px;
+            font-size: 48px;
             font-weight: 900;
-            color: rgba(235, 70, 130, 0.8);
+            color: rgba(235, 90, 150, 0.42);
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.4s ease;
@@ -399,11 +402,11 @@
         .card-accordion-bar {
             background-color: #ffffff;
             color: #333333;
-            padding: 13px 14px 13px 64px;
+            padding: 14px 16px 14px 68px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 13.5px;
+            font-size: 14px;
             font-weight: 500;
             border-top: 1px solid #eceff1;
             cursor: pointer;
@@ -425,8 +428,8 @@
 
         .accordion-content {
             background-color: #ffffff;
-            padding: 0 14px;
-            font-size: 12.5px;
+            padding: 0 16px;
+            font-size: 13px;
             line-height: 1.6;
             color: #222222;
             max-height: 0;
@@ -436,7 +439,7 @@
         }
         .accordion-content.open {
             max-height: 400px;
-            padding: 10px 14px 16px 14px;
+            padding: 12px 16px 18px 16px;
             border-top: 1px solid #eeeeee;
             overflow-y: auto;
         }
@@ -446,7 +449,7 @@
 
         .ticket-notch-top, .ticket-notch-bottom {
             position: absolute;
-            right: 52px;
+            right: 56px;
             width: 10px;
             height: 10px;
             background-color: #dfe3e6;
@@ -701,7 +704,7 @@
                 triggerMogiri();
             } else {
                 auroraSlideLayer.style.transition = 'transform 0.3s ease';
-                auroraSlideLayer.style.transform = 'translateX(0px)';
+                auroraSlideLayer.style.transition = 'translateX(0px)';
                 setTimeout(() => { auroraSlideLayer.style.transition = ''; }, 300);
             }
             startX = 0;
