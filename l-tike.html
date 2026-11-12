@@ -23,16 +23,18 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* --- ヘッダーコンテナ（実機の比率に合わせ、青背景をより縦長に調整） --- */
+        /* --- ヘッダーコンテナ（上部は角丸なし、下部のみ角丸、十分な縦長） --- */
         .app-header-container {
-            background: radial-gradient(circle at 50% 30%, #0077ff 0%, #002266 55%, #01081a 90%);
-            padding: 16px 16px 42px 16px;
+            background: radial-gradient(circle at 50% 25%, #0077ff 0%, #002266 50%, #01081a 90%);
+            padding: 24px 14px 44px 14px;
             color: #ffffff;
             position: relative;
             overflow: hidden;
             flex-shrink: 0;
-            border-bottom-left-radius: 16px;
-            border-bottom-right-radius: 16px;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+            border-bottom-left-radius: 14px;
+            border-bottom-right-radius: 14px;
             box-shadow: 0 3px 8px rgba(0,0,0,0.2);
         }
 
@@ -49,8 +51,8 @@
             touch-action: pan-y;
             will-change: transform;
             z-index: 3;
-            border-bottom-left-radius: 16px;
-            border-bottom-right-radius: 16px;
+            border-bottom-left-radius: 14px;
+            border-bottom-right-radius: 14px;
         }
         .aurora-slide-layer.active {
             opacity: 1;
@@ -69,16 +71,16 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* 「ロ」のリング（実機のサイズ感と位置） */
+        /* 「ロ」のリングのサイズと配置 */
         .floating-ro-ring {
             position: absolute;
-            top: 52px;
+            top: 58px;
             left: 50%;
             transform: translateX(-50%);
-            width: 120px;
-            height: 60px;
-            border: 15px solid rgba(255, 255, 255, 0.28);
-            border-radius: 20px;
+            width: 130px;
+            height: 64px;
+            border: 16px solid rgba(255, 255, 255, 0.28);
+            border-radius: 22px;
             pointer-events: none;
             animation: floatRoVideoSize 2.4s cubic-bezier(0.2, 0.8, 0.3, 1) infinite;
             z-index: 1;
@@ -101,10 +103,10 @@
         /* もぎり用の2つの丸エリア */
         .scratch-container {
             position: absolute;
-            top: 64px;
+            top: 72px;
             left: 0;
             right: 0;
-            height: 70px;
+            height: 75px;
             display: none;
             justify-content: space-around;
             padding: 0 44px;
@@ -115,8 +117,8 @@
         }
         .scratch-canvas-wrap {
             position: relative;
-            width: 60px;
-            height: 60px;
+            width: 64px;
+            height: 64px;
             border-radius: 50%;
             overflow: hidden;
             box-shadow: 0 0 6px rgba(0,0,0,0.3);
@@ -159,13 +161,13 @@
         .logo-mark-wrap {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
             margin-right: 8px;
         }
         .logo-o-box {
             position: relative;
-            width: 21px;
-            height: 21px;
+            width: 20px;
+            height: 20px;
             border: 3px solid #ffffff;
             border-radius: 50%;
             flex-shrink: 0;
@@ -185,7 +187,7 @@
             transform-origin: left;
         }
         .logo-main-kana {
-            font-size: 13px;
+            font-size: 12.5px;
             font-weight: 800;
             letter-spacing: -0.5px;
             color: #ffffff;
@@ -193,15 +195,15 @@
 
         .header-right {
             display: flex;
-            gap: 18px;
+            gap: 16px;
             font-size: 16px;
         }
 
         .event-title {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            font-size: 19.5px;
+            font-size: 19px;
             font-weight: 700;
-            line-height: 1.35;
+            line-height: 1.3;
             letter-spacing: 0.5px;
             margin-bottom: 14px;
             position: relative;
@@ -214,8 +216,8 @@
             align-items: center;
             font-size: 13px;
             font-weight: 500;
-            margin-bottom: 5px;
-            gap: 7px;
+            margin-bottom: 4px;
+            gap: 6px;
             position: relative;
             z-index: 4;
             font-variant-numeric: tabular-nums;
@@ -226,9 +228,9 @@
         .alert-banner {
             background-color: #ff0000;
             color: #ffffff;
-            padding: 0 14px;
+            padding: 0 12px;
             font-size: 11.5px;
-            line-height: 1.4;
+            line-height: 1.35;
             font-weight: 700;
             max-height: 0;
             overflow: hidden;
@@ -236,8 +238,8 @@
             flex-shrink: 0;
         }
         .alert-banner.visible {
-            max-height: 55px;
-            padding: 9px 14px;
+            max-height: 50px;
+            padding: 8px 12px;
         }
 
         /* --- チケットコンテンツ --- */
@@ -250,8 +252,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 2px 10px 2px;
-            font-size: 13.5px;
+            padding: 0 2px 8px 2px;
+            font-size: 14px;
             font-weight: 600;
             color: #333333;
         }
@@ -259,7 +261,7 @@
         .ticket-card {
             background-color: #ffffff;
             border-radius: 6px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.12);
             overflow: hidden;
             border: 1px solid #d4d8dc;
             position: relative;
@@ -268,7 +270,7 @@
         .ticket-main-area {
             background-color: #ffffff;
             color: #222222;
-            padding: 14px 16px;
+            padding: 16px 18px;
             position: relative;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
@@ -283,17 +285,17 @@
 
         .badge-anata {
             position: absolute;
-            top: 24px;
+            top: 28px;
             left: 14px;
-            width: 34px;
-            height: 34px;
-            border: 1.2px solid #4a89bd;
+            width: 38px;
+            height: 38px;
+            border: 1.5px solid #4a89bd;
             color: #4a89bd;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 8.5px;
+            font-size: 9.5px;
             font-weight: 700;
             background: #ffffff;
             transition: all 0.3s ease;
@@ -305,24 +307,24 @@
         }
 
         .text-group-main {
-            margin-left: 44px;
+            margin-left: 48px;
             display: flex;
             flex-direction: column;
         }
         .area-type {
-            font-size: 12.5px;
+            font-size: 13.5px;
             font-weight: 500;
             margin-bottom: 3px;
         }
         .seat-number {
-            font-size: 16.5px;
+            font-size: 18px;
             font-weight: 800;
             letter-spacing: 0.3px;
-            margin-bottom: 4px;
+            margin-bottom: 5px;
             font-variant-numeric: tabular-nums;
         }
         .user-meta-text {
-            font-size: 11.5px;
+            font-size: 12.5px;
             line-height: 1.4;
             color: #333333;
             font-variant-numeric: tabular-nums;
@@ -332,7 +334,7 @@
         }
 
         .entry-time-display {
-            font-size: 11.5px;
+            font-size: 12px;
             font-weight: 600;
             margin-top: 4px;
             color: #333333;
@@ -342,11 +344,11 @@
 
         .checkbox-box {
             position: absolute;
-            top: 30px;
+            top: 34px;
             right: 16px;
-            width: 22px;
-            height: 22px;
-            border: 1.2px solid #cccccc;
+            width: 24px;
+            height: 24px;
+            border: 1.5px solid #cccccc;
             border-radius: 3px;
             background-color: #ffffff;
             display: flex;
@@ -363,7 +365,7 @@
         .checkbox-box.checked::after {
             content: '✓';
             color: #ff2a75;
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 900;
             text-shadow: 0 0 2px rgba(0,0,0,0.2);
         }
@@ -375,14 +377,14 @@
             position: absolute;
             top: 14px;
             right: 16px;
-            font-size: 34px;
+            font-size: 36px;
             font-weight: 900;
             color: rgba(255, 82, 154, 0.82);
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.4s ease;
             z-index: 10;
-            letter-spacing: 6px;
+            letter-spacing: 5px;
         }
         .stamp-entered.active {
             opacity: 1;
@@ -391,11 +393,11 @@
         .card-accordion-bar {
             background-color: #ffffff;
             color: #333333;
-            padding: 12px 16px 12px 56px;
+            padding: 13px 16px 13px 62px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 12.5px;
+            font-size: 13px;
             font-weight: 500;
             border-top: 1px solid #eceff1;
             cursor: pointer;
@@ -438,26 +440,26 @@
 
         .ticket-notch-top, .ticket-notch-bottom {
             position: absolute;
-            right: 54px;
-            width: 8px;
-            height: 8px;
+            right: 52px;
+            width: 9px;
+            height: 9px;
             background-color: #dfe3e6;
             border-radius: 50%;
             z-index: 4;
             border: 1px solid #d4d8dc;
         }
-        .ticket-notch-top { top: -4px; }
-        .ticket-notch-bottom { bottom: -4px; }
+        .ticket-notch-top { top: -4.5px; }
+        .ticket-notch-bottom { bottom: -4.5px; }
 
         .app-footer {
-            height: 46px;
+            height: 44px;
             background-color: #e6f0f8;
             border-top: 1px solid #cddbe6;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 16px;
-            font-size: 12.5px;
+            padding: 0 14px;
+            font-size: 12px;
             font-weight: 600;
             color: #2185d0;
             flex-shrink: 0;
@@ -472,9 +474,9 @@
 <body>
 
     <div class="app-header-container" id="headerContainer">
-        <!-- ヘッダー背景内に収まるオーロラレイヤー -->
+        <!-- オーロラレイヤー内の赤丸コンテナ -->
         <div class="aurora-slide-layer" id="auroraSlideLayer">
-            <div class="scratch-container visible" style="position: relative; top: 0; padding: 0 44px; height: 100%; align-items: center;">
+            <div class="scratch-container visible" id="auroraScratchContainer" style="position: relative; top: 0; padding: 0 44px; height: 100%; align-items: center;">
                 <div class="scratch-canvas-wrap">
                     <div class="zigzag-bg"></div>
                 </div>
@@ -517,7 +519,7 @@
         </div>
 
         <div class="event-meta-row">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
                 <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
                 <line x1="16" y1="2" x2="16" y2="6"></line>
                 <line x1="8" y1="2" x2="8" y2="6"></line>
@@ -526,7 +528,7 @@
             <span>2026.11.11(Wed)</span>
         </div>
         <div class="event-meta-row">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
                 <circle cx="12" cy="12" r="10"></circle>
                 <polyline points="12 6 12 12 16 14"></polyline>
             </svg>
@@ -596,6 +598,7 @@
         const headerContainer = document.getElementById('headerContainer');
         const auroraSlideLayer = document.getElementById('auroraSlideLayer');
         const scratchContainer = document.getElementById('scratchContainer');
+        const auroraScratchContainer = document.getElementById('auroraScratchContainer');
         const alertBanner = document.getElementById('alertBanner');
         const stampEntered = document.getElementById('stampEntered');
         const ticketCard = document.getElementById('ticketCard');
@@ -709,9 +712,12 @@
                 checkBox.classList.remove('checked');
                 auroraSlideLayer.classList.remove('active');
                 
-                // もぎり後に赤丸要素を完全に消去
+                // もぎり後、通常の赤丸とオーロラレイヤー内の赤丸を両方完全に消去
                 scratchContainer.classList.remove('visible');
                 scratchContainer.style.display = 'none';
+                if (auroraScratchContainer) {
+                    auroraScratchContainer.style.display = 'none';
+                }
                 
                 alertBanner.classList.remove('visible');
                 ticketCountNum.textContent = '合計 1／1枚';
