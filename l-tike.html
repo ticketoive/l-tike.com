@@ -26,15 +26,16 @@
             font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
         }
 
-        /* --- ヘッダーコンテナ（「お手持ちのチケット」の位置まで青背景を深く延伸） --- */
+        /* --- ヘッダーコンテナ（ステータスバーからチケット位置までグラデーションを完全に一体化・横線なし） --- */
         .app-header-container {
             background: 
                 radial-gradient(ellipse 70% 65% at 35% 22%, rgba(20, 160, 255, 0.95) 0%, rgba(0, 105, 230, 0.65) 45%, transparent 75%),
                 radial-gradient(ellipse 95% 85% at 50% 35%, #083ac9 0%, #04228c 50%, #03135c 80%, #020a3d 100%),
                 linear-gradient(135deg, #1c75ff 0%, #0630b0 45%, #020d40 100%);
+            /* ステータスバー領域（safe-area-inset-top）を含めて上部まで背景を透過・一体化させる */
             padding-top: calc(env(safe-area-inset-top, 44px) + 12px);
             padding-right: 16px;
-            padding-bottom: 54px;
+            padding-bottom: 56px;
             padding-left: 16px;
             color: #ffffff;
             position: relative;
@@ -205,7 +206,7 @@
             font-weight: 300;
         }
 
-        /* --- イベント名（領域の拡大に合わせて適正に下方向へ配置） --- */
+        /* --- イベント名 --- */
         .event-title {
             font-size: 20px;
             font-weight: 700;
@@ -260,14 +261,16 @@
             flex: 1;
             overflow-y: auto;
         }
+        
         .section-title-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 2px 10px 2px;
-            font-size: 15px;
-            font-weight: 500;
-            color: #333333;
+            padding: 0 2px 12px 2px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #222222;
+            letter-spacing: 0.3px;
         }
 
         .ticket-card {
