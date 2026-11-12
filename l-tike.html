@@ -26,15 +26,15 @@
             font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
         }
 
-        /* --- ヘッダーコンテナ（「お手持ちのチケット」の文字付近まで下に大きく拡張） --- */
+        /* --- ヘッダーコンテナ（「お手持ちのチケット」の位置まで青背景を深く延伸） --- */
         .app-header-container {
             background: 
-                radial-gradient(ellipse 70% 65% at 35% 18%, rgba(20, 160, 255, 0.95) 0%, rgba(0, 105, 230, 0.65) 45%, transparent 75%),
-                radial-gradient(ellipse 95% 85% at 50% 30%, #083ac9 0%, #04228c 50%, #03135c 80%, #020a3d 100%),
+                radial-gradient(ellipse 70% 65% at 35% 22%, rgba(20, 160, 255, 0.95) 0%, rgba(0, 105, 230, 0.65) 45%, transparent 75%),
+                radial-gradient(ellipse 95% 85% at 50% 35%, #083ac9 0%, #04228c 50%, #03135c 80%, #020a3d 100%),
                 linear-gradient(135deg, #1c75ff 0%, #0630b0 45%, #020d40 100%);
             padding-top: calc(env(safe-area-inset-top, 44px) + 12px);
             padding-right: 16px;
-            padding-bottom: 44px; /* 下方向への広がりを大きく確保 */
+            padding-bottom: 54px;
             padding-left: 16px;
             color: #ffffff;
             position: relative;
@@ -47,7 +47,7 @@
         .aurora-slide-layer {
             position: absolute;
             top: calc(env(safe-area-inset-top, 44px) + 38px);
-            bottom: -20px;
+            bottom: -30px;
             left: 0;
             right: 0;
             border-radius: 0;
@@ -76,7 +76,7 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* --- 「ロ」のリング（拡張されたヘッダーの中心でダイナミックに拡大） --- */
+        /* --- 「ロ」のリング --- */
         .floating-ro-ring {
             position: absolute;
             top: 54%;
@@ -152,7 +152,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
             position: relative;
             z-index: 4;
         }
@@ -205,20 +205,20 @@
             font-weight: 300;
         }
 
-        /* --- イベント名（スクショ通りの広い文字間・配置） --- */
+        /* --- イベント名（領域の拡大に合わせて適正に下方向へ配置） --- */
         .event-title {
             font-size: 20px;
             font-weight: 700;
             line-height: 1.35;
             letter-spacing: 3.5px;
-            margin-top: 10px;
+            margin-top: 14px;
             margin-bottom: 14px;
             position: relative;
             z-index: 4;
         }
 
         .event-meta-block {
-            margin-top: 4px;
+            margin-top: 6px;
             position: relative;
             z-index: 4;
         }
@@ -228,7 +228,7 @@
             align-items: center;
             font-size: 13.5px;
             font-weight: 400;
-            margin-bottom: 4px;
+            margin-bottom: 5px;
             gap: 8px;
             font-variant-numeric: tabular-nums;
         }
@@ -253,10 +253,10 @@
             padding: 9px 14px;
         }
 
-        /* --- チケットコンテンツセクション（濃い青エリアの下に続く構造） --- */
+        /* --- チケットコンテンツセクション --- */
         .ticket-content-section {
             background-color: #dfe3e6;
-            padding: 16px 14px;
+            padding: 18px 14px;
             flex: 1;
             overflow-y: auto;
         }
