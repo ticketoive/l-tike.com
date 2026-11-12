@@ -477,7 +477,7 @@
             </div>
         </div>
 
-        <!-- オーロラレイヤー：上部から少し下げて配置し、最上部までいかないように調整 -->
+        <!-- オーロラレイヤー -->
         <div class="aurora-slide-layer" id="auroraSlideLayer">
             <div class="scratch-container visible" style="position: relative; top: 0; padding: 0 46px; height: 100%; align-items: center;">
                 <div class="scratch-canvas-wrap">
@@ -702,8 +702,11 @@
                 ticketCard.classList.add('entered');
                 checkBox.classList.remove('checked');
                 auroraSlideLayer.classList.remove('active');
+                
+                // もぎり後は赤丸を完全に非表示にし、再表示させない
                 scratchContainer.classList.remove('visible');
-                scratchContainer.style.display = '';
+                scratchContainer.style.display = 'none';
+                
                 alertBanner.classList.remove('visible');
                 ticketCountNum.textContent = '合計 1／1枚';
 
