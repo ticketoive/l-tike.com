@@ -11,26 +11,24 @@
             padding: 0;
             -webkit-tap-highlight-color: transparent;
         }
-        html, body {
-            width: 100vw;
-            height: 100vh;
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Roboto", "Helvetica Neue", sans-serif;
             background-color: #dfe3e6;
             color: #111111;
+            width: 100vw;
+            height: 100vh;
             display: flex;
             flex-direction: column;
             overflow: hidden;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* --- ヘッダーコンテナ（最上部0の位置から配置し、時計・充電マークの裏まで完全カバー） --- */
+        /* --- ヘッダーコンテナ（最上部から時計の裏まで青背景を確実にカバー） --- */
         .app-header-container {
-            position: relative;
-            top: 0;
-            left: 0;
-            width: 100%;
             background: radial-gradient(circle at 50% 25%, #0077ff 0%, #002266 50%, #01081a 90%);
-            padding: 54px 14px 44px 14px; /* 上部パディングをさらに深くし、一番上の端まで青背景を確実に伸ばす */
+            padding: 54px 14px 44px 14px;
             color: #ffffff;
+            position: relative;
             overflow: hidden;
             flex-shrink: 0;
             border-radius: 0px;
@@ -199,7 +197,7 @@
         }
 
         .event-title {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
             font-size: 19px;
             font-weight: 700;
             line-height: 1.3;
