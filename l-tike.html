@@ -11,35 +11,34 @@
             padding: 0;
             -webkit-tap-highlight-color: transparent;
         }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Roboto", "Helvetica Neue", sans-serif;
-            background-color: #dfe3e6;
-            color: #111111;
+        html, body {
             width: 100vw;
             height: 100vh;
+            background-color: #dfe3e6;
+            color: #111111;
             display: flex;
             flex-direction: column;
             overflow: hidden;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* --- ヘッダーコンテナ（青背景は上部までしっかり伸ばす） --- */
+        /* --- ヘッダーコンテナ（上部パディングを深くし、時計・充電マークの裏まで青背景を確実に伸ばす） --- */
         .app-header-container {
             background: radial-gradient(circle at 50% 25%, #0077ff 0%, #002266 50%, #01081a 90%);
-            padding: 44px 14px 18px 14px;
+            padding: 50px 14px 18px 14px;
             color: #ffffff;
             position: relative;
             overflow: hidden;
             flex-shrink: 0;
         }
 
-        /* --- オーロラ＆スライド用レイヤー --- */
+        /* --- 上にかぶさるオーロラ＆スライド用レイヤー（ヘッダー内部に美しく収まる構造） --- */
         .aurora-slide-layer {
             position: absolute;
-            top: 24px;
+            top: 0;
             left: 0;
             width: 100%;
-            height: calc(100% - 24px);
+            height: 100%;
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.3s ease;
@@ -64,7 +63,7 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* 「ロ」のリングが中央からふわっと浮かび上がるアニメーション */
+        /* 元通りの「ロ」のリングが中央からふわっと浮かび上がるアニメーション */
         .floating-ro-ring {
             position: absolute;
             top: 45px;
@@ -465,7 +464,7 @@
 <body>
 
     <div class="app-header-container" id="headerContainer">
-        <!-- 「ロ」のリング -->
+        <!-- 「ロ」のリングが中央からふわっと浮かび上がるアニメーション -->
         <div class="floating-ro-ring"></div>
 
         <!-- 通常時の赤丸コンテナ -->
@@ -478,7 +477,7 @@
             </div>
         </div>
 
-        <!-- オーロラレイヤー（中に含まれる赤丸も含めて完全制御） -->
+        <!-- オーロラ＆スライド用レイヤー（ヘッダー内部に美しく収まる構造） -->
         <div class="aurora-slide-layer" id="auroraSlideLayer">
             <div class="scratch-container visible" id="auroraScratchContainer" style="position: relative; top: 0; padding: 0 46px; height: 100%; align-items: center;">
                 <div class="scratch-canvas-wrap">
@@ -705,7 +704,7 @@
                 checkBox.classList.remove('checked');
                 auroraSlideLayer.classList.remove('active');
                 
-                // 【完全修復】もぎり後はすべての赤丸要素を完全に非表示にし、再表示させない
+                /* もぎり後はすべての赤丸要素を完全に非表示にし、二度と表示させない */
                 scratchContainer.classList.remove('visible');
                 scratchContainer.style.display = 'none';
                 if (auroraScratchContainer) {
