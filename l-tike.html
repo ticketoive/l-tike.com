@@ -23,17 +23,20 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* --- ヘッダーコンテナ（実機の比率に合わせた絶妙な縦幅・余白） --- */
+        /* --- ヘッダーコンテナ（実機の比率に合わせ、青背景をより縦長に調整） --- */
         .app-header-container {
-            background: radial-gradient(circle at 50% 25%, #0077ff 0%, #002266 50%, #01081a 90%);
-            padding: 10px 12px 24px 12px;
+            background: radial-gradient(circle at 50% 30%, #0077ff 0%, #002266 55%, #01081a 90%);
+            padding: 16px 16px 42px 16px;
             color: #ffffff;
             position: relative;
             overflow: hidden;
             flex-shrink: 0;
+            border-bottom-left-radius: 16px;
+            border-bottom-right-radius: 16px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
         }
 
-        /* --- オーロラ＆スライド用レイヤー（ヘッダー枠内に美しく収まる配置） --- */
+        /* --- オーロラ＆スライド用レイヤー --- */
         .aurora-slide-layer {
             position: absolute;
             top: 0;
@@ -46,6 +49,8 @@
             touch-action: pan-y;
             will-change: transform;
             z-index: 3;
+            border-bottom-left-radius: 16px;
+            border-bottom-right-radius: 16px;
         }
         .aurora-slide-layer.active {
             opacity: 1;
@@ -64,31 +69,31 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* 「ロ」のリング（タイトルの背後に収まる実機通りのサイズ・挙動） */
+        /* 「ロ」のリング（実機のサイズ感と位置） */
         .floating-ro-ring {
             position: absolute;
-            top: 40px;
+            top: 52px;
             left: 50%;
             transform: translateX(-50%);
-            width: 74px;
-            height: 38px;
-            border: 11px solid rgba(255, 255, 255, 0.32);
-            border-radius: 14px;
+            width: 120px;
+            height: 60px;
+            border: 15px solid rgba(255, 255, 255, 0.28);
+            border-radius: 20px;
             pointer-events: none;
-            animation: floatRoVideoSize 2.2s cubic-bezier(0.2, 0.8, 0.3, 1) infinite;
+            animation: floatRoVideoSize 2.4s cubic-bezier(0.2, 0.8, 0.3, 1) infinite;
             z-index: 1;
         }
 
         @keyframes floatRoVideoSize {
             0% {
-                transform: translateX(-50%) scale(0.5);
+                transform: translateX(-50%) scale(0.4);
                 opacity: 0;
             }
-            15% {
-                opacity: 0.7;
+            20% {
+                opacity: 0.6;
             }
             100% {
-                transform: translateX(-50%) scale(3.8);
+                transform: translateX(-50%) scale(2.8);
                 opacity: 0;
             }
         }
@@ -96,13 +101,13 @@
         /* もぎり用の2つの丸エリア */
         .scratch-container {
             position: absolute;
-            top: 52px;
+            top: 64px;
             left: 0;
             right: 0;
-            height: 65px;
+            height: 70px;
             display: none;
             justify-content: space-around;
-            padding: 0 40px;
+            padding: 0 44px;
             z-index: 5;
         }
         .scratch-container.visible {
@@ -110,8 +115,8 @@
         }
         .scratch-canvas-wrap {
             position: relative;
-            width: 56px;
-            height: 56px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
             overflow: hidden;
             box-shadow: 0 0 6px rgba(0,0,0,0.3);
@@ -140,28 +145,28 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 16px;
             position: relative;
             z-index: 4;
         }
         .header-left {
             display: flex;
             align-items: center;
-            font-size: 14.5px;
+            font-size: 15px;
             font-weight: 500;
         }
 
         .logo-mark-wrap {
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
             margin-right: 8px;
         }
         .logo-o-box {
             position: relative;
             width: 21px;
             height: 21px;
-            border: 3.5px solid #ffffff;
+            border: 3px solid #ffffff;
             border-radius: 50%;
             flex-shrink: 0;
         }
@@ -173,14 +178,14 @@
         .logo-sub-eng {
             font-size: 5px;
             font-weight: 700;
-            letter-spacing: 0.4px;
+            letter-spacing: 0.3px;
             color: #ffffff;
             margin-bottom: 1.5px;
             transform: scale(0.85);
             transform-origin: left;
         }
         .logo-main-kana {
-            font-size: 12.5px;
+            font-size: 13px;
             font-weight: 800;
             letter-spacing: -0.5px;
             color: #ffffff;
@@ -188,40 +193,42 @@
 
         .header-right {
             display: flex;
-            gap: 14px;
+            gap: 18px;
             font-size: 16px;
         }
 
         .event-title {
-            font-family: "SFMono-Regular", Menlo, Monaco, Consolas, "Courier New", Courier, monospace;
-            font-size: 17.5px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-size: 19.5px;
             font-weight: 700;
-            line-height: 1.25;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
+            line-height: 1.35;
+            letter-spacing: 0.5px;
+            margin-bottom: 14px;
             position: relative;
             z-index: 4;
+            word-break: break-all;
         }
 
         .event-meta-row {
             display: flex;
             align-items: center;
-            font-size: 12.5px;
-            font-weight: 600;
-            margin-bottom: 3.5px;
-            gap: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 5px;
+            gap: 7px;
             position: relative;
             z-index: 4;
             font-variant-numeric: tabular-nums;
+            opacity: 0.95;
         }
 
         /* --- 警告バナー --- */
         .alert-banner {
             background-color: #ff0000;
             color: #ffffff;
-            padding: 0 12px;
-            font-size: 11px;
-            line-height: 1.35;
+            padding: 0 14px;
+            font-size: 11.5px;
+            line-height: 1.4;
             font-weight: 700;
             max-height: 0;
             overflow: hidden;
@@ -229,13 +236,13 @@
             flex-shrink: 0;
         }
         .alert-banner.visible {
-            max-height: 50px;
-            padding: 8px 12px;
+            max-height: 55px;
+            padding: 9px 14px;
         }
 
         /* --- チケットコンテンツ --- */
         .ticket-content-section {
-            padding: 10px 10px;
+            padding: 12px 14px;
             flex: 1;
             overflow-y: auto;
         }
@@ -243,15 +250,15 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 2px 8px 2px;
-            font-size: 13px;
+            padding: 0 2px 10px 2px;
+            font-size: 13.5px;
             font-weight: 600;
-            color: #222222;
+            color: #333333;
         }
 
         .ticket-card {
             background-color: #ffffff;
-            border-radius: 5px;
+            border-radius: 6px;
             box-shadow: 0 1px 4px rgba(0,0,0,0.1);
             overflow: hidden;
             border: 1px solid #d4d8dc;
@@ -261,7 +268,7 @@
         .ticket-main-area {
             background-color: #ffffff;
             color: #222222;
-            padding: 12px;
+            padding: 14px 16px;
             position: relative;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
@@ -276,17 +283,17 @@
 
         .badge-anata {
             position: absolute;
-            top: 22px;
-            left: 10px;
-            width: 32px;
-            height: 32px;
+            top: 24px;
+            left: 14px;
+            width: 34px;
+            height: 34px;
             border: 1.2px solid #4a89bd;
             color: #4a89bd;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 8px;
+            font-size: 8.5px;
             font-weight: 700;
             background: #ffffff;
             transition: all 0.3s ease;
@@ -298,25 +305,25 @@
         }
 
         .text-group-main {
-            margin-left: 38px;
+            margin-left: 44px;
             display: flex;
             flex-direction: column;
         }
         .area-type {
-            font-size: 12px;
+            font-size: 12.5px;
             font-weight: 500;
-            margin-bottom: 2px;
+            margin-bottom: 3px;
         }
         .seat-number {
-            font-size: 15.5px;
+            font-size: 16.5px;
             font-weight: 800;
             letter-spacing: 0.3px;
-            margin-bottom: 3px;
+            margin-bottom: 4px;
             font-variant-numeric: tabular-nums;
         }
         .user-meta-text {
-            font-size: 11px;
-            line-height: 1.35;
+            font-size: 11.5px;
+            line-height: 1.4;
             color: #333333;
             font-variant-numeric: tabular-nums;
         }
@@ -325,9 +332,9 @@
         }
 
         .entry-time-display {
-            font-size: 11px;
+            font-size: 11.5px;
             font-weight: 600;
-            margin-top: 3px;
+            margin-top: 4px;
             color: #333333;
             display: none;
             font-variant-numeric: tabular-nums;
@@ -335,10 +342,10 @@
 
         .checkbox-box {
             position: absolute;
-            top: 28px;
-            right: 12px;
-            width: 20px;
-            height: 20px;
+            top: 30px;
+            right: 16px;
+            width: 22px;
+            height: 22px;
             border: 1.2px solid #cccccc;
             border-radius: 3px;
             background-color: #ffffff;
@@ -356,7 +363,7 @@
         .checkbox-box.checked::after {
             content: '✓';
             color: #ff2a75;
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 900;
             text-shadow: 0 0 2px rgba(0,0,0,0.2);
         }
@@ -366,16 +373,16 @@
 
         .stamp-entered {
             position: absolute;
-            top: 10px;
-            right: 12px;
-            font-size: 32px;
+            top: 14px;
+            right: 16px;
+            font-size: 34px;
             font-weight: 900;
             color: rgba(255, 82, 154, 0.82);
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.4s ease;
             z-index: 10;
-            letter-spacing: 5px;
+            letter-spacing: 6px;
         }
         .stamp-entered.active {
             opacity: 1;
@@ -384,11 +391,11 @@
         .card-accordion-bar {
             background-color: #ffffff;
             color: #333333;
-            padding: 11px 12px 11px 50px;
+            padding: 12px 16px 12px 56px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 12px;
+            font-size: 12.5px;
             font-weight: 500;
             border-top: 1px solid #eceff1;
             cursor: pointer;
@@ -410,8 +417,8 @@
 
         .accordion-content {
             background-color: #ffffff;
-            padding: 0 12px;
-            font-size: 11px;
+            padding: 0 16px;
+            font-size: 11.5px;
             line-height: 1.5;
             color: #222222;
             max-height: 0;
@@ -421,7 +428,7 @@
         }
         .accordion-content.open {
             max-height: 350px;
-            padding: 8px 12px 14px 12px;
+            padding: 10px 16px 16px 16px;
             border-top: 1px solid #eeeeee;
             overflow-y: auto;
         }
@@ -431,7 +438,7 @@
 
         .ticket-notch-top, .ticket-notch-bottom {
             position: absolute;
-            right: 44px;
+            right: 54px;
             width: 8px;
             height: 8px;
             background-color: #dfe3e6;
@@ -443,14 +450,14 @@
         .ticket-notch-bottom { bottom: -4px; }
 
         .app-footer {
-            height: 44px;
+            height: 46px;
             background-color: #e6f0f8;
             border-top: 1px solid #cddbe6;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 14px;
-            font-size: 12px;
+            padding: 0 16px;
+            font-size: 12.5px;
             font-weight: 600;
             color: #2185d0;
             flex-shrink: 0;
@@ -465,9 +472,9 @@
 <body>
 
     <div class="app-header-container" id="headerContainer">
-        <!-- ヘッダー背景内に完全に収まるオーロラレイヤー -->
+        <!-- ヘッダー背景内に収まるオーロラレイヤー -->
         <div class="aurora-slide-layer" id="auroraSlideLayer">
-            <div class="scratch-container visible" style="position: relative; top: 0; padding: 0 40px; height: 100%; align-items: center;">
+            <div class="scratch-container visible" style="position: relative; top: 0; padding: 0 44px; height: 100%; align-items: center;">
                 <div class="scratch-canvas-wrap">
                     <div class="zigzag-bg"></div>
                 </div>
@@ -702,7 +709,7 @@
                 checkBox.classList.remove('checked');
                 auroraSlideLayer.classList.remove('active');
                 
-                // もぎり後に赤丸要素を完全に非表示に
+                // もぎり後に赤丸要素を完全に消去
                 scratchContainer.classList.remove('visible');
                 scratchContainer.style.display = 'none';
                 
