@@ -26,14 +26,14 @@
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
         }
 
-        /* --- ヘッダーコンテナ（濃い青のグラデーション領域をさらに大きく下に伸ばしました） --- */
+        /* --- ヘッダーコンテナ（濃い青のグラデーション領域を大きく下に伸ばしたゆとりある構造） --- */
         .app-header-container {
             background: 
                 radial-gradient(ellipse 70% 90% at 32% 18%, rgba(28, 152, 255, 0.92) 0%, rgba(0, 92, 214, 0.78) 45%, rgba(5, 34, 117, 0.92) 82%, #072882 100%),
                 linear-gradient(105deg, #688ec4 0%, #145cc4 35%, #06257d 72%, #5972ab 100%);
             padding-top: calc(env(safe-area-inset-top, 44px) + 14px);
             padding-right: 16px;
-            padding-bottom: 36px; /* 濃い青の範囲を下に大きく拡張 */
+            padding-bottom: 40px;
             padding-left: 16px;
             color: #ffffff;
             position: relative;
@@ -247,7 +247,7 @@
             padding: 9px 14px;
         }
 
-        /* --- チケットコンテンツセクション（全体を下方向にゆったり配置） --- */
+        /* --- チケットコンテンツセクション --- */
         .ticket-content-section {
             background-color: #dfe3e6;
             padding: 18px 14px;
@@ -291,7 +291,7 @@
 
         .badge-anata {
             position: absolute;
-            top: 30px;
+            top: 32px;
             left: 14px;
             width: 40px;
             height: 40px;
@@ -318,14 +318,15 @@
             flex-direction: column;
         }
         
+        /* 「前方優先エリア 自由」の文字サイズを大きめに調整 */
         .area-type {
-            font-size: 14.5px;
-            font-weight: 400;
-            margin-bottom: 4px;
-            color: #333333;
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 5px;
+            color: #222222;
         }
         .ticket-main-area.checked-blue .area-type {
-            color: rgba(255, 255, 255, 0.9);
+            color: rgba(255, 255, 255, 0.95);
         }
         .seat-number {
             font-size: 21px;
@@ -360,7 +361,7 @@
 
         .checkbox-box {
             position: absolute;
-            top: 34px;
+            top: 36px;
             right: 14px;
             width: 24px;
             height: 24px;
@@ -406,15 +407,16 @@
             opacity: 1;
         }
 
+        /* 「ご来場までにご確認ください」のバーの文字サイズを大きめに調整 */
         .card-accordion-bar {
             background-color: #ffffff;
-            color: #333333;
-            padding: 13px 14px 13px 64px;
+            color: #222222;
+            padding: 15px 16px 15px 64px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 13.5px;
-            font-weight: 400;
+            font-size: 15px;
+            font-weight: 500;
             border-top: 1px solid #eceff1;
             cursor: pointer;
             position: relative;
@@ -425,7 +427,7 @@
         }
 
         .arrow-icon {
-            font-size: 11px;
+            font-size: 12px;
             color: #777777;
             transition: transform 0.2s ease;
         }
@@ -435,7 +437,7 @@
 
         .accordion-content {
             background-color: #ffffff;
-            padding: 0 14px;
+            padding: 0 16px;
             font-size: 12.5px;
             line-height: 1.5;
             color: #333333;
@@ -446,7 +448,7 @@
         }
         .accordion-content.open {
             max-height: 400px;
-            padding: 10px 14px 16px 14px;
+            padding: 10px 16px 16px 16px;
             border-top: 1px solid #eeeeee;
             overflow-y: auto;
         }
