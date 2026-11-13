@@ -30,7 +30,7 @@
             font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
         }
 
-        /* --- ヘッダーコンテナ --- */
+        /* --- ヘッダーコンテナ（上下強制引き離しを解除し、自然な上からの並びにする） --- */
         .app-header-container {
             background-color: #031566;
             background-image: url('bg.jpg');
@@ -39,7 +39,7 @@
             background-repeat: no-repeat;
             padding-top: calc(env(safe-area-inset-top, 44px) + 20px);
             padding-right: 18px;
-            padding-bottom: 12px;
+            padding-bottom: 14px;
             padding-left: 18px;
             color: #ffffff;
             position: relative;
@@ -49,15 +49,15 @@
             height: 235px;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            justify-content: flex-start; /* 上から順に配置して間隔を安定させる */
             transition: background 0.3s ease;
         }
 
         /* --- ホーム画面追加（スタンドアロン）起動時の専用補正 --- */
         @media (display-mode: standalone) {
             .app-header-container {
-                height: 250px; /* スタンドアロン時は高さを少し広げて背景が確実に一番下まで届くようにする */
-                padding-top: calc(env(safe-area-inset-top, 44px) + 32px);
+                height: 250px;
+                padding-top: calc(env(safe-area-inset-top, 44px) + 28px);
             }
         }
 
@@ -235,14 +235,15 @@
             font-weight: 600;
             line-height: 1.35;
             letter-spacing: 0.5px;
-            margin-top: 4px;
+            margin-top: 8px;
+            margin-bottom: auto; /* イベント名の下に適度なゆとり（スペース）を持たせる */
             position: relative;
             z-index: 4;
             word-break: break-all;
             color: #ffffff;
         }
 
-        /* --- 日付・時間を背景の真の最下部へ完全固定 --- */
+        /* --- 日付・時間ブロック --- */
         .event-meta-block {
             margin-bottom: 0px;
             position: relative;
@@ -556,27 +557,25 @@
             </div>
         </div>
 
-        <div>
-            <div class="header-top">
-                <div class="header-left">
-                    <div class="logo-mark-wrap">
-                        <div class="logo-o-box"></div>
-                        <div class="logo-text-group">
-                            <span class="logo-sub-eng">LAWSON TICKET</span>
-                            <span class="logo-main-kana">ーチケ</span>
-                        </div>
+        <div class="header-top">
+            <div class="header-left">
+                <div class="logo-mark-wrap">
+                    <div class="logo-o-box"></div>
+                    <div class="logo-text-group">
+                        <span class="logo-sub-eng">LAWSON TICKET</span>
+                        <span class="logo-main-kana">ーチケ</span>
                     </div>
-                    <span>入場／引換</span>
                 </div>
-                <div class="header-right">
-                    <span>↻</span>
-                    <span>≡</span>
-                </div>
+                <span>入場／引換</span>
             </div>
+            <div class="header-right">
+                <span>↻</span>
+                <span>≡</span>
+            </div>
+        </div>
 
-            <div class="event-title target-black-text" id="valEventTitle">
-                Ｍａｓｓｉｖｅ Ｍｕｓｉｃ Ｓｈｏｗｃａｓｅ Ｖｏｌ．１
-            </div>
+        <div class="event-title target-black-text" id="valEventTitle">
+            Ｍａｓｓｉｖｅ Ｍｕｓｉｃ Ｓｈｏｗｃａｓｅ Ｖｏｌ．１
         </div>
 
         <div class="event-meta-block">
