@@ -31,16 +31,16 @@
             font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
         }
 
-        /* --- ヘッダーコンテナ（背景画像適用） --- */
+        /* --- ヘッダーコンテナ（背景画像適用・長さをさらにゆったりに調整） --- */
         .app-header-container {
             background-color: #031566;
             background-image: url('bg.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            padding-top: calc(env(safe-area-inset-top, 44px) + 12px);
+            padding-top: calc(env(safe-area-inset-top, 44px) + 14px);
             padding-right: 16px;
-            padding-bottom: 14px;
+            padding-bottom: 24px; /* 下部余白を増やして長さを確保 */
             padding-left: 16px;
             color: #ffffff;
             position: relative;
@@ -285,21 +285,21 @@
             padding: 9px 14px;
         }
 
-        /* --- チケットコンテンツセクション --- */
+        /* --- チケットコンテンツセクション（高さをコンパクトに調整） --- */
         .ticket-content-section {
             background-color: #dfe3e6;
-            padding: 16px 14px;
+            padding: 12px 14px; /* 上下パディングを詰めてコンパクトに */
             flex: 1;
             overflow-y: auto;
         }
         
-        /* --- セクションタイトル行（フォント最適化） --- */
+        /* --- セクションタイトル行 --- */
         .section-title-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 2px 12px 2px;
-            font-size: 17.5px;
+            padding: 0 2px 10px 2px;
+            font-size: 17px;
             font-weight: 700;
             font-family: "Hiragino Sans", "Noto Sans JP", -apple-system, BlinkMacSystemFont, sans-serif;
             color: #222222;
@@ -319,10 +319,11 @@
             background-color: #e8ecef;
         }
 
+        /* --- チケットメインエリア（パディングを詰めて高さを短く） --- */
         .ticket-main-area {
             background-color: #ffffff;
             color: #222222;
-            padding: 15px 18px;
+            padding: 12px 18px; /* 上下の余白をスリムに */
             position: relative;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
@@ -335,10 +336,10 @@
             color: #222222;
         }
 
-        /* --- 「あなた」バッジ（フォント最適化＆もぎり後グレー対応） --- */
+        /* --- 「あなた」バッジ --- */
         .badge-anata {
             position: absolute;
-            top: 28px;
+            top: 24px; /* 位置を少し調整 */
             left: 14px;
             width: 40px;
             height: 40px;
@@ -369,24 +370,24 @@
             flex-direction: column;
         }
         
-        /* --- エリア・種別（フォント最適化） --- */
+        /* --- エリア・種別 --- */
         .area-type {
-            font-size: 14.5px;
+            font-size: 14px;
             font-weight: 500;
             font-family: "Hiragino Sans", "Noto Sans JP", -apple-system, BlinkMacSystemFont, sans-serif;
-            margin-bottom: 3px;
+            margin-bottom: 2px;
             color: #333333;
         }
         .ticket-main-area.checked-blue .area-type {
             color: rgba(255, 255, 255, 0.9);
         }
 
-        /* --- 整理番号（太字・等幅数値最適化） --- */
+        /* --- 整理番号 --- */
         .seat-number {
-            font-size: 20px;
+            font-size: 19px;
             font-weight: 800;
             letter-spacing: 0.3px;
-            margin-bottom: 5px;
+            margin-bottom: 3px;
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Mono", "Menlo", "Hiragino Sans", sans-serif;
             font-variant-numeric: tabular-nums;
             color: #111111;
@@ -395,10 +396,10 @@
             color: #ffffff;
         }
 
-        /* --- 購入者メタ情報（氏名・電話番号・金額のフォント最適化） --- */
+        /* --- 購入者メタ情報 --- */
         .user-meta-text {
-            font-size: 12px;
-            line-height: 1.4;
+            font-size: 11.5px;
+            line-height: 1.35;
             color: #444444;
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Mono", "Menlo", "Hiragino Sans", "Noto Sans JP", sans-serif;
             font-variant-numeric: tabular-nums;
@@ -409,9 +410,9 @@
         }
 
         .entry-time-display {
-            font-size: 11.5px;
+            font-size: 11px;
             font-weight: 500;
-            margin-top: 5px;
+            margin-top: 4px;
             color: #333333;
             display: none;
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Mono", "Menlo", "Hiragino Sans", sans-serif;
@@ -420,7 +421,7 @@
 
         .checkbox-box {
             position: absolute;
-            top: 32px;
+            top: 26px; /* 位置を少し調整 */
             right: 14px;
             width: 24px;
             height: 24px;
@@ -449,12 +450,12 @@
             display: none;
         }
 
-        /* --- 入場済スタンプ（極太フォント最適化） --- */
+        /* --- 入場済スタンプ --- */
         .stamp-entered {
             position: absolute;
             top: 2px;
             right: 8px;
-            font-size: 44px;
+            font-size: 42px;
             font-weight: 900;
             font-family: "Hiragino Sans", "Noto Sans JP", "Arial Black", sans-serif;
             color: rgba(235, 90, 150, 0.42);
@@ -468,15 +469,15 @@
             opacity: 1;
         }
 
-        /* --- アコーディオンバー（フォント最適化＆もぎり後グレー対応） --- */
+        /* --- アコーディオンバー（コンパクト化） --- */
         .card-accordion-bar {
             background-color: #ffffff;
             color: #333333;
-            padding: 11px 14px 11px 64px;
+            padding: 9px 14px 9px 64px; /* 上下パディングをスリムに */
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 13px;
+            font-size: 12.5px;
             font-weight: 400;
             font-family: "Hiragino Sans", "Noto Sans JP", -apple-system, BlinkMacSystemFont, sans-serif;
             border-top: 1px solid #eceff1;
@@ -497,7 +498,7 @@
             transform: rotate(180deg);
         }
 
-        /* --- アコーディオン展開コンテンツ（もぎり後グレー対応） --- */
+        /* --- アコーディオン展開コンテンツ --- */
         .accordion-content {
             background-color: #ffffff;
             padding: 0 14px;
@@ -514,8 +515,8 @@
             background-color: #e8ecef;
         }
         .accordion-content.open {
-            max-height: 400px;
-            padding: 10px 14px 16px 14px;
+            max-height: 350px;
+            padding: 8px 14px 14px 14px;
             border-top: 1px solid #eeeeee;
             overflow-y: auto;
         }
@@ -536,7 +537,7 @@
         .ticket-notch-top { top: -4.5px; }
         .ticket-notch-bottom { bottom: -4.5px; }
 
-        /* --- アプリフッター（フォント最適化） --- */
+        /* --- アプリフッター --- */
         .app-footer {
             height: calc(48px + env(safe-area-inset-bottom, 0px));
             padding-bottom: env(safe-area-inset-bottom, 0px);
