@@ -30,16 +30,16 @@
             font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
         }
 
-        /* --- ヘッダーコンテナ（縦長＆日付下部ギリギリ配置） --- */
+        /* --- ヘッダーコンテナ（背景の濃い青・オレンジを長めにゆったり確保） --- */
         .app-header-container {
             background-color: #031566;
             background-image: url('bg.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            padding-top: calc(env(safe-area-inset-top, 44px) + 16px);
+            padding-top: calc(env(safe-area-inset-top, 44px) + 20px);
             padding-right: 18px;
-            padding-bottom: 14px;
+            padding-bottom: 16px; /* 日付を下部ギリギリに配置 */
             padding-left: 18px;
             color: #ffffff;
             position: relative;
@@ -217,7 +217,7 @@
             font-weight: 600;
             line-height: 1.35;
             letter-spacing: 0.5px;
-            margin-top: 32px;
+            margin-top: 36px;
             margin-bottom: 14px;
             position: relative;
             z-index: 4;
@@ -254,11 +254,12 @@
             color: #ffffff;
         }
 
+        /* --- 入場手続き注意バナー（フォントサイズを大きく調整） --- */
         .alert-banner {
             background-color: #ff0000;
             color: #ffffff;
             padding: 0 14px;
-            font-size: 11px;
+            font-size: 12.5px; /* フォントを大きく変更 */
             line-height: 1.4;
             font-weight: 600;
             max-height: 0;
@@ -269,24 +270,25 @@
             z-index: 2;
         }
         .alert-banner.visible {
-            max-height: 60px;
-            padding: 9px 14px;
+            max-height: 65px;
+            padding: 10px 14px;
         }
 
         .ticket-content-section {
             background-color: #dfe3e6;
-            padding: 18px 16px 14px 16px;
+            padding: 14px 16px 12px 16px;
             flex: 1;
             overflow-y: auto;
         }
         
+        /* --- 「お手持ちのチケット」行（文字をさらに大きく変更） --- */
         .section-title-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 2px 14px 2px;
-            font-size: 19px;
-            font-weight: 400;
+            padding: 0 2px 10px 2px;
+            font-size: 21px; /* 文字サイズをさらに拡大 */
+            font-weight: 400; /* 細めのウェイトを維持 */
             font-family: "Hiragino Sans", "Noto Sans JP", -apple-system, BlinkMacSystemFont, sans-serif;
             color: #222222;
             letter-spacing: 0.3px;
@@ -306,7 +308,7 @@
         .ticket-main-area {
             background-color: #ffffff;
             color: #222222;
-            padding: 15px 20px 15px 16px;
+            padding: 12px 18px 12px 12px; /* 左側の余白を詰める */
             position: relative;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
@@ -319,10 +321,11 @@
             color: #222222;
         }
 
+        /* --- 「あなた」バッジをさらに左側（あなた側）へ寄せる --- */
         .badge-anata {
             position: absolute;
-            top: 24px; left: 14px;
-            width: 40px; height: 40px;
+            top: 20px; left: 10px; /* 左へさらに配置 */
+            width: 38px; height: 38px;
             border: 1.5px solid #4a89bd;
             color: #4a89bd;
             border-radius: 50%;
@@ -343,28 +346,28 @@
         }
         .ticket-card.entered .badge-anata { background: #e8ecef; }
 
-        /* --- チケット本文テキスト全体を大きくし、あなた側へ寄せる --- */
+        /* --- チケット本文テキストをさらに左へ寄せて配置 --- */
         .text-group-main {
-            margin-left: 56px; /* バッジに近づけて左側へ寄せる */
+            margin-left: 48px; /* バッジにしっかり寄せる */
             display: flex;
             flex-direction: column;
-            gap: 3px;
+            gap: 2px;
         }
         
         .area-type {
-            font-size: 16px; /* 文字を大きく */
+            font-size: 15.5px;
             font-weight: 500;
             font-family: "Hiragino Sans", "Noto Sans JP", -apple-system, BlinkMacSystemFont, sans-serif;
-            margin-bottom: 2px;
+            margin-bottom: 1px;
             color: #222222;
         }
         .ticket-main-area.checked-blue .area-type { color: rgba(255, 255, 255, 0.95); }
 
         .seat-number {
-            font-size: 22px; /* 整理番号等をさらに大きく */
+            font-size: 21px;
             font-weight: 800;
             letter-spacing: 0.3px;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Mono", "Menlo", "Hiragino Sans", sans-serif;
             font-variant-numeric: tabular-nums;
             color: #111111;
@@ -372,8 +375,8 @@
         .ticket-main-area.checked-blue .seat-number { color: #ffffff; }
 
         .user-meta-text {
-            font-size: 13.5px; /* 名前・電話番号・金額を大きく */
-            line-height: 1.4;
+            font-size: 13px;
+            line-height: 1.35;
             color: #333333;
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Mono", "Menlo", "Hiragino Sans", "Noto Sans JP", sans-serif;
             font-variant-numeric: tabular-nums;
@@ -382,9 +385,9 @@
         .ticket-main-area.checked-blue .user-meta-text { color: rgba(255, 255, 255, 0.95); }
 
         .entry-time-display {
-            font-size: 12.5px;
+            font-size: 12px;
             font-weight: 500;
-            margin-top: 6px;
+            margin-top: 4px;
             color: #222222;
             display: none;
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Mono", "Menlo", "Hiragino Sans", sans-serif;
@@ -393,7 +396,7 @@
 
         .checkbox-box {
             position: absolute;
-            top: 24px; right: 16px;
+            top: 21px; right: 16px;
             width: 25px; height: 25px;
             border: 1.5px solid #cccccc;
             border-radius: 3px;
@@ -420,8 +423,8 @@
 
         .stamp-entered {
             position: absolute;
-            top: 6px; right: 10px;
-            font-size: 46px;
+            top: 4px; right: 10px;
+            font-size: 44px;
             font-weight: 900;
             font-family: "Hiragino Sans", "Noto Sans JP", "Arial Black", sans-serif;
             color: rgba(235, 90, 150, 0.42);
@@ -436,7 +439,7 @@
         .card-accordion-bar {
             background-color: #ffffff;
             color: #333333;
-            padding: 10px 16px 10px 68px;
+            padding: 9px 16px 9px 60px;
             display: flex;
             justify-content: space-between;
             align-items: center;
