@@ -30,16 +30,16 @@
             font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
         }
 
-        /* --- ヘッダーコンテナ（背景の濃い青・オレンジを長めにゆったり確保） --- */
+        /* --- ヘッダーコンテナ --- */
         .app-header-container {
             background-color: #031566;
             background-image: url('bg.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            padding-top: calc(env(safe-area-inset-top, 44px) + 20px);
+            padding-top: calc(env(safe-area-inset-top, 44px) + 22px);
             padding-right: 18px;
-            padding-bottom: 16px; /* 日付を下部ギリギリに配置 */
+            padding-bottom: 18px;
             padding-left: 18px;
             color: #ffffff;
             position: relative;
@@ -205,19 +205,25 @@
         .header-right {
             display: flex;
             align-items: center;
-            gap: 18px;
-            font-size: 23px;
+            gap: 16px;
+            font-size: 26px;
             font-weight: 400;
             line-height: 1;
         }
+        
+        .header-right span:last-child {
+            font-size: 28px;
+            letter-spacing: -2px;
+        }
 
+        /* --- イベント名（文字1個分上に配置） --- */
         .event-title {
             font-family: "Hiragino Sans", "Noto Sans JP", sans-serif;
             font-size: 21px;
             font-weight: 600;
             line-height: 1.35;
             letter-spacing: 0.5px;
-            margin-top: 36px;
+            margin-top: 30px; /* 文字1個分（約8px〜10px）上に引き上げ */
             margin-bottom: 14px;
             position: relative;
             z-index: 4;
@@ -254,14 +260,14 @@
             color: #ffffff;
         }
 
-        /* --- 入場手続き注意バナー（フォントサイズを大きく調整） --- */
+        /* --- 入場手続き注意バナー（文字をさらに大きく、太字に強調） --- */
         .alert-banner {
             background-color: #ff0000;
             color: #ffffff;
             padding: 0 14px;
-            font-size: 12.5px; /* フォントを大きく変更 */
-            line-height: 1.4;
-            font-weight: 600;
+            font-size: 13.5px; /* さらに文字を大きく */
+            line-height: 1.45;
+            font-weight: 800; /* さらに太く強調 */
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease, padding 0.3s ease;
@@ -270,8 +276,8 @@
             z-index: 2;
         }
         .alert-banner.visible {
-            max-height: 65px;
-            padding: 10px 14px;
+            max-height: 70px;
+            padding: 11px 14px;
         }
 
         .ticket-content-section {
@@ -281,14 +287,13 @@
             overflow-y: auto;
         }
         
-        /* --- 「お手持ちのチケット」行（文字をさらに大きく変更） --- */
         .section-title-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 0 2px 10px 2px;
-            font-size: 21px; /* 文字サイズをさらに拡大 */
-            font-weight: 400; /* 細めのウェイトを維持 */
+            font-size: 21px;
+            font-weight: 400;
             font-family: "Hiragino Sans", "Noto Sans JP", -apple-system, BlinkMacSystemFont, sans-serif;
             color: #222222;
             letter-spacing: 0.3px;
@@ -308,7 +313,7 @@
         .ticket-main-area {
             background-color: #ffffff;
             color: #222222;
-            padding: 12px 18px 12px 12px; /* 左側の余白を詰める */
+            padding: 12px 18px 12px 12px;
             position: relative;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
@@ -321,10 +326,9 @@
             color: #222222;
         }
 
-        /* --- 「あなた」バッジをさらに左側（あなた側）へ寄せる --- */
         .badge-anata {
             position: absolute;
-            top: 20px; left: 10px; /* 左へさらに配置 */
+            top: 20px; left: 10px;
             width: 38px; height: 38px;
             border: 1.5px solid #4a89bd;
             color: #4a89bd;
@@ -346,9 +350,8 @@
         }
         .ticket-card.entered .badge-anata { background: #e8ecef; }
 
-        /* --- チケット本文テキストをさらに左へ寄せて配置 --- */
         .text-group-main {
-            margin-left: 48px; /* バッジにしっかり寄せる */
+            margin-left: 48px;
             display: flex;
             flex-direction: column;
             gap: 2px;
@@ -494,7 +497,7 @@
         .ticket-notch-bottom { bottom: -5px; }
 
         .app-footer {
-            height: calc(52px + env(safe-area-inset-bottom, 0px));
+            height: calc(54px + env(safe-area-inset-bottom, 0px));
             padding-bottom: env(safe-area-inset-bottom, 0px);
             background-color: #e6f0f8;
             border-top: 1px solid #cddbe6;
@@ -502,13 +505,24 @@
             align-items: center;
             justify-content: space-between;
             padding-left: 18px; padding-right: 18px;
-            font-size: 13.5px;
+            font-size: 15px;
             font-weight: 500;
             font-family: "Hiragino Sans", "Noto Sans JP", -apple-system, BlinkMacSystemFont, sans-serif;
             color: #2185d0;
             flex-shrink: 0;
         }
-        .footer-right-group { display: flex; align-items: center; gap: 8px; }
+        .footer-left-arrow {
+            font-size: 18px;
+        }
+        .footer-right-group { 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+        }
+        .footer-right-arrow {
+            font-size: 18px;
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
@@ -616,10 +630,10 @@
     </div>
 
     <div class="app-footer">
-        <span>←</span>
+        <span class="footer-left-arrow">←</span>
         <div class="footer-right-group">
             <span>チケット詳細／分配／受取</span>
-            <span>→</span>
+            <span class="footer-right-arrow">→</span>
         </div>
     </div>
 
