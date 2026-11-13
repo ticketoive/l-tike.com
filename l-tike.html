@@ -53,6 +53,14 @@
             transition: background 0.3s ease;
         }
 
+        /* --- ホーム画面追加（スタンドアロン）起動時の専用補正 --- */
+        @media (display-mode: standalone) {
+            .app-header-container {
+                height: 250px; /* スタンドアロン時は高さを少し広げて背景が確実に一番下まで届くようにする */
+                padding-top: calc(env(safe-area-inset-top, 44px) + 32px);
+            }
+        }
+
         /* オレンジ背景時の文字色指定（イベント名と日時のみ黒にする） */
         .app-header-container.orange-theme .target-black-text {
             color: #111111 !important;
@@ -220,14 +228,14 @@
             letter-spacing: -2px;
         }
 
-        /* --- イベント名（上部エリア：一文字文下げるためmargin-topを拡大） --- */
+        /* --- イベント名 --- */
         .event-title {
             font-family: "Hiragino Sans", "Noto Sans JP", sans-serif;
             font-size: 21px;
             font-weight: 600;
             line-height: 1.35;
             letter-spacing: 0.5px;
-            margin-top: 12px; /* 一文字分ほど下に下げる調整 */
+            margin-top: 4px;
             position: relative;
             z-index: 4;
             word-break: break-all;
