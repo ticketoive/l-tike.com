@@ -1,1 +1,0 @@
-# l-tike.com
