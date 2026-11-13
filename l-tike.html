@@ -30,16 +30,16 @@
             font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
         }
 
-        /* --- ヘッダーコンテナ（縦幅をゆったり長くしつつ、下部ギリギリに日付を配置） --- */
+        /* --- ヘッダーコンテナ（縦長＆日付下部ギリギリ配置） --- */
         .app-header-container {
             background-color: #031566;
             background-image: url('bg.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            padding-top: calc(env(safe-area-inset-top, 44px) + 18px);
+            padding-top: calc(env(safe-area-inset-top, 44px) + 16px);
             padding-right: 18px;
-            padding-bottom: 24px; /* ゆったりした長さを確保しつつ下部ギリギリに調整 */
+            padding-bottom: 14px;
             padding-left: 18px;
             color: #ffffff;
             position: relative;
@@ -49,7 +49,7 @@
             transition: background 0.3s ease;
         }
 
-        /* オレンジ背景時の文字色指定（イベント名と日時のみ黒にするクラス） */
+        /* オレンジ背景時の文字色指定（イベント名と日時のみ黒にする） */
         .app-header-container.orange-theme .target-black-text {
             color: #111111 !important;
         }
@@ -217,8 +217,8 @@
             font-weight: 600;
             line-height: 1.35;
             letter-spacing: 0.5px;
-            margin-top: 26px;
-            margin-bottom: 12px;
+            margin-top: 32px;
+            margin-bottom: 14px;
             position: relative;
             z-index: 4;
             word-break: break-all;
@@ -275,7 +275,7 @@
 
         .ticket-content-section {
             background-color: #dfe3e6;
-            padding: 16px 16px;
+            padding: 18px 16px 14px 16px;
             flex: 1;
             overflow-y: auto;
         }
@@ -284,9 +284,9 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 2px 12px 2px;
-            font-size: 17px;
-            font-weight: 700;
+            padding: 0 2px 14px 2px;
+            font-size: 19px;
+            font-weight: 400;
             font-family: "Hiragino Sans", "Noto Sans JP", -apple-system, BlinkMacSystemFont, sans-serif;
             color: #222222;
             letter-spacing: 0.3px;
@@ -306,7 +306,7 @@
         .ticket-main-area {
             background-color: #ffffff;
             color: #222222;
-            padding: 18px 20px;
+            padding: 15px 20px 15px 16px;
             position: relative;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
@@ -321,19 +321,20 @@
 
         .badge-anata {
             position: absolute;
-            top: 28px; left: 16px;
-            width: 42px; height: 42px;
+            top: 24px; left: 14px;
+            width: 40px; height: 40px;
             border: 1.5px solid #4a89bd;
             color: #4a89bd;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 10.5px;
+            font-size: 10px;
             font-weight: 600;
             font-family: "Hiragino Sans", "Noto Sans JP", -apple-system, BlinkMacSystemFont, sans-serif;
             background: #ffffff;
             transition: all 0.3s ease;
+            flex-shrink: 0;
         }
         .ticket-main-area.checked-blue .badge-anata {
             border-color: rgba(255, 255, 255, 0.85);
@@ -342,24 +343,25 @@
         }
         .ticket-card.entered .badge-anata { background: #e8ecef; }
 
+        /* --- チケット本文テキスト全体を大きくし、あなた側へ寄せる --- */
         .text-group-main {
-            margin-left: 58px;
+            margin-left: 56px; /* バッジに近づけて左側へ寄せる */
             display: flex;
             flex-direction: column;
             gap: 3px;
         }
         
         .area-type {
-            font-size: 14.5px;
+            font-size: 16px; /* 文字を大きく */
             font-weight: 500;
             font-family: "Hiragino Sans", "Noto Sans JP", -apple-system, BlinkMacSystemFont, sans-serif;
             margin-bottom: 2px;
-            color: #333333;
+            color: #222222;
         }
-        .ticket-main-area.checked-blue .area-type { color: rgba(255, 255, 255, 0.9); }
+        .ticket-main-area.checked-blue .area-type { color: rgba(255, 255, 255, 0.95); }
 
         .seat-number {
-            font-size: 20px;
+            font-size: 22px; /* 整理番号等をさらに大きく */
             font-weight: 800;
             letter-spacing: 0.3px;
             margin-bottom: 4px;
@@ -370,20 +372,20 @@
         .ticket-main-area.checked-blue .seat-number { color: #ffffff; }
 
         .user-meta-text {
-            font-size: 12px;
+            font-size: 13.5px; /* 名前・電話番号・金額を大きく */
             line-height: 1.4;
-            color: #444444;
+            color: #333333;
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Mono", "Menlo", "Hiragino Sans", "Noto Sans JP", sans-serif;
             font-variant-numeric: tabular-nums;
             font-weight: 400;
         }
-        .ticket-main-area.checked-blue .user-meta-text { color: rgba(255, 255, 255, 0.9); }
+        .ticket-main-area.checked-blue .user-meta-text { color: rgba(255, 255, 255, 0.95); }
 
         .entry-time-display {
-            font-size: 11.5px;
+            font-size: 12.5px;
             font-weight: 500;
             margin-top: 6px;
-            color: #333333;
+            color: #222222;
             display: none;
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Mono", "Menlo", "Hiragino Sans", sans-serif;
             font-variant-numeric: tabular-nums;
@@ -391,7 +393,7 @@
 
         .checkbox-box {
             position: absolute;
-            top: 28px; right: 16px;
+            top: 24px; right: 16px;
             width: 25px; height: 25px;
             border: 1.5px solid #cccccc;
             border-radius: 3px;
@@ -434,7 +436,7 @@
         .card-accordion-bar {
             background-color: #ffffff;
             color: #333333;
-            padding: 11px 16px 11px 68px;
+            padding: 10px 16px 10px 68px;
             display: flex;
             justify-content: space-between;
             align-items: center;
