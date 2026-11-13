@@ -30,7 +30,7 @@
             font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
         }
 
-        /* --- ヘッダーコンテナ（縦長にしつつ、下部の余白を引き締めて日付を下に寄せる） --- */
+        /* --- ヘッダーコンテナ（縦幅をゆったり長くしつつ、下部ギリギリに日付を配置） --- */
         .app-header-container {
             background-color: #031566;
             background-image: url('bg.jpg');
@@ -39,7 +39,7 @@
             background-repeat: no-repeat;
             padding-top: calc(env(safe-area-inset-top, 44px) + 18px);
             padding-right: 18px;
-            padding-bottom: 16px;
+            padding-bottom: 24px; /* ゆったりした長さを確保しつつ下部ギリギリに調整 */
             padding-left: 18px;
             color: #ffffff;
             position: relative;
@@ -217,8 +217,8 @@
             font-weight: 600;
             line-height: 1.35;
             letter-spacing: 0.5px;
-            margin-top: 24px;
-            margin-bottom: 14px;
+            margin-top: 26px;
+            margin-bottom: 12px;
             position: relative;
             z-index: 4;
             word-break: break-all;
