@@ -11,521 +11,172 @@
     <link rel="shortcut icon" href="IMG_8148.jpeg">
 
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            -webkit-tap-highlight-color: transparent;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         html, body {
-            width: 100vw;
-            height: 100vh;
-            background-color: #031566;
-            color: #111111;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
+            width: 100vw; height: 100vh;
+            background-color: #031566; color: #111;
+            display: flex; flex-direction: column; overflow: hidden;
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Hiragino Sans", "Meiryo", sans-serif;
         }
 
-        /* --- ヘッダーコンテナ --- */
         .app-header-container {
             background-color: #031566;
             background-image: url('bg.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+            background-size: cover; background-position: center; background-repeat: no-repeat;
             height: calc(env(safe-area-inset-top, 0px) + 215px);
-            padding-top: calc(env(safe-area-inset-top, 0px) + 18px);
-            padding-right: 18px;
-            padding-bottom: 12px;
-            padding-left: 18px;
-            color: #ffffff;
-            position: relative;
-            overflow: hidden;
-            flex-shrink: 0;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            padding: calc(env(safe-area-inset-top, 0px) + 18px) 18px 12px 18px;
+            color: #fff; position: relative; overflow: hidden; flex-shrink: 0; width: 100%;
+            display: flex; flex-direction: column; justify-content: space-between;
             transition: background 0.3s ease;
         }
+        .app-header-container.orange-theme .target-black-text { color: #111 !important; }
 
-        /* オレンジ背景時の文字色指定（イベント名と日時のみ黒にする） */
-        .app-header-container.orange-theme .target-black-text {
-            color: #111111 !important;
-        }
-
-        /* --- オーロラ＆スライド用レイヤー --- */
         .aurora-slide-layer {
-            position: absolute;
-            top: calc(env(safe-area-inset-top, 0px) + 50px);
-            bottom: 0;
-            left: 0;
-            right: 0;
-            border-radius: 0;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-            touch-action: pan-y;
-            will-change: transform;
-            z-index: 3;
-            overflow: hidden;
+            position: absolute; top: calc(env(safe-area-inset-top, 0px) + 50px); bottom: 0; left: 0; right: 0;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+            touch-action: pan-y; will-change: transform; z-index: 3; overflow: hidden;
         }
         .aurora-slide-layer.active {
-            opacity: 1;
-            pointer-events: auto;
-            background: 
-                radial-gradient(circle at 35% 40%, rgba(0, 242, 254, 1) 0%, transparent 55%),
-                radial-gradient(circle at 80% 65%, rgba(186, 45, 165, 0.95) 0%, transparent 60%),
-                linear-gradient(125deg, #1d4ed8, #0284c7, #06b6d4, #6d28d9);
-            background-size: 300% 300%;
-            animation: auroraAnimation 4.5s ease infinite;
+            opacity: 1; pointer-events: auto;
+            background: radial-gradient(circle at 35% 40%, rgba(0,242,254,1) 0%, transparent 55%),
+                        radial-gradient(circle at 80% 65%, rgba(186,45,165,0.95) 0%, transparent 60%),
+                        linear-gradient(125deg, #1d4ed8, #0284c7, #06b6d4, #6d28d9);
+            background-size: 300% 300%; animation: auroraAnim 4.5s ease infinite;
         }
+        @keyframes auroraAnim { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-        @keyframes auroraAnimation {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* --- 「ロ」のリング --- */
         .floating-ro-ring {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 48px;
-            height: 24px;
-            border: 4.5px solid rgba(255, 255, 255, 0.75);
-            border-radius: 10px;
-            pointer-events: none;
-            animation: floatRoVideoSize 2.2s cubic-bezier(0.15, 0.75, 0.25, 1) infinite;
-            z-index: 1;
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 48px; height: 24px; border: 4.5px solid rgba(255,255,255,0.75); border-radius: 10px;
+            pointer-events: none; animation: floatRo 2.2s cubic-bezier(0.15, 0.75, 0.25, 1) infinite; z-index: 1;
         }
-
-        @keyframes floatRoVideoSize {
-            0% { transform: translate(-50%, -50%) scale(0.01); opacity: 0; }
-            15% { opacity: 0.95; }
-            100% { transform: translate(-50%, -50%) scale(12); opacity: 0; }
-        }
+        @keyframes floatRo { 0% { transform: translate(-50%, -50%) scale(0.01); opacity: 0; } 15% { opacity: 0.95; } 100% { transform: translate(-50%, -50%) scale(12); opacity: 0; } }
 
         .scratch-container {
-            position: absolute;
-            top: calc(env(safe-area-inset-top, 0px) + 106px);
-            left: 0;
-            right: 0;
-            height: 84px;
-            display: none;
-            justify-content: space-around;
-            padding: 0 46px;
-            z-index: 5;
-            pointer-events: none;
+            position: absolute; top: calc(env(safe-area-inset-top, 0px) + 106px); left: 0; right: 0; height: 84px;
+            display: none; justify-content: space-around; padding: 0 46px; z-index: 5; pointer-events: none;
         }
         .scratch-container.visible { display: flex; }
-
-        .aurora-scratch-wrap {
-            position: absolute;
-            top: 0; left: 0; right: 0; height: 100%;
-            pointer-events: none;
-            display: none;
-        }
+        .aurora-scratch-wrap { position: absolute; top: 0; left: 0; right: 0; height: 100%; pointer-events: none; display: none; }
         .aurora-slide-layer.active .aurora-scratch-wrap { display: block; }
-
         .scratch-canvas-wrap {
-            position: relative;
-            width: 72px; height: 72px;
-            border-radius: 50%;
-            overflow: hidden;
-            box-shadow: 0 0 8px rgba(0,0,0,0.25);
-            background-color: transparent;
+            position: relative; width: 72px; height: 72px; border-radius: 50%; overflow: hidden;
+            box-shadow: 0 0 8px rgba(0,0,0,0.25); background: transparent;
         }
-        
         .zigzag-bg {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-color: transparent;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 5 L5 1 L10 5' fill='none' stroke='%23ff2a75' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-            background-size: 10px 6px;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 5 L5 1 L10 5' fill='none' stroke='%23ff2a75' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") 0 0 / 10px 6px;
         }
-
-        .aurora-slide-layer.active .scratch-canvas-wrap { background-color: rgba(255, 255, 255, 0.22); }
+        .aurora-slide-layer.active .scratch-canvas-wrap { background: rgba(255,255,255,0.22); }
         .aurora-slide-layer.active .zigzag-bg {
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 5 L5 1 L10 5' fill='none' stroke='%23ffffff' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
         }
 
-        .header-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: relative;
-            z-index: 4;
-        }
-        .header-left {
-            display: flex;
-            align-items: center;
-            font-size: 16px;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-        }
+        .header-top { display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 4; }
+        .header-left { display: flex; align-items: center; font-size: 16px; font-weight: 500; }
+        .logo-mark-wrap { display: flex; align-items: center; gap: 5px; margin-right: 12px; }
+        .logo-o-box { width: 23px; height: 23px; border: 3.2px solid #fff; border-radius: 50%; }
+        .logo-text-group { display: flex; flex-direction: column; line-height: 1; }
+        .logo-sub-eng { font-size: 5px; font-weight: 700; color: #fff; margin-bottom: 2px; transform: scale(0.9); transform-origin: left; }
+        .logo-main-kana { font-size: 13.5px; font-weight: 700; color: #fff; }
+        .header-right { display: flex; align-items: center; gap: 18px; font-size: 23px; font-weight: 400; line-height: 1; }
 
-        .logo-mark-wrap {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            margin-right: 12px;
-        }
-        .logo-o-box {
-            position: relative;
-            width: 23px; height: 23px;
-            border: 3.2px solid #ffffff;
-            border-radius: 50%;
-            flex-shrink: 0;
-        }
-        .logo-text-group {
-            display: flex;
-            flex-direction: column;
-            line-height: 1;
-        }
-        .logo-sub-eng {
-            font-size: 5px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            color: #ffffff;
-            margin-bottom: 2px;
-            transform: scale(0.9);
-            transform-origin: left;
-        }
-        .logo-main-kana {
-            font-size: 13.5px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            color: #ffffff;
-        }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 18px;
-            font-size: 23px;
-            font-weight: 400;
-            line-height: 1;
-        }
-
-        /* --- イベント名 --- */
-        .event-title {
-            font-family: "Hiragino Sans", "Noto Sans JP", sans-serif;
-            font-size: 21px;
-            font-weight: 600;
-            line-height: 1.35;
-            letter-spacing: 0.5px;
-            margin-top: 12px;
-            margin-bottom: 0px;
-            position: relative;
-            z-index: 4;
-            word-break: break-all;
-            color: #ffffff;
-        }
-
-        /* --- 日付・時間ブロック（文字サイズを少し大きく調整） --- */
-        .event-meta-block {
-            margin-top: auto; 
-            margin-bottom: -6px; 
-            position: relative;
-            z-index: 4;
-        }
-
-        .event-meta-row {
-            display: flex;
-            align-items: center;
-            font-size: 16.5px; /* 文字を少し大きく */
-            font-weight: 600;
-            margin-bottom: 3px;
-            gap: 8px;
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Mono", "Menlo", "Hiragino Sans", sans-serif;
-            font-variant-numeric: tabular-nums;
-            letter-spacing: 0.3px;
-        }
+        .event-title { font-size: 21px; font-weight: 600; line-height: 1.35; margin-top: 12px; position: relative; z-index: 4; word-break: break-all; color: #fff; }
+        .event-meta-block { margin-top: auto; margin-bottom: -6px; position: relative; z-index: 4; }
+        .event-meta-row { display: flex; align-items: center; font-size: 16.5px; font-weight: 600; margin-bottom: 3px; gap: 8px; font-variant-numeric: tabular-nums; }
         .event-meta-row:last-child { margin-bottom: 0; }
-
-        .meta-icon {
-            flex-shrink: 0;
-            width: 18px;
-            height: 18px;
-            color: #ffffff !important;
-        }
-
-        .meta-text {
-            color: #ffffff;
-        }
+        .meta-icon { flex-shrink: 0; width: 18px; height: 18px; color: #fff !important; }
+        .meta-text { color: #fff; }
 
         .alert-banner {
-            background-color: #ff0000;
-            color: #ffffff;
-            padding: 0 14px;
-            font-size: 13px;
-            line-height: 1.45;
-            font-weight: 800;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease, padding 0.3s ease;
-            flex-shrink: 0;
-            position: relative;
-            z-index: 2;
+            background-color: #ff0000; color: #fff; padding: 0 14px; font-size: 13px; line-height: 1.45; font-weight: 800;
+            max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease; flex-shrink: 0; position: relative; z-index: 2;
         }
-        .alert-banner.visible {
-            max-height: 70px;
-            padding: 10px 14px;
-        }
+        .alert-banner.visible { max-height: 70px; padding: 10px 14px; }
 
-        /* --- 下部の券面セクション --- */
-        .ticket-content-section {
-            background-color: #dfe3e6;
-            padding: 13px 16px 14px 16px;
-            flex: 1;
-            overflow-y: auto;
-        }
-        
-        .section-title-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 2px 10px 2px;
-            font-size: 20.5px;
-            font-weight: 500;
-            font-family: "Hiragino Sans", "Noto Sans JP", -apple-system, BlinkMacSystemFont, sans-serif;
-            color: #222222;
-            letter-spacing: 0.3px;
-        }
+        .ticket-content-section { background-color: #dfe3e6; padding: 13px 16px 14px 16px; flex: 1; overflow-y: auto; }
+        .section-title-row { display: flex; justify-content: space-between; align-items: center; padding: 0 2px 8px 2px; font-size: 20.5px; font-weight: 500; color: #222; }
 
-        .ticket-card {
-            background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-            overflow: hidden;
-            border: 1px solid #d4d8dc;
-            position: relative;
-            transition: background-color 0.3s ease;
-        }
+        .ticket-card { background-color: #fff; border-radius: 8px; box-shadow: 0 3px 8px rgba(0,0,0,0.1); overflow: hidden; border: 1px solid #d4d8dc; position: relative; transition: background 0.3s ease; }
         .ticket-card.entered { background-color: #e8ecef; }
 
-        /* --- 券面メインエリア（ほんの少しだけ長く：上下のパディングを微増） --- */
-        .ticket-main-area {
-            background-color: #ffffff;
-            color: #222222;
-            padding: 16px 18px 17px 14px; /* 上下パディングを少し広げて長さを出す */
-            position: relative;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-        .ticket-main-area.checked-blue {
-            background-color: #0078d4;
-            color: #ffffff;
-        }
-        .ticket-card.entered .ticket-main-area {
-            background-color: #e8ecef;
-            color: #222222;
-        }
+        /* --- 券面メインエリア（上下パディングを詰めて短く調整） --- */
+        .ticket-main-area { background-color: #fff; color: #222; padding: 12px 18px 12px 14px; position: relative; transition: background 0.3s ease, color 0.3s ease; }
+        .ticket-main-area.checked-blue { background-color: #0078d4; color: #fff; }
+        .ticket-card.entered .ticket-main-area { background-color: #e8ecef; color: #222; }
 
         .badge-anata {
-            position: absolute;
-            top: 22px; left: 12px;
-            width: 38px; height: 38px;
-            border: 1.5px solid #4a89bd;
-            color: #4a89bd;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-            font-weight: 600;
-            font-family: "Hiragino Sans", "Noto Sans JP", -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #ffffff;
-            transition: all 0.3s ease;
-            flex-shrink: 0;
+            position: absolute; top: 50%; left: 14px; transform: translateY(-50%);
+            width: 38px; height: 38px; border: 1.5px solid #4a89bd; color: #4a89bd; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; background: #fff; transition: all 0.3s ease;
         }
-        .ticket-main-area.checked-blue .badge-anata {
-            border-color: rgba(255, 255, 255, 0.85);
-            color: #ffffff;
-            background: rgba(255, 255, 255, 0.12);
-        }
+        .ticket-main-area.checked-blue .badge-anata { border-color: rgba(255,255,255,0.85); color: #fff; background: rgba(255,255,255,0.12); }
         .ticket-card.entered .badge-anata { background: #e8ecef; }
 
-        .text-group-main {
-            margin-left: 46px;
-            display: flex;
-            flex-direction: column;
-            gap: 3.5px; /* 行間も少しだけ広げて縦のゆとりを調整 */
-        }
-        
-        .area-type {
-            font-size: 15.5px;
-            font-weight: 500;
-            font-family: "Hiragino Sans", "Noto Sans JP", -apple-system, BlinkMacSystemFont, sans-serif;
-            margin-bottom: 1px;
-            color: #222222;
-        }
-        .ticket-main-area.checked-blue .area-type { color: rgba(255, 255, 255, 0.95); }
-
-        .seat-number {
-            font-size: 21px;
-            font-weight: 800;
-            letter-spacing: 0.3px;
-            margin-bottom: 2px;
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Mono", "Menlo", "Hiragino Sans", sans-serif;
-            font-variant-numeric: tabular-nums;
-            color: #111111;
-        }
-        .ticket-main-area.checked-blue .seat-number { color: #ffffff; }
-
-        .user-meta-text {
-            font-size: 13px;
-            line-height: 1.4;
-            color: #333333;
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Mono", "Menlo", "Hiragino Sans", "Noto Sans JP", sans-serif;
-            font-variant-numeric: tabular-nums;
-            font-weight: 400;
-        }
-        .ticket-main-area.checked-blue .user-meta-text { color: rgba(255, 255, 255, 0.95); }
-
-        .entry-time-display {
-            font-size: 12px;
-            font-weight: 500;
-            margin-top: 4px;
-            color: #222222;
-            display: none;
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Mono", "Menlo", "Hiragino Sans", sans-serif;
-            font-variant-numeric: tabular-nums;
-        }
+        .text-group-main { margin-left: 46px; display: flex; flex-direction: column; gap: 2px; }
+        .area-type { font-size: 15px; font-weight: 500; margin-bottom: 1px; color: #222; }
+        .ticket-main-area.checked-blue .area-type { color: rgba(255,255,255,0.95); }
+        .seat-number { font-size: 20px; font-weight: 800; margin-bottom: 2px; font-variant-numeric: tabular-nums; color: #111; }
+        .ticket-main-area.checked-blue .seat-number { color: #fff; }
+        .user-meta-text { font-size: 12.5px; line-height: 1.35; color: #333; font-variant-numeric: tabular-nums; }
+        .ticket-main-area.checked-blue .user-meta-text { color: rgba(255,255,255,0.95); }
+        .entry-time-display { font-size: 12px; font-weight: 500; margin-top: 3px; color: #222; display: none; font-variant-numeric: tabular-nums; }
 
         .checkbox-box {
-            position: absolute;
-            top: 24px; right: 16px;
-            width: 25px; height: 25px;
-            border: 1.5px solid #cccccc;
-            border-radius: 3px;
-            background-color: #ffffff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
+            position: absolute; top: 20px; right: 16px; width: 25px; height: 25px;
+            border: 1.5px solid #ccc; border-radius: 3px; background: #fff;
+            display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s ease;
         }
-        .checkbox-box.checked {
-            background-color: #0078d4;
-            border-color: #4a89bd;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
-        }
-        .checkbox-box.checked::after {
-            content: '✓';
-            color: #ff2a75;
-            font-size: 15px;
-            font-weight: 900;
-            text-shadow: 0 0 2px rgba(0,0,0,0.2);
-        }
+        .checkbox-box.checked { background-color: #0078d4; border-color: #4a89bd; box-shadow: inset 0 1px 3px rgba(0,0,0,0.3); }
+        .checkbox-box.checked::after { content: '✓'; color: #ff2a75; font-size: 15px; font-weight: 900; }
         .ticket-card.entered .checkbox-box { display: none; }
 
         .stamp-entered {
-            position: absolute;
-            top: 4px; right: 10px;
-            font-size: 44px;
-            font-weight: 900;
-            font-family: "Hiragino Sans", "Noto Sans JP", "Arial Black", sans-serif;
-            color: rgba(235, 90, 150, 0.42);
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.4s ease;
-            z-index: 10;
-            letter-spacing: 8px;
+            position: absolute; top: 4px; right: 10px; font-size: 44px; font-weight: 900;
+            font-family: "Arial Black", sans-serif; color: rgba(235,90,150,0.42); opacity: 0; pointer-events: none; transition: opacity 0.4s ease; z-index: 10; letter-spacing: 8px;
         }
         .stamp-entered.active { opacity: 1; }
 
         .card-accordion-bar {
-            background-color: #ffffff;
-            color: #333333;
-            padding: 11px 16px 11px 64px; /* アコーディオンバーも少し上下に広げる */
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 13px;
-            font-weight: 400;
-            font-family: "Hiragino Sans", "Noto Sans JP", -apple-system, BlinkMacSystemFont, sans-serif;
-            border-top: 1px solid #eceff1;
-            cursor: pointer;
-            position: relative;
-            transition: background-color 0.3s ease;
+            background-color: #fff; color: #333; padding: 10px 16px 10px 64px;
+            display: flex; justify-content: space-between; align-items: center; font-size: 15px; font-weight: 600;
+            border-top: 1px solid #eceff1; cursor: pointer; position: relative; transition: background 0.3s ease;
         }
         .ticket-card.entered .card-accordion-bar { background-color: #e8ecef; }
-
-        .arrow-icon {
-            font-size: 11px;
-            color: #777777;
-            transition: transform 0.2s ease;
-        }
+        .arrow-icon { font-size: 13px; color: #777; transition: transform 0.2s ease; }
         .card-accordion-bar.open .arrow-icon { transform: rotate(180deg); }
 
         .accordion-content {
-            background-color: #ffffff;
-            padding: 0 16px;
-            font-size: 12px;
-            line-height: 1.5;
-            color: #333333;
-            font-family: "Hiragino Sans", "Noto Sans JP", -apple-system, BlinkMacSystemFont, sans-serif;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease, padding 0.3s ease, background-color 0.3s ease;
-            border-top: 1px solid transparent;
+            background-color: #fff; padding: 0 16px; font-size: 12px; line-height: 1.5; color: #333;
+            max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease; border-top: 1px solid transparent;
         }
         .ticket-card.entered .accordion-content { background-color: #e8ecef; }
-        .accordion-content.open {
-            max-height: 380px;
-            padding: 10px 16px 16px 16px;
-            border-top: 1px solid #eeeeee;
-            overflow-y: auto;
-        }
+        .accordion-content.open { max-height: 380px; padding: 10px 16px 16px 16px; border-top: 1px solid #eee; overflow-y: auto; }
         .accordion-content p { margin-bottom: 8px; }
 
         .ticket-notch-top, .ticket-notch-bottom {
-            position: absolute;
-            right: 56px;
-            width: 10px; height: 10px;
-            background-color: #dfe3e6;
-            border-radius: 50%;
-            z-index: 4;
-            border: 1px solid #d4d8dc;
+            position: absolute; right: 56px; width: 10px; height: 10px; background-color: #dfe3e6; border-radius: 50%; z-index: 4; border: 1px solid #d4d8dc;
         }
-        .ticket-notch-top { top: -5px; }
-        .ticket-notch-bottom { bottom: -5px; }
+        .ticket-notch-top { top: -5px; } .ticket-notch-bottom { bottom: -5px; }
 
         .app-footer {
-            height: calc(50px + env(safe-area-inset-bottom, 0px));
-            padding-bottom: env(safe-area-inset-bottom, 0px);
-            background-color: #e6f0f8;
-            border-top: 1px solid #cddbe6;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding-left: 18px; padding-right: 18px;
-            font-size: 13.5px;
-            font-weight: 500;
-            font-family: "Hiragino Sans", "Noto Sans JP", -apple-system, BlinkMacSystemFont, sans-serif;
-            color: #2185d0;
-            flex-shrink: 0;
+            height: calc(56px + env(safe-area-inset-bottom, 0px)); padding-bottom: env(safe-area-inset-bottom, 0px);
+            background-color: #e6f0f8; border-top: 1px solid #cddbe6; display: flex; align-items: center; justify-content: space-between;
+            padding-left: 18px; padding-right: 18px; font-size: 15.5px; font-weight: 600; color: #2185d0; flex-shrink: 0;
         }
-        .footer-right-group { display: flex; align-items: center; gap: 8px; }
+        .footer-arrow { font-size: 18px; font-weight: bold; }
+        .footer-right-group { display: flex; align-items: center; gap: 10px; }
     </style>
 </head>
 <body>
 
     <div class="app-header-container" id="headerContainer">
         <div class="floating-ro-ring"></div>
-
         <div class="scratch-container" id="scratchContainer">
             <div class="scratch-canvas-wrap"><div class="zigzag-bg"></div></div>
             <div class="scratch-canvas-wrap"><div class="zigzag-bg"></div></div>
         </div>
-
         <div class="aurora-slide-layer" id="auroraSlideLayer">
             <div class="aurora-scratch-wrap">
                 <div class="scratch-container visible" style="top: calc(106px - 50px); display: flex;">
@@ -547,40 +198,24 @@
                     </div>
                     <span>入場／引換</span>
                 </div>
-                <div class="header-right">
-                    <span>↻</span>
-                    <span>≡</span>
-                </div>
+                <div class="header-right"><span>↻</span><span>≡</span></div>
             </div>
-
-            <div class="event-title target-black-text" id="valEventTitle">
-                Ｍａｓｓｉｖｅ Ｍｕｓｉｃ Ｓｈｏｗｃａｓｅ Ｖｏｌ．１
-            </div>
+            <div class="event-title target-black-text" id="valEventTitle">Ｍａｓｓｉｖｅ Ｍｕｓｉｃ Ｓｈｏｗｃａｓｅ Ｖｏｌ．１</div>
         </div>
 
         <div class="event-meta-block">
             <div class="event-meta-row">
-                <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                    <line x1="16" y1="2" x2="16" y2="6"></line>
-                    <line x1="8" y1="2" x2="8" y2="6"></line>
-                    <line x1="3" y1="10" x2="21" y2="10"></line>
-                </svg>
+                <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
                 <span class="meta-text target-black-text" id="valDate">2026.11.11(Wed)</span>
             </div>
             <div class="event-meta-row">
-                <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <polyline points="12 6 12 12 16 14"></polyline>
-                </svg>
+                <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                 <span class="meta-text target-black-text" id="valTime">開場 16:00 開演 17:00</span>
             </div>
         </div>
     </div>
 
-    <div class="alert-banner" id="alertBanner">
-        入場手続きは一度行うと元に戻せません。係員の指示に従い操作いただきますようお願いいたします。
-    </div>
+    <div class="alert-banner" id="alertBanner">入場手続きは一度行うと元に戻せません。係員の指示に従い操作いただきますようお願いいたします。</div>
 
     <div class="ticket-content-section">
         <div class="section-title-row">
@@ -591,13 +226,11 @@
         <div class="ticket-card" id="ticketCard">
             <div class="ticket-notch-top"></div>
             <div class="ticket-notch-bottom"></div>
-
             <div class="stamp-entered" id="stampEntered">入場済</div>
 
             <div class="ticket-main-area" id="ticketArea">
                 <div class="badge-anata">あなた</div>
                 <div class="checkbox-box" id="checkBox"></div>
-                
                 <div class="text-group-main">
                     <div class="area-type" id="valTicketType">前方優先エリア 自由</div>
                     <div class="seat-number" id="valSeatNum">整理番号 A 102番</div>
@@ -623,23 +256,18 @@
     </div>
 
     <div class="app-footer">
-        <span>←</span>
+        <span class="footer-arrow">←</span>
         <div class="footer-right-group">
             <span>チケット詳細／分配／受取</span>
-            <span>→</span>
+            <span class="footer-arrow">→</span>
         </div>
     </div>
 
     <script>
         function loadTicketData() {
             let data = null;
-            const storedData = localStorage.getItem('l_tike_ticket_data');
-            if (storedData) {
-                try { data = JSON.parse(storedData); } catch(e) {}
-            }
-
+            try { data = JSON.parse(localStorage.getItem('l_tike_ticket_data')); } catch(e) {}
             const header = document.getElementById('headerContainer');
-
             if (data && data.bgChoice === 'orange') {
                 header.style.backgroundImage = "url('IMG_8164.jpeg')";
                 header.classList.add('orange-theme');
@@ -647,7 +275,6 @@
                 header.style.backgroundImage = "url('bg.jpg')";
                 header.classList.remove('orange-theme');
             }
-
             if (data) {
                 if (data.eventTitle) document.getElementById('valEventTitle').textContent = data.eventTitle;
                 if (data.date) document.getElementById('valDate').textContent = data.date;
@@ -658,52 +285,40 @@
                 if (data.phone) document.getElementById('valPhone').textContent = data.phone;
                 if (data.price) document.getElementById('valPrice').textContent = data.price + (data.price.includes('円') ? '' : '円');
                 if (data.notice) {
-                    const noticeHtml = data.notice.split('\n').map(line => `<p>${line}</p>`).join('');
-                    document.getElementById('accordionContent').innerHTML = noticeHtml;
+                    document.getElementById('accordionContent').innerHTML = data.notice.split('\n').map(l => `<p>${l}</p>`).join('');
                 }
             }
         }
-
         loadTicketData();
 
-        const checkBox = document.getElementById('checkBox');
-        const headerContainer = document.getElementById('headerContainer');
-        const auroraSlideLayer = document.getElementById('auroraSlideLayer');
-        const scratchContainer = document.getElementById('scratchContainer');
-        const alertBanner = document.getElementById('alertBanner');
-        const stampEntered = document.getElementById('stampEntered');
-        const ticketCard = document.getElementById('ticketCard');
-        const ticketArea = document.getElementById('ticketArea');
-        const entryTimeDisplay = document.getElementById('entryTimeDisplay');
-        const ticketCountNum = document.getElementById('ticketCountNum');
-        const accordionBar = document.getElementById('accordionBar');
-        const accordionContent = document.getElementById('accordionContent');
+        const checkBox = document.getElementById('checkBox'),
+              headerContainer = document.getElementById('headerContainer'),
+              auroraSlideLayer = document.getElementById('auroraSlideLayer'),
+              scratchContainer = document.getElementById('scratchContainer'),
+              alertBanner = document.getElementById('alertBanner'),
+              stampEntered = document.getElementById('stampEntered'),
+              ticketCard = document.getElementById('ticketCard'),
+              ticketArea = document.getElementById('ticketArea'),
+              entryTimeDisplay = document.getElementById('entryTimeDisplay'),
+              ticketCountNum = document.getElementById('ticketCountNum'),
+              accordionBar = document.getElementById('accordionBar'),
+              accordionContent = document.getElementById('accordionContent');
 
-        let isChecked = false;
-        let isEntered = false;
+        let isChecked = false, isEntered = false, startX = 0, currentTranslateX = 0;
 
         checkBox.addEventListener('click', () => {
             if (isEntered) return;
             isChecked = !isChecked;
-            if (isChecked) {
-                checkBox.classList.add('checked');
-                ticketArea.classList.add('checked-blue');
-                alertBanner.classList.add('visible');
-                scratchContainer.classList.add('visible');
-                ticketCountNum.textContent = '合計 1 / 1枚';
-            } else {
-                checkBox.classList.remove('checked');
-                ticketArea.classList.remove('checked-blue');
+            checkBox.classList.toggle('checked', isChecked);
+            ticketArea.classList.toggle('checked-blue', isChecked);
+            alertBanner.classList.toggle('visible', isChecked);
+            scratchContainer.classList.toggle('visible', isChecked);
+            ticketCountNum.textContent = isChecked ? '合計 1 / 1枚' : '合計 1枚';
+            if (!isChecked) {
                 auroraSlideLayer.classList.remove('active');
                 auroraSlideLayer.style.transform = 'translateX(0px)';
-                alertBanner.classList.remove('visible');
-                scratchContainer.classList.remove('visible');
-                ticketCountNum.textContent = '合計 1枚';
             }
         });
-
-        let startX = 0;
-        let currentTranslateX = 0;
 
         headerContainer.addEventListener('pointerdown', (e) => {
             if (!isChecked || isEntered) return;
@@ -715,55 +330,39 @@
         headerContainer.addEventListener('pointermove', (e) => {
             if (!isChecked || isEntered || startX === 0) return;
             const diffX = e.clientX - startX;
-            if (diffX > 0) {
-                currentTranslateX = diffX;
-                auroraSlideLayer.style.transform = `translateX(${currentTranslateX}px)`;
-            }
+            if (diffX > 0) { currentTranslateX = diffX; auroraSlideLayer.style.transform = `translateX(${currentTranslateX}px)`; }
         });
 
         headerContainer.addEventListener('pointerup', () => {
             if (!isChecked || isEntered) return;
-            if (currentTranslateX > 80) { triggerMogiri(); } 
-            else {
+            if (currentTranslateX > 80) {
+                isEntered = true;
+                auroraSlideLayer.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+                auroraSlideLayer.style.transform = 'translateX(100vw)';
+                auroraSlideLayer.style.opacity = '0';
+                setTimeout(() => {
+                    stampEntered.classList.add('active');
+                    const now = new Date();
+                    entryTimeDisplay.textContent = `入場時間：${now.getFullYear()}/${String(now.getMonth()+1).padStart(2,'0')}/${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
+                    entryTimeDisplay.style.display = 'block';
+                    ticketArea.classList.remove('checked-blue');
+                    ticketCard.classList.add('entered');
+                    checkBox.classList.remove('checked');
+                    auroraSlideLayer.classList.remove('active', 'transition');
+                    auroraSlideLayer.style.transform = 'translateX(0px)';
+                    auroraSlideLayer.style.opacity = '1';
+                    scratchContainer.classList.remove('visible');
+                    scratchContainer.style.display = 'none';
+                    alertBanner.classList.remove('visible');
+                    ticketCountNum.textContent = '合計 1 / 1枚';
+                }, 300);
+            } else {
                 auroraSlideLayer.style.transition = 'transform 0.3s ease';
                 auroraSlideLayer.style.transform = 'translateX(0px)';
                 setTimeout(() => { auroraSlideLayer.style.transition = ''; }, 300);
             }
             startX = 0; currentTranslateX = 0;
         });
-
-        function triggerMogiri() {
-            isEntered = true;
-            auroraSlideLayer.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
-            auroraSlideLayer.style.transform = 'translateX(100vw)';
-            auroraSlideLayer.style.opacity = '0';
-
-            setTimeout(() => {
-                stampEntered.classList.add('active');
-                const now = new Date();
-                const yyyy = now.getFullYear();
-                const mm = String(now.getMonth() + 1).padStart(2, '0');
-                const dd = String(now.getDate()).padStart(2, '0');
-                const hh = String(now.getHours()).padStart(2, '0');
-                const min = String(now.getMinutes()).padStart(2, '0');
-                const ss = String(now.getSeconds()).padStart(2, '0');
-                entryTimeDisplay.textContent = `入場時間：${yyyy}/${mm}/${dd} ${hh}:${min}:${ss}`;
-                entryTimeDisplay.style.display = 'block';
-
-                ticketArea.classList.remove('checked-blue');
-                ticketCard.classList.add('entered');
-                checkBox.classList.remove('checked');
-                auroraSlideLayer.classList.remove('active');
-                scratchContainer.classList.remove('visible');
-                scratchContainer.style.display = 'none';
-                alertBanner.classList.remove('visible');
-                ticketCountNum.textContent = '合計 1 / 1枚';
-
-                auroraSlideLayer.style.transition = '';
-                auroraSlideLayer.style.transform = 'translateX(0px)';
-                auroraSlideLayer.style.opacity = '1';
-            }, 300);
-        }
 
         accordionBar.addEventListener('click', () => {
             accordionBar.classList.toggle('open');
