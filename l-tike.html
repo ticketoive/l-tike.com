@@ -30,16 +30,16 @@
             font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
         }
 
-        /* --- ヘッダーコンテナ（日付を限界まで下部ギリギリへ配置） --- */
+        /* --- ヘッダーコンテナ（縦幅をゆったり長く確保しつつ、日付は下部ギリギリに配置） --- */
         .app-header-container {
             background-color: #031566;
             background-image: url('bg.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            padding-top: calc(env(safe-area-inset-top, 44px) + 20px);
+            padding-top: calc(env(safe-area-inset-top, 44px) + 26px); /* 上部をゆったり長く */
             padding-right: 18px;
-            padding-bottom: 10px;
+            padding-bottom: 10px; /* 日付を背景の下部ギリギリに収める */
             padding-left: 18px;
             color: #ffffff;
             position: relative;
@@ -216,15 +216,15 @@
             letter-spacing: -2px;
         }
 
-        /* --- イベント名（さらに上へ引き上げ） --- */
+        /* --- イベント名（指定通り上に配置） --- */
         .event-title {
             font-family: "Hiragino Sans", "Noto Sans JP", sans-serif;
             font-size: 21px;
             font-weight: 600;
             line-height: 1.35;
             letter-spacing: 0.5px;
-            margin-top: 6px; /* ロゴのすぐ下に配置されるよう大幅に上へ */
-            margin-bottom: 10px;
+            margin-top: 6px;
+            margin-bottom: 12px;
             position: relative;
             z-index: 4;
             word-break: break-all;
