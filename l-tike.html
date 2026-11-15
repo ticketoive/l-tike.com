@@ -46,16 +46,21 @@
         }
         @keyframes auroraAnim { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-        /* --- 「ロ」のリング --- */
+        /* --- 「ロ」のリング（横幅全開まで広がるようスケールを拡大） --- */
         .floating-ro-ring {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 44px; height: 36px; border: 4px solid rgba(255,255,255,0.75); border-radius: 12px;
-            pointer-events: none; animation: floatRo 2.2s cubic-bezier(0.15, 0.75, 0.25, 1) infinite; z-index: 1;
+            width: 44px; height: 36px; border: 5.5px solid rgba(255,255,255,0.85); border-radius: 16px;
+            pointer-events: none; opacity: 0;
+            animation: floatRo 3.0s cubic-bezier(0.15, 0.75, 0.25, 1) infinite; z-index: 1;
         }
+        .ring-1 { animation-delay: 0s; }
+        .ring-2 { animation-delay: 1.0s; }
+        .ring-3 { animation-delay: 2.0s; }
+
         @keyframes floatRo { 
             0% { transform: translate(-50%, -50%) scale(0.01); opacity: 0; } 
-            15% { opacity: 0.95; } 
-            100% { transform: translate(-50%, -50%) scale(10); opacity: 0; } 
+            15% { opacity: 0.85; } 
+            100% { transform: translate(-50%, -50%) scale(14); opacity: 0; } 
         }
 
         .scratch-container {
@@ -66,7 +71,6 @@
         .aurora-scratch-wrap { position: absolute; top: 0; left: 0; right: 0; height: 100%; pointer-events: none; display: none; }
         .aurora-slide-layer.active .aurora-scratch-wrap { display: block; }
         
-        /* --- スクラッチ用丸（サイズを少し小さく調整：60px） --- */
         .scratch-canvas-wrap {
             position: relative; width: 60px; height: 60px; border-radius: 50%; overflow: hidden;
             box-shadow: 0 0 8px rgba(0,0,0,0.25); background: transparent;
@@ -178,7 +182,10 @@
 <body>
 
     <div class="app-header-container" id="headerContainer">
-        <div class="floating-ro-ring"></div>
+        <div class="floating-ro-ring ring-1"></div>
+        <div class="floating-ro-ring ring-2"></div>
+        <div class="floating-ro-ring ring-3"></div>
+
         <div class="scratch-container" id="scratchContainer">
             <div class="scratch-canvas-wrap"><div class="zigzag-bg"></div></div>
             <div class="scratch-canvas-wrap"><div class="zigzag-bg"></div></div>
