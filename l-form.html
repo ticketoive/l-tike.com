@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ローチケ チケット作成フォーム</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", sans-serif;
+            background-color: #f4f6f8;
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        h2 { color: #06257d; }
+        .form-group {
+            margin-bottom: 15px;
+            background: #ffffff;
+            padding: 12px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 14px; }
+        input[type="text"], select, textarea {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 14px;
+            background-color: #fff;
+            height: 42px;
+        }
+        textarea {
+            height: auto;
+        }
+        .color-select-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .color-select-row select {
+            flex: 1;
+        }
+        .color-preview-box {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            flex-shrink: 0;
+            background-color: #031566;
+            background-image: url('bg.jpg');
+            background-size: cover;
+            background-position: center;
+            transition: all 0.2s ease;
+        }
+        .radio-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 5px;
+            font-size: 13px;
+            font-weight: normal;
+        }
+        .hint { font-size: 11px; color: #666; margin-top: 3px; }
+        button {
+            background-color: #0078d4;
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover { background-color: #005a9e; }
+    </style>
+</head>
+<body>
+
+    <h2>ローチケ チケット作成フォーム</h2>
+    <form id="ticketForm">
+        
+        <div class="form-group">
+            <label for="bgChoice">ヘッダー背景色</label>
+            <div class="color-select-row">
+                <select id="bgChoice" onchange="updateColorPreview()">
+                    <option value="default">標準（bg.jpg）</option>
+                    <option value="orange">オレンジ（IMG_8164.jpeg）</option>
+                </select>
+                <div class="color-preview-box" id="colorPreviewBox"></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="event">イベント名</label>
+            <input type="text" id="event" value="Ｍａｓｓｉｖｅ Ｍｕｓｉｃ Ｓｈｏｗｃａｓｅ Ｖｏｌ．１">
+            <div class="radio-group">
+                <label><input type="radio" name="widthMode" value="zenkaku" checked onchange="convertEventWidth()"> 基本全角</label>
+                <label><input type="radio" name="widthMode" value="hankaku" onchange="convertEventWidth()"> 半角にする</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="date">公演日</label>
+            <input type="text" id="date" value="2026.11.11(Wed)" onblur="autoFormatDate(this)">
+            <div class="hint">※日付を入力して枠外をクリックすると自動で曜日が反映されます</div>
+        </div>
+
+        <div class="form-group">
+            <label for="time">開場 / 開演時間</label>
+            <input type="text" id="time" value="開場 16:00 開演 17:00">
+        </div>
+
+        <div class="form-group">
+            <label for="ticketType">券種（エリア等）</label>
+            <input type="text" id="ticketType" value="前方優先エリア 自由">
+        </div>
+
+        <div class="form-group">
+            <label for="seatNum">番号（整理番号等）</label>
+            <input type="text" id="seatNum" value="整理番号 A 102番">
+        </div>
+
+        <div class="form-group">
+            <label for="name">名前</label>
+            <input type="text" id="name" value="増田 佑亮">
+        </div>
+
+        <div class="form-group">
+            <label for="phone">電話番号</label>
+            <input type="text" id="phone" value="07023018161">
+        </div>
+
+        <div class="form-group">
+            <label for="price">金額</label>
+            <input type="text" id="price" value="10,000円">
+        </div>
+
+        <div class="form-group">
+            <label for="notice">注意事項（ご来場までにご確認ください）</label>
+            <textarea id="notice" rows="4">※営利目的の転売禁止
+※6歳以上有料 ※ドリンク代別途必要 ※整理番号順入場、オールスタンディング ※入場時に身分証明確認をさせていただく場合がございます。写真付き身分証明書を必ず持参お願いします。</textarea>
+        </div>
+
+        <button type="button" onclick="saveAndOpen()">チケットを作成して確認する</button>
+    </form>
+
+    <script>
+        function updateColorPreview() {
+            const bgChoice = document.getElementById('bgChoice').value;
+            const previewBox = document.getElementById('colorPreviewBox');
+            
+            if (bgChoice === 'orange') {
+                previewBox.style.backgroundColor = '#f39c12';
+                previewBox.style.backgroundImage = "url('IMG_8164.jpeg')";
+            } else {
+                previewBox.style.backgroundColor = '#031566';
+                previewBox.style.backgroundImage = "url('bg.jpg')";
+            }
+        }
+
+        function convertEventWidth() {
+            const input = document.getElementById('event');
+            const mode = document.querySelector('input[name="widthMode"]:checked').value;
+            let val = input.value;
+
+            if (mode === 'zenkaku') {
+                input.value = val.replace(/[A-Za-z0-9!-/:-@[-`{-~]/g, function(s) {
+                    return String.fromCharCode(s.charCodeAt(0) + 0xFEE0);
+                }).replace(/ /g, ' ');
+            } else {
+                input.value = val.replace(/[Ａ-Ｚａ-ｚ０-９！-／：-＠［-｀｛-～]/g, function(s) {
+                    return String.fromCharCode(s.charCodeAt(0) - 0xFEE0);
+                }).replace(/ /g, ' ');
+            }
+        }
+
+        function autoFormatDate(input) {
+            let val = input.value.trim();
+            let nums = val.match(/\d+/g);
+            if (nums && nums.length >= 3) {
+                let year = nums[0];
+                let month = nums[1];
+                let day = nums[2];
+                if (year.length === 2) year = '20' + year;
+
+                let dateObj = new Date(`${year}-${month}-${day}`);
+                if (!isNaN(dateObj.getTime())) {
+                    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                    let dayOfWeek = days[dateObj.getDay()];
+                    let mm = String(dateObj.getMonth() + 1).padStart(2, '0');
+                    let dd = String(dateObj.getDate()).padStart(2, '0');
+                    input.value = `${dateObj.getFullYear()}.${mm}.${dd}(${dayOfWeek})`;
+                }
+            }
+        }
+
+        function saveAndOpen() {
+            const bgChoice = document.getElementById('bgChoice').value;
+            const data = {
+                bgChoice: bgChoice,
+                eventTitle: document.getElementById('event').value,
+                date: document.getElementById('date').value,
+                time: document.getElementById('time').value,
+                ticketType: document.getElementById('ticketType').value,
+                seatNum: document.getElementById('seatNum').value,
+                name: document.getElementById('name').value,
+                phone: document.getElementById('phone').value,
+                price: document.getElementById('price').value,
+                notice: document.getElementById('notice').value
+            };
+            
+            localStorage.setItem('l_tike_ticket_data', JSON.stringify(data));
+            window.location.href = 'l-tike.html';
+        }
+
+        updateColorPreview();
+    </script>
+</body>
+</html>
