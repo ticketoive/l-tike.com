@@ -46,12 +46,17 @@
         }
         @keyframes auroraAnim { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
+        /* --- 「ロ」のリング --- */
         .floating-ro-ring {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 48px; height: 24px; border: 4.5px solid rgba(255,255,255,0.75); border-radius: 10px;
+            width: 44px; height: 36px; border: 4px solid rgba(255,255,255,0.75); border-radius: 12px;
             pointer-events: none; animation: floatRo 2.2s cubic-bezier(0.15, 0.75, 0.25, 1) infinite; z-index: 1;
         }
-        @keyframes floatRo { 0% { transform: translate(-50%, -50%) scale(0.01); opacity: 0; } 15% { opacity: 0.95; } 100% { transform: translate(-50%, -50%) scale(12); opacity: 0; } }
+        @keyframes floatRo { 
+            0% { transform: translate(-50%, -50%) scale(0.01); opacity: 0; } 
+            15% { opacity: 0.95; } 
+            100% { transform: translate(-50%, -50%) scale(10); opacity: 0; } 
+        }
 
         .scratch-container {
             position: absolute; top: calc(env(safe-area-inset-top, 0px) + 106px); left: 0; right: 0; height: 84px;
@@ -60,8 +65,10 @@
         .scratch-container.visible { display: flex; }
         .aurora-scratch-wrap { position: absolute; top: 0; left: 0; right: 0; height: 100%; pointer-events: none; display: none; }
         .aurora-slide-layer.active .aurora-scratch-wrap { display: block; }
+        
+        /* --- スクラッチ用丸（サイズを少し小さく調整：60px） --- */
         .scratch-canvas-wrap {
-            position: relative; width: 72px; height: 72px; border-radius: 50%; overflow: hidden;
+            position: relative; width: 60px; height: 60px; border-radius: 50%; overflow: hidden;
             box-shadow: 0 0 8px rgba(0,0,0,0.25); background: transparent;
         }
         .zigzag-bg {
@@ -101,7 +108,6 @@
         .ticket-card { background-color: #fff; border-radius: 8px; box-shadow: 0 3px 8px rgba(0,0,0,0.1); overflow: hidden; border: 1px solid #d4d8dc; position: relative; transition: background 0.3s ease; }
         .ticket-card.entered { background-color: #e8ecef; }
 
-        /* --- 券面メインエリア（上下パディングを詰めて短く調整） --- */
         .ticket-main-area { background-color: #fff; color: #222; padding: 12px 18px 12px 14px; position: relative; transition: background 0.3s ease, color 0.3s ease; }
         .ticket-main-area.checked-blue { background-color: #0078d4; color: #fff; }
         .ticket-card.entered .ticket-main-area { background-color: #e8ecef; color: #222; }
