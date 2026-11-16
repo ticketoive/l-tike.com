@@ -196,7 +196,7 @@
         .footer-arrow { font-size: 18px; font-weight: bold; }
         .footer-right-group { display: flex; align-items: center; gap: 10px; }
 
-        /* --- ポップアップメニュー用スタイル（画像通りの白線デザイン） --- */
+        /* --- ポップアップメニュー用スタイル（文字サイズ拡大＆幅広め） --- */
         .menu-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(0, 0, 0, 0.2); z-index: 9999; display: none;
@@ -206,7 +206,7 @@
         .menu-popup {
             position: absolute; top: calc(env(safe-area-inset-top, 0px) + 50px); right: 0; bottom: 0;
             width: 300px; background: #0777be; border-radius: 0; box-shadow: -4px 4px 20px rgba(0,0,0,0.35);
-            color: #fff; font-size: 12.5px;
+            color: #fff; font-size: 14.5px; /* 文字サイズを大きめに調整 */
             overflow-y: auto; -webkit-overflow-scrolling: touch; z-index: 10000;
             animation: menuSlideIn 0.15s ease-out;
         }
@@ -219,39 +219,39 @@
             background: #0777be; transform: rotate(45deg); border-top: 1px solid rgba(255,255,255,0.2); border-left: 1px solid rgba(255,255,255,0.2);
         }
         
-        /* 各項目の上下幅（パディング）を広げ、デフォルトでは下線なし */
+        /* 各項目の上下幅（パディング）を広めに調整 */
         .menu-item {
-            padding: 13.5px 16px; display: flex; align-items: center; justify-content: space-between;
+            padding: 16px 18px; display: flex; align-items: center; justify-content: space-between;
             border-bottom: none; cursor: pointer; text-decoration: none; color: #fff;
             position: relative;
         }
         .menu-item:active { background-color: rgba(0, 0, 0, 0.2); }
         
-        /* 画像の通り「チケットの購入」「ご注意・利用規約について」「お問い合わせフォーム」の下だけに引く白線 */
+        /* 指定箇所の白い下線 */
         .menu-item.has-divider {
             border-bottom: 1px solid rgba(255, 255, 255, 0.45);
         }
 
-        .menu-item-left { display: flex; align-items: center; gap: 13px; }
+        .menu-item-left { display: flex; align-items: center; gap: 14px; }
         
-        .menu-icon-svg { width: 16.5px; height: 16.5px; flex-shrink: 0; fill: currentColor; }
+        .menu-icon-svg { width: 18px; height: 18px; flex-shrink: 0; fill: currentColor; }
         
         /* 外部リンクアイコン（右上・極小サイズ） */
         .menu-external {
-            font-size: 5.5px;
+            font-size: 6px;
             border: 0.8px solid rgba(255, 255, 255, 0.85);
             border-radius: 1px;
             padding: 0px 1px;
             margin-left: 2px;
             position: relative;
-            top: -4.5px;
+            top: -5px;
             line-height: 1;
             display: inline-block;
-            transform: scale(0.7);
+            transform: scale(0.75);
             transform-origin: left bottom;
         }
 
-        .menu-arrow-right { font-size: 14px; opacity: 0.8; font-weight: bold; }
+        .menu-arrow-right { font-size: 16px; opacity: 0.8; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -323,7 +323,6 @@
                     <span>使用済電子チケット一覧</span>
                 </div>
             </div>
-            <!-- チケットの購入の下に白線 -->
             <div class="menu-item has-divider" onclick="closeMenu()">
                 <div class="menu-item-left">
                     <svg class="menu-icon-svg" viewBox="0 0 24 24"><path d="M20 6h-2.18c.11-.31.18-.65.18-1 0-1.66-1.34-3-3-3-1.05 0-1.96.54-2.5 1.35l-.5.67-.5-.68C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.1 0-1.99.9-1.99 2L2 19c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-5-2c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM9 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm11 15H4v-2h16v2zm0-5H4V8h5.08L7 10.83 8.62 12 11 8.76l1-1.36 1 1.36L15.38 12 17 10.83 14.92 8H20v6z"/></svg>
@@ -331,7 +330,6 @@
                 </div>
             </div>
             
-            <!-- ご注意・利用規約についての下に白線 -->
             <div class="menu-item has-divider" onclick="closeMenu()">
                 <div class="menu-item-left">
                     <svg class="menu-icon-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
@@ -352,7 +350,6 @@
                     <span>FAQ<sup class="menu-external">↗</sup></span>
                 </div>
             </div>
-            <!-- お問い合わせフォームの下に白線 -->
             <div class="menu-item has-divider" onclick="closeMenu()">
                 <div class="menu-item-left">
                     <svg class="menu-icon-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 16h-2v-2h2v2zm1.07-7.75l-.9.92C12.45 11.9 12 12.5 12 14h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.03-.42 1.98-1.93 2.75z"/></svg>
