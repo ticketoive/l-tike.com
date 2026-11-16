@@ -93,7 +93,7 @@
         .logo-text-group { display: flex; flex-direction: column; line-height: 1; }
         .logo-sub-eng { font-size: 5px; font-weight: 700; color: #fff; margin-bottom: 2px; transform: scale(0.9); transform-origin: left; }
         .logo-main-kana { font-size: 13.5px; font-weight: 700; color: #fff; }
-        .header-right { display: flex; align-items: center; gap: 18px; font-size: 23px; font-weight: 400; line-height: 1; }
+        .header-right { display: flex; align-items: center; gap: 18px; font-size: 23px; font-weight: 400; line-height: 1; cursor: pointer; }
 
         .event-title { font-size: 21px; font-weight: 600; line-height: 1.35; margin-top: 12px; position: relative; z-index: 4; word-break: break-all; color: #fff; }
         .event-meta-block { margin-top: auto; margin-bottom: -6px; position: relative; z-index: 4; }
@@ -195,6 +195,56 @@
         }
         .footer-arrow { font-size: 18px; font-weight: bold; }
         .footer-right-group { display: flex; align-items: center; gap: 10px; }
+
+        /* --- ポップアップメニュー用スタイル（文字サイズを少し小さく、外部リンクアイコンをさらに小さく・右上へ） --- */
+        .menu-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0, 0, 0, 0.2); z-index: 9999; display: none;
+        }
+        .menu-overlay.active { display: block; }
+        
+        .menu-popup {
+            position: absolute; top: calc(env(safe-area-inset-top, 0px) + 50px); right: 0; bottom: 0;
+            width: 300px; background: #0777be; border-radius: 0; box-shadow: -4px 4px 20px rgba(0,0,0,0.35);
+            color: #fff; font-size: 12px; /* 全体の文字サイズを少し小さく変更 */
+            overflow-y: auto; -webkit-overflow-scrolling: touch; z-index: 10000;
+            animation: menuSlideIn 0.15s ease-out;
+        }
+        @keyframes menuSlideIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .menu-arrow {
+            position: absolute; top: -6px; right: 18px; width: 12px; height: 12px;
+            background: #0777be; transform: rotate(45deg); border-top: 1px solid rgba(255,255,255,0.2); border-left: 1px solid rgba(255,255,255,0.2);
+        }
+        .menu-item {
+            padding: 10px 14px; display: flex; align-items: center; justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15); cursor: pointer; text-decoration: none; color: #fff;
+            position: relative;
+        }
+        .menu-item:active { background-color: rgba(0, 0, 0, 0.2); }
+        .menu-item-left { display: flex; align-items: center; gap: 12px; }
+        
+        .menu-icon-svg { width: 16px; height: 16px; flex-shrink: 0; fill: currentColor; }
+        
+        /* 四角い枠付きの外部リンクアイコン（さらに小さく、もっと右上へ配置） */
+        .menu-external {
+            font-size: 5.5px;
+            border: 0.8px solid rgba(255, 255, 255, 0.85);
+            border-radius: 1px;
+            padding: 0px 1px;
+            margin-left: 2px;
+            position: relative;
+            top: -4.5px; /* ぐっと右上に持ち上げ */
+            line-height: 1;
+            display: inline-block;
+            transform: scale(0.7);
+            transform-origin: left bottom;
+        }
+
+        .menu-arrow-right { font-size: 14px; opacity: 0.8; font-weight: bold; }
+        .menu-divider-line { height: 6px; background: rgba(0, 0, 0, 0.15); border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); }
     </style>
 </head>
 <body>
@@ -229,7 +279,10 @@
                     </div>
                     <span>入場／引換</span>
                 </div>
-                <div class="header-right"><span>↻</span><span>≡</span></div>
+                <div class="header-right">
+                    <span>↻</span>
+                    <span id="menuBtn">≡</span>
+                </div>
             </div>
             <div class="event-title target-black-text" id="valEventTitle">Ｍａｓｓｉｖｅ Ｍｕｓｉｃ Ｓｈｏｗｃａｓｅ Ｖｏｌ．１</div>
         </div>
@@ -242,6 +295,84 @@
             <div class="event-meta-row">
                 <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                 <span class="meta-text target-black-text" id="valTime">開場 16:00 開演 17:00</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 右上メニューポップアップ -->
+    <div class="menu-overlay" id="menuOverlay">
+        <div class="menu-popup" id="menuPopup">
+            <div class="menu-arrow"></div>
+            
+            <div class="menu-item" onclick="closeMenu()">
+                <div class="menu-item-left">
+                    <svg class="menu-icon-svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                    <span>電子チケット一覧</span>
+                </div>
+            </div>
+            <div class="menu-item" onclick="closeMenu()">
+                <div class="menu-item-left">
+                    <svg class="menu-icon-svg" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                    <span>使用済電子チケット一覧</span>
+                </div>
+            </div>
+            <div class="menu-item" onclick="closeMenu()">
+                <div class="menu-item-left">
+                    <svg class="menu-icon-svg" viewBox="0 0 24 24"><path d="M20 6h-2.18c.11-.31.18-.65.18-1 0-1.66-1.34-3-3-3-1.05 0-1.96.54-2.5 1.35l-.5.67-.5-.68C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.1 0-1.99.9-1.99 2L2 19c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-5-2c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM9 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm11 15H4v-2h16v2zm0-5H4V8h5.08L7 10.83 8.62 12 11 8.76l1-1.36 1 1.36L15.38 12 17 10.83 14.92 8H20v6z"/></svg>
+                    <span>チケットの購入<sup class="menu-external">↗</sup></span>
+                </div>
+            </div>
+            
+            <div class="menu-divider-line"></div>
+            
+            <div class="menu-item" onclick="closeMenu()">
+                <div class="menu-item-left">
+                    <svg class="menu-icon-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                    <span>ご注意・利用規約について</span>
+                </div>
+                <span class="menu-arrow-right">›</span>
+            </div>
+            
+            <div class="menu-divider-line"></div>
+            
+            <div class="menu-item" onclick="closeMenu()">
+                <div class="menu-item-left">
+                    <svg class="menu-icon-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 16h-2v-2h2v2zm1.07-7.75l-.9.92C12.45 11.9 12 12.5 12 14h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.03-.42 1.98-1.93 2.75z"/></svg>
+                    <span>電子チケット操作ガイド<sup class="menu-external">↗</sup></span>
+                </div>
+            </div>
+            <div class="menu-item" onclick="closeMenu()">
+                <div class="menu-item-left">
+                    <svg class="menu-icon-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 16h-2v-2h2v2zm1.07-7.75l-.9.92C12.45 11.9 12 12.5 12 14h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.03-.42 1.98-1.93 2.75z"/></svg>
+                    <span>FAQ<sup class="menu-external">↗</sup></span>
+                </div>
+            </div>
+            <div class="menu-item" onclick="closeMenu()">
+                <div class="menu-item-left">
+                    <svg class="menu-icon-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 16h-2v-2h2v2zm1.07-7.75l-.9.92C12.45 11.9 12 12.5 12 14h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.03-.42 1.98-1.93 2.75z"/></svg>
+                    <span>お問い合わせフォーム<sup class="menu-external">↗</sup></span>
+                </div>
+            </div>
+            
+            <div class="menu-divider-line"></div>
+            
+            <div class="menu-item" onclick="closeMenu()">
+                <div class="menu-item-left">
+                    <svg class="menu-icon-svg" viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
+                    <span>緊急時はこちら</span>
+                </div>
+            </div>
+            <div class="menu-item" onclick="closeMenu()">
+                <div class="menu-item-left">
+                    <svg class="menu-icon-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                    <span>バージョン情報と設定</span>
+                </div>
+            </div>
+            <div class="menu-item" onclick="closeMenu()">
+                <div class="menu-item-left">
+                    <svg class="menu-icon-svg" viewBox="0 0 24 24"><path d="M13 3h-2v10h2V3zm4.83 2.17l-1.42 1.42C17.99 7.86 19 9.81 19 12c0 3.87-3.13 7-7 7s-7-3.13-7-7c0-2.19 1.01-4.14 2.58-5.41L6.17 5.17C4.23 6.82 3 9.26 3 12c0 4.97 4.03 9 9 9s9-4.03 9-9c0-2.74-1.23-5.18-3.17-6.83z"/></svg>
+                    <span>ローチケ電子を閉じる</span>
+                </div>
             </div>
         </div>
     </div>
@@ -332,7 +463,6 @@
             if (data) {
                 const header = document.getElementById('headerContainer');
                 if (header) {
-                    // 背景色と文字色の適用（オレンジ・黄緑は文字黒、標準・紫は文字白）
                     if (data.bgChoice === 'orange') {
                         header.style.backgroundImage = "url('IMG_8164.jpeg')";
                         header.classList.add('orange-theme');
@@ -401,9 +531,27 @@
               entryTimeDisplay = document.getElementById('entryTimeDisplay'),
               ticketCountNum = document.getElementById('ticketCountNum'),
               accordionBar = document.getElementById('accordionBar'),
-              accordionContent = document.getElementById('accordionContent');
+              accordionContent = document.getElementById('accordionContent'),
+              menuBtn = document.getElementById('menuBtn'),
+              menuOverlay = document.getElementById('menuOverlay');
 
         let isChecked = false, isEntered = false, startX = 0, currentTranslateX = 0;
+
+        if (menuBtn && menuOverlay) {
+            menuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                menuOverlay.classList.toggle('active');
+            });
+            menuOverlay.addEventListener('click', (e) => {
+                if (e.target === menuOverlay) {
+                    menuOverlay.classList.remove('active');
+                }
+            });
+        }
+
+        function closeMenu() {
+            if (menuOverlay) menuOverlay.classList.remove('active');
+        }
 
         if (checkBox) {
             checkBox.addEventListener('click', () => {
@@ -424,6 +572,7 @@
         if (headerContainer) {
             headerContainer.addEventListener('pointerdown', (e) => {
                 if (!isChecked || isEntered) return;
+                if (e.target.id === 'menuBtn' || e.target.closest('#menuOverlay')) return;
                 if (scratchContainer) scratchContainer.style.display = 'none';
                 if (auroraSlideLayer) auroraSlideLayer.classList.add('active');
                 startX = e.clientX;
