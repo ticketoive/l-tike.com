@@ -38,7 +38,6 @@
             flex-shrink: 0; background-color: #031566;
             background-image: url('bg.jpg'); background-size: cover; background-position: center;
         }
-        .radio-group { display: flex; gap: 15px; margin-top: 5px; font-size: 13px; font-weight: normal; }
         .hint { font-size: 11px; color: #666; margin-top: 3px; }
         button {
             background-color: #0078d4; color: white; border: none; padding: 12px;
@@ -157,11 +156,11 @@
                 notice: document.getElementById('notice').value
             };
             
-            // データを暗号化・Base64エンコードしてURLのパラメータにする
             const jsonString = JSON.stringify(data);
-            const base64Data = btoa(unescape(encodeURIComponent(jsonString)));
+            const base64Data = btoa(encodeURIComponent(jsonString).replace(/%([0-9A-F]{2})/g, function(match, p1) {
+                return String.fromCharCode('0x' + p1);
+            }));
             
-            // チケット画面（l-tike.html）へデータ付きURLで遷移
             window.location.href = `l-tike.html?data=${base64Data}`;
         }
 
