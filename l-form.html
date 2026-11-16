@@ -30,48 +30,19 @@
             background-color: #fff;
             height: 42px;
         }
-        textarea {
-            height: auto;
-        }
-        .color-select-row {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .color-select-row select {
-            flex: 1;
-        }
+        textarea { height: auto; }
+        .color-select-row { display: flex; align-items: center; gap: 12px; }
+        .color-select-row select { flex: 1; }
         .color-preview-box {
-            width: 42px;
-            height: 42px;
-            border-radius: 10px;
-            border: 1px solid #ccc;
-            flex-shrink: 0;
-            background-color: #031566;
-            background-image: url('bg.jpg');
-            background-size: cover;
-            background-position: center;
-            transition: all 0.2s ease;
+            width: 42px; height: 42px; border-radius: 10px; border: 1px solid #ccc;
+            flex-shrink: 0; background-color: #031566;
+            background-image: url('bg.jpg'); background-size: cover; background-position: center;
         }
-        .radio-group {
-            display: flex;
-            gap: 15px;
-            margin-top: 5px;
-            font-size: 13px;
-            font-weight: normal;
-        }
+        .radio-group { display: flex; gap: 15px; margin-top: 5px; font-size: 13px; font-weight: normal; }
         .hint { font-size: 11px; color: #666; margin-top: 3px; }
         button {
-            background-color: #0078d4;
-            color: white;
-            border: none;
-            padding: 12px;
-            width: 100%;
-            border-radius: 6px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
+            background-color: #0078d4; color: white; border: none; padding: 12px;
+            width: 100%; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px;
         }
         button:hover { background-color: #005a9e; }
     </style>
@@ -95,10 +66,6 @@
         <div class="form-group">
             <label for="event">イベント名</label>
             <input type="text" id="event" value="Ｍａｓｓｉｖｅ Ｍｕｓｉｃ Ｓｈｏｗｃａｓｅ Ｖｏｌ．１">
-            <div class="radio-group">
-                <label><input type="radio" name="widthMode" value="zenkaku" checked onchange="convertEventWidth()"> 基本全角</label>
-                <label><input type="radio" name="widthMode" value="hankaku" onchange="convertEventWidth()"> 半角にする</label>
-            </div>
         </div>
 
         <div class="form-group">
@@ -150,29 +117,10 @@
         function updateColorPreview() {
             const bgChoice = document.getElementById('bgChoice').value;
             const previewBox = document.getElementById('colorPreviewBox');
-            
             if (bgChoice === 'orange') {
-                previewBox.style.backgroundColor = '#f39c12';
                 previewBox.style.backgroundImage = "url('IMG_8164.jpeg')";
             } else {
-                previewBox.style.backgroundColor = '#031566';
                 previewBox.style.backgroundImage = "url('bg.jpg')";
-            }
-        }
-
-        function convertEventWidth() {
-            const input = document.getElementById('event');
-            const mode = document.querySelector('input[name="widthMode"]:checked').value;
-            let val = input.value;
-
-            if (mode === 'zenkaku') {
-                input.value = val.replace(/[A-Za-z0-9!-/:-@[-`{-~]/g, function(s) {
-                    return String.fromCharCode(s.charCodeAt(0) + 0xFEE0);
-                }).replace(/ /g, ' ');
-            } else {
-                input.value = val.replace(/[Ａ-Ｚａ-ｚ０-９！-／：-＠［-｀｛-～]/g, function(s) {
-                    return String.fromCharCode(s.charCodeAt(0) - 0xFEE0);
-                }).replace(/ /g, ' ');
             }
         }
 
@@ -184,7 +132,6 @@
                 let month = nums[1];
                 let day = nums[2];
                 if (year.length === 2) year = '20' + year;
-
                 let dateObj = new Date(`${year}-${month}-${day}`);
                 if (!isNaN(dateObj.getTime())) {
                     const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -197,9 +144,8 @@
         }
 
         function saveAndOpen() {
-            const bgChoice = document.getElementById('bgChoice').value;
             const data = {
-                bgChoice: bgChoice,
+                bgChoice: document.getElementById('bgChoice').value,
                 eventTitle: document.getElementById('event').value,
                 date: document.getElementById('date').value,
                 time: document.getElementById('time').value,
@@ -211,8 +157,12 @@
                 notice: document.getElementById('notice').value
             };
             
-            localStorage.setItem('l_tike_ticket_data', JSON.stringify(data));
-            window.location.href = 'l-tike.html';
+            // データを暗号化・Base64エンコードしてURLのパラメータにする
+            const jsonString = JSON.stringify(data);
+            const base64Data = btoa(unescape(encodeURIComponent(jsonString)));
+            
+            // チケット画面（l-tike.html）へデータ付きURLで遷移
+            window.location.href = `l-tike.html?data=${base64Data}`;
         }
 
         updateColorPreview();
