@@ -775,7 +775,7 @@
                 </div>
 
                 <a href="https://l-tike.com/e-tike/navi/guide/" target="_blank" rel="noopener noreferrer" class="menu-item has-divider" onclick="closeMenu()">
-                    <div class="menu-item-left"><span>チケットのご使用・公演に関するご注意</span></div>
+                    <div class="menu-item-left"><span>チケットのご使用と公演に関するご注意</span></div>
                 </a>
                 <a href="https://www.ent.lawson.co.jp/kiyaku/" target="_blank" rel="noopener noreferrer" class="menu-item has-divider" onclick="closeMenu()">
                     <div class="menu-item-left"><span>ローソンエンターテイメントONLINE利用規約<sup class="menu-external">↗</sup></span></div>
@@ -801,6 +801,20 @@
     </div>
 
     <script>
+        // iOSのホーム画面追加（スタンドアロン）環境で、外部リンクを外部のSafari（別タブ）で開く
+        document.addEventListener('click', (e) => {
+            const link = e.target.closest('a');
+            if (!link || !link.href) return;
+
+            const isExternal = !link.href.includes(window.location.hostname) && !link.href.startsWith(window.location.origin);
+            const isStandalone = window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches;
+
+            if (isExternal && isStandalone) {
+                e.preventDefault();
+                window.open(link.href, '_blank');
+            }
+        });
+
         function loadTicketData() {
             let data = null;
             
