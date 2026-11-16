@@ -288,17 +288,17 @@
                     <span id="menuBtn">≡</span>
                 </div>
             </div>
-            <div class="event-title target-black-text" id="valEventTitle"></div>
+            <div class="event-title target-black-text" id="valEventTitle">Ｍａｓｓｉｖｅ Ｍｕｓｉｃ Ｓｈｏｗｃａｓｅ Ｖｏｌ．１</div>
         </div>
 
         <div class="event-meta-block">
             <div class="event-meta-row">
                 <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                <span class="meta-text target-black-text" id="valDate"></span>
+                <span class="meta-text target-black-text" id="valDate">2026.11.11(Wed)</span>
             </div>
             <div class="event-meta-row">
                 <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                <span class="meta-text target-black-text" id="valTime"></span>
+                <span class="meta-text target-black-text" id="valTime">開場 16:00 開演 17:00</span>
             </div>
         </div>
     </div>
@@ -400,12 +400,12 @@
                 <div class="badge-anata">あなた</div>
                 <div class="checkbox-box" id="checkBox"></div>
                 <div class="text-group-main">
-                    <div class="area-type" id="valTicketType"></div>
-                    <div class="seat-number" id="valSeatNum"></div>
-                    <div class="user-meta-text" id="valName"></div>
-                    <div class="user-meta-text" id="valPhone"></div>
-                    <div class="user-meta-text" id="valPrice"></div>
-                    <div class="entry-time-display" id="entryTimeDisplay"></div>
+                    <div class="area-type" id="valTicketType">前方優先エリア 自由</div>
+                    <div class="seat-number" id="valSeatNum">整理番号 A 102番</div>
+                    <div class="user-meta-text" id="valName">増田 佑亮様</div>
+                    <div class="user-meta-text" id="valPhone">07023018161</div>
+                    <div class="user-meta-text" id="valPrice">10,000円</div>
+                    <div class="entry-time-display" id="entryTimeDisplay">入場時間：2026/11/11 16:09:14</div>
                 </div>
             </div>
 
@@ -414,7 +414,12 @@
                 <span class="arrow-icon">∨</span>
             </div>
 
-            <div class="accordion-content" id="accordionContent"></div>
+            <div class="accordion-content" id="accordionContent">
+                <p><strong>Massive Music Showcase Vol.1</strong></p>
+                <p>&lt;営利目的の転売禁止&gt;</p>
+                <p>主催・企画・制作・お問合せ：株式会社X10A info@x10a.jp</p>
+                <p>※6歳以上有料 ※ドリンク代別途必要 ※整理番号順入場、オールスタンディング ※入場時に身分証明確認をさせていただく場合がございます。写真付き身分証明書を必ず持参お願いします。</p>
+            </div>
         </div>
     </div>
 
@@ -461,7 +466,7 @@
                 try { data = JSON.parse(localStorage.getItem('l_tike_ticket_data')); } catch(e) {}
             }
 
-            // 入力・保存されたデータがある場合のみ画面に反映
+            // 入力・保存されたデータがある場合のみ、HTMLの初期値（固定値）を上書きする
             if (data) {
                 const header = document.getElementById('headerContainer');
                 if (header) {
