@@ -294,32 +294,39 @@
         function loadTicketData() {
             let data = null;
             
-            // 1. URLパラメータ（?data=...）の取得
             const urlParams = new URLSearchParams(window.location.search);
-            const rawData = urlParams.get('data');
+            let rawData = urlParams.get('data');
             
             if (rawData) {
                 try {
-                    // Base64デコード処理（安全なUTF-8復元）
+                    // Base64のパディング（=）のズレを自動修復する処理
+                    while (rawData.length % 4 !== 0) {
+                        rawData += '=';
+                    }
+
                     const jsonString = decodeURIComponent(atob(rawData).split('').map(function(c) {
                         return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
                     }).join(''));
+                    
                     data = JSON.parse(jsonString);
-                    // 成功したらスマホやブラウザの保存領域にも保持させる
+                    console.log("URLデータ読み込み成功:", data);
+                    
+                    // 成功したらlocalStorageにも保存
                     localStorage.setItem('l_tike_ticket_data', JSON.stringify(data));
                 } catch(e) {
                     console.error("URLデータのデコードに失敗しました:", e);
                 }
             }
             
-            // 2. 万が一URLから取れなかった場合は localStorage からフォールバック読み込み
+            // URLから取れなかった場合は localStorage から読み込む
             if (!data) {
                 try {
                     data = JSON.parse(localStorage.getItem('l_tike_ticket_data'));
+                    console.log("localStorageデータ読み込み:", data);
                 } catch(e) {}
             }
 
-            // 3. 画面への反映処理
+            // 画面への反映処理
             if (data) {
                 const header = document.getElementById('headerContainer');
                 if (header) {
@@ -345,7 +352,6 @@
                 if (data.ticketType) setVal('valTicketType', data.ticketType);
                 if (data.seatNum) setVal('valSeatNum', data.seatNum);
                 
-                // 名前の「様」の重複防止処理
                 if (data.name) {
                     let nameVal = data.name.trim();
                     if (!nameVal.endsWith('様') && !nameVal.endsWith('さま')) {
@@ -356,7 +362,6 @@
                 
                 if (data.phone) setVal('valPhone', data.phone);
                 
-                // 金額の「円」の重複防止処理
                 if (data.price) {
                     let priceVal = data.price.trim();
                     if (!priceVal.includes('円')) {
@@ -371,10 +376,11 @@
                         accContent.innerHTML = data.notice.split('\n').map(l => `<p>${l}</p>`).join('');
                     }
                 }
+            } else {
+                console.warn("表示するデータが見つかりませんでした。");
             }
         }
 
-        // 読み込み実行
         loadTicketData();
 
         const checkBox = document.getElementById('checkBox'),
