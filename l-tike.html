@@ -279,7 +279,6 @@
         }
         .setting-value { color: #333; font-variant-numeric: tabular-nums; font-weight: 400; }
         
-        /* トグルスイッチ */
         .toggle-switch {
             position: relative; width: 51px; height: 31px; background-color: #e5e7eb; border-radius: 16px;
             padding: 2px; cursor: pointer; transition: background 0.3s;
@@ -291,7 +290,6 @@
         .toggle-switch.checked { background-color: #34c759; }
         .toggle-switch.checked::after { transform: translateX(20px); }
 
-        /* カプセル型（ピル型）の「表示」ボタン */
         .setting-btn-blue {
             background-color: #0078d4; color: #ffffff; font-size: 13.5px; font-weight: 600;
             padding: 5px 20px; border-radius: 50px; border: none; cursor: pointer;
@@ -299,7 +297,6 @@
         }
         .setting-btn-blue:active { opacity: 0.8; }
 
-        /* 閉じるボタンフッター */
         .setting-footer-close {
             background-color: #e6f0f7; padding: 16px; text-align: right; border-top: 1px solid #d1d5db; margin-top: auto;
         }
@@ -307,6 +304,54 @@
             color: #1d72b8; font-size: 15px; font-weight: 600; cursor: pointer; text-decoration: none;
         }
         .setting-close-link:active { opacity: 0.7; }
+
+        /* --- お問い合わせ前の注意事項 モーダル画面スタイル（より縦長・ゆったりとしたデザイン） --- */
+        .contact-modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-color: rgba(0, 0, 0, 0.55); z-index: 35000; display: none;
+            align-items: center; justify-content: center; padding: 20px;
+        }
+        .contact-modal-overlay.active { display: flex; }
+
+        .contact-modal-card {
+            background-color: #ffffff; width: 100%; max-width: 375px; border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.32); display: flex; flex-direction: column;
+            overflow: hidden; animation: modalScaleIn 0.2s ease-out;
+        }
+        @keyframes modalScaleIn {
+            from { transform: scale(0.92); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .contact-modal-header {
+            padding: 18px 20px 14px 20px; font-size: 17px; font-weight: 700; color: #111;
+            border-bottom: 1px solid #e5e7eb; letter-spacing: -0.2px;
+        }
+
+        .contact-modal-body {
+            padding: 22px 20px; font-size: 13.5px; line-height: 1.7; color: #222;
+            max-height: 62vh; overflow-y: auto; -webkit-overflow-scrolling: touch;
+        }
+        .contact-modal-body p { margin-bottom: 14px; }
+        .contact-modal-body p:last-child { margin-bottom: 0; }
+        .contact-modal-body a { color: #0078d4; text-decoration: underline; font-weight: 500; }
+
+        .contact-modal-footer {
+            padding: 16px 20px 22px 20px; display: flex; flex-direction: column; align-items: center; gap: 16px;
+            border-top: 1px solid #e5e7eb; background-color: #fafafa; position: relative;
+        }
+        .contact-action-btn {
+            display: inline-block; background-color: #ffffff; color: #111; border: 1.2px solid #b0b8c1;
+            border-radius: 50px; padding: 12px 28px; font-size: 14.5px; font-weight: 600; text-decoration: none;
+            text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.06); transition: background 0.2s;
+            letter-spacing: -0.2px;
+        }
+        .contact-action-btn:active { background-color: #f0f0f0; }
+
+        .contact-close-link {
+            position: absolute; right: 20px; bottom: 20px; color: #0078d4; font-size: 14.5px; font-weight: 600; cursor: pointer;
+        }
+        .contact-close-link:active { opacity: 0.7; }
     </style>
 </head>
 <body>
@@ -324,6 +369,29 @@
             </defs>
             <circle cx="20" cy="20" r="16" fill="none" stroke="url(#lTikeGrad)" stroke-width="4" stroke-linecap="round" stroke-dasharray="78 24" />
         </svg>
+    </div>
+
+    <!-- お問い合わせ前の注意事項 モーダル画面 -->
+    <div class="contact-modal-overlay" id="contactModalOverlay">
+        <div class="contact-modal-card">
+            <div class="contact-modal-header">お問い合わせ前の注意事項</div>
+            <div class="contact-modal-body">
+                <p>【ローソンチケットカスタマー】<br>
+                お問い合わせフォームをご利用のお客様は、下記の「注意事項」をお読みいただき、ご同意の上でお問い合わせいただきますようお願いいたします。</p>
+                <p>◆お問い合わせ前の注意事項<br>
+                必ず、お問い合わせの前に<br>
+                <a href="https://l-tike.com/e-tike/navi/guide/" target="_blank" rel="noopener noreferrer">電子チケット操作ガイド</a><br>
+                及び<br>
+                <a href="https://faq.l-tike.com/#_ga=2.56074984.272454060.1617853048-1085379421.1616585186" target="_blank" rel="noopener noreferrer">ローチケFAQ</a><br>
+                のご確認をお願いいたします。</p>
+                <p>※お問い合わせフォーム画面遷移後は以下の規約が適用されます。<br>
+                <a href="https://www.ent.lawson.co.jp/kiyaku/" target="_blank" rel="noopener noreferrer">ローソンエンターテイメント ONLINE 利用規約</a></p>
+            </div>
+            <div class="contact-modal-footer">
+                <a href="https://contact.l-tike.com/contact/0170/" target="_blank" rel="noopener noreferrer" class="contact-action-btn">お問合せフォーム画面へ</a>
+                <span class="contact-close-link" onclick="closeContactModal()">閉じる</span>
+            </div>
+        </div>
     </div>
 
     <!-- バージョン情報と設定画面 -->
@@ -473,9 +541,10 @@
                 </div>
             </a>
             
-            <div class="menu-item has-divider" onclick="closeMenu()">
+            <!-- お問い合わせフォーム -> 注意事項モーダルを開く -->
+            <div class="menu-item has-divider" onclick="openContactModal()">
                 <div class="menu-item-left">
-                    <svg class="menu-icon-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 16h-2v-2h2v2zm1.07-7.75l-.9.92C12.45 11.9 12 12.5 12 14h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.03-.42 1.98-1.93 2.75z"/></svg>
+                    <svg class="menu-icon-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
                     <span>お問い合わせフォーム<sup class="menu-external">↗</sup></span>
                 </div>
             </div>
@@ -486,7 +555,7 @@
                     <span>緊急時はこちら</span>
                 </div>
             </div>
-            <!-- バージョン情報と設定を開く -->
+            
             <div class="menu-item" onclick="openSetting()">
                 <div class="menu-item-left">
                     <svg class="menu-icon-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
@@ -665,6 +734,7 @@
               refreshBtn = document.getElementById('refreshBtn'),
               loadingOverlay = document.getElementById('loadingOverlay'),
               settingOverlay = document.getElementById('settingOverlay'),
+              contactModalOverlay = document.getElementById('contactModalOverlay'),
               reportToggle = document.getElementById('reportToggle');
 
         let isChecked = false, isEntered = false, startX = 0, currentTranslateX = 0;
@@ -708,6 +778,15 @@
 
         function closeSetting() {
             if (settingOverlay) settingOverlay.classList.remove('active');
+        }
+
+        function openContactModal() {
+            closeMenu();
+            if (contactModalOverlay) contactModalOverlay.classList.add('active');
+        }
+
+        function closeContactModal() {
+            if (contactModalOverlay) contactModalOverlay.classList.remove('active');
         }
 
         if (reportToggle) {
