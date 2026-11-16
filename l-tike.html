@@ -10,6 +10,9 @@
     <link rel="apple-touch-icon" href="IMG_8148.jpeg">
     <link rel="shortcut icon" href="IMG_8148.jpeg">
 
+    <!-- LZ-String 圧縮ライブラリ -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
+
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         html, body {
@@ -299,30 +302,34 @@
             
             if (rawData) {
                 try {
-                    // TextEncoder/TextDecoderに対応した100%安全なデコード処理
-                    const binaryString = atob(decodeURIComponent(rawData));
-                    const bytes = new Uint8Array(binaryString.length);
-                    for (let i = 0; i < binaryString.length; i++) {
-                        bytes[i] = binaryString.charCodeAt(i);
+                    // LZ-Stringで圧縮されたURLパラメータを解凍
+                    const jsonString = LZString.decompressFromEncodedURIComponent(rawData);
+                    if (jsonString) {
+                        data = JSON.parse(jsonString);
+                        localStorage.setItem('l_tike_ticket_data', JSON.stringify(data));
                     }
-                    const jsonString = new TextDecoder().decode(bytes);
-                    data = JSON.parse(jsonString);
-                    
-                    // 成功したらlocalStorageにも保存
-                    localStorage.setItem('l_tike_ticket_data', JSON.stringify(data));
                 } catch(e) {
-                    console.error("URLデータのデコードに失敗しました:", e);
+                    console.error("LZ-String解凍エラー:", e);
+                }
+                
+                // フォールバック：もしLZ-Stringで取れなかった場合（従来のBase64形式への互換）
+                if (!data) {
+                    try {
+                        const binaryString = atob(decodeURIComponent(rawData));
+                        const bytes = new Uint8Array(binaryString.length);
+                        for (let i = 0; i < binaryString.length; i++) {
+                            bytes[i] = binaryString.charCodeAt(i);
+                        }
+                        data = JSON.parse(new TextDecoder().decode(bytes));
+                        localStorage.setItem('l_tike_ticket_data', JSON.stringify(data));
+                    } catch(e) {}
                 }
             }
             
-            // URLから取れなかった場合は localStorage から読み込む
             if (!data) {
-                try {
-                    data = JSON.parse(localStorage.getItem('l_tike_ticket_data'));
-                } catch(e) {}
+                try { data = JSON.parse(localStorage.getItem('l_tike_ticket_data')); } catch(e) {}
             }
 
-            // 画面への反映処理
             if (data) {
                 const header = document.getElementById('headerContainer');
                 if (header) {
