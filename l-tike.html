@@ -305,11 +305,14 @@
         }
         .setting-close-link:active { opacity: 0.7; }
 
-        /* --- お問い合わせ前の注意事項 モーダル画面スタイル（より縦長・ゆったりとしたデザイン） --- */
+        /* --- お問い合わせ前の注意事項 モーダル画面スタイル（上端をロゴ下に合わせ、縦長に拡張） --- */
         .contact-modal-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background-color: rgba(0, 0, 0, 0.55); z-index: 35000; display: none;
-            align-items: center; justify-content: center; padding: 20px;
+            align-items: flex-start; justify-content: center;
+            padding-top: calc(env(safe-area-inset-top, 0px) + 54px);
+            padding-left: 16px; padding-right: 16px; padding-bottom: 24px;
+            overflow-y: auto; -webkit-overflow-scrolling: touch;
         }
         .contact-modal-overlay.active { display: flex; }
 
@@ -317,6 +320,7 @@
             background-color: #ffffff; width: 100%; max-width: 375px; border-radius: 12px;
             box-shadow: 0 8px 32px rgba(0,0,0,0.32); display: flex; flex-direction: column;
             overflow: hidden; animation: modalScaleIn 0.2s ease-out;
+            margin-bottom: 20px;
         }
         @keyframes modalScaleIn {
             from { transform: scale(0.92); opacity: 0; }
@@ -329,15 +333,15 @@
         }
 
         .contact-modal-body {
-            padding: 22px 20px; font-size: 13.5px; line-height: 1.7; color: #222;
-            max-height: 62vh; overflow-y: auto; -webkit-overflow-scrolling: touch;
+            padding: 26px 20px; font-size: 13.5px; line-height: 1.8; color: #222;
+            overflow-y: visible;
         }
-        .contact-modal-body p { margin-bottom: 14px; }
+        .contact-modal-body p { margin-bottom: 16px; }
         .contact-modal-body p:last-child { margin-bottom: 0; }
         .contact-modal-body a { color: #0078d4; text-decoration: underline; font-weight: 500; }
 
         .contact-modal-footer {
-            padding: 16px 20px 22px 20px; display: flex; flex-direction: column; align-items: center; gap: 16px;
+            padding: 18px 20px 24px 20px; display: flex; flex-direction: column; align-items: center; gap: 16px;
             border-top: 1px solid #e5e7eb; background-color: #fafafa; position: relative;
         }
         .contact-action-btn {
@@ -348,8 +352,9 @@
         }
         .contact-action-btn:active { background-color: #f0f0f0; }
 
+        /* 「閉じる」の文字色を青から通常の黒（ダークグレー）に変更 */
         .contact-close-link {
-            position: absolute; right: 20px; bottom: 20px; color: #0078d4; font-size: 14.5px; font-weight: 600; cursor: pointer;
+            position: absolute; right: 20px; bottom: 22px; color: #222; font-size: 14.5px; font-weight: 600; cursor: pointer;
         }
         .contact-close-link:active { opacity: 0.7; }
     </style>
