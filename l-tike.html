@@ -20,7 +20,7 @@
             background-color: #031566; color: #111;
             display: flex; flex-direction: column; overflow: hidden;
             -webkit-font-smoothing: antialiased;
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Icons", "Helvetica Neue", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
         }
 
         .app-header-container {
@@ -95,18 +95,9 @@
         .logo-main-kana { font-size: 13.5px; font-weight: 700; color: #fff; }
         .header-right { display: flex; align-items: center; gap: 18px; font-size: 23px; font-weight: 400; line-height: 1; cursor: pointer; }
 
-        /* 右上の更新アイコン回転用 */
-        #refreshBtn {
-            display: inline-block;
-            transition: transform 0.2s ease;
-        }
-        #refreshBtn.spinning {
-            animation: spinIcon 0.8s linear infinite;
-        }
-        @keyframes spinIcon {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+        #refreshBtn { display: inline-block; transition: transform 0.2s ease; }
+        #refreshBtn.spinning { animation: spinIcon 0.8s linear infinite; }
+        @keyframes spinIcon { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         .event-title { font-size: 21px; font-weight: 600; line-height: 1.35; margin-top: 12px; position: relative; z-index: 4; word-break: break-all; color: #fff; }
         .event-meta-block { margin-top: auto; margin-bottom: -6px; position: relative; z-index: 4; }
@@ -127,17 +118,10 @@
             flex: 1;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
         }
         .section-title-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 2px 10px 2px;
-            font-size: 22px;
-            font-weight: 500;
-            color: #222;
-            letter-spacing: 0.2px;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 2px 10px 2px; font-size: 22px; font-weight: 500; color: #222; letter-spacing: 0.2px;
         }
 
         .ticket-card { background-color: #fff; border-radius: 8px; box-shadow: 0 3px 8px rgba(0,0,0,0.1); overflow: hidden; border: 1px solid #d4d8dc; position: relative; transition: background 0.3s ease; }
@@ -244,51 +228,90 @@
         }
 
         .menu-item-left { display: flex; align-items: center; gap: 14px; }
-        
         .menu-icon-svg { width: 18px; height: 18px; flex-shrink: 0; fill: currentColor; }
-        
         .menu-external {
-            font-size: 6px;
-            border: 0.8px solid rgba(255, 255, 255, 0.85);
-            border-radius: 1px;
-            padding: 0px 1px;
-            margin-left: 2px;
-            position: relative;
-            top: -5px;
-            line-height: 1;
-            display: inline-block;
-            transform: scale(0.75);
-            transform-origin: left bottom;
+            font-size: 6px; border: 0.8px solid rgba(255, 255, 255, 0.85); border-radius: 1px;
+            padding: 0px 1px; margin-left: 2px; position: relative; top: -5px; line-height: 1;
+            display: inline-block; transform: scale(0.75); transform-origin: left bottom;
         }
-
         .menu-arrow-right { font-size: 16px; opacity: 0.8; font-weight: bold; }
 
-        /* --- 更新時の暗いオーバーレイ＆中央グラデーションスピナー --- */
+        /* --- ローディングオーバーレイ --- */
         .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: rgba(0, 0, 0, 0.62);
-            z-index: 20000;
-            display: none;
-            align-items: center;
-            justify-content: center;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-color: rgba(0, 0, 0, 0.62); z-index: 20000;
+            display: none; align-items: center; justify-content: center;
         }
-        .loading-overlay.active {
-            display: flex;
+        .loading-overlay.active { display: flex; }
+        .loading-spinner { width: 38px; height: 38px; animation: spinIcon 0.85s linear infinite; }
+
+        /* --- バージョン情報と設定 画面スタイル --- */
+        .setting-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-color: #ffffff; z-index: 30000; display: none;
+            flex-direction: column; overflow-y: auto; -webkit-overflow-scrolling: touch;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
         }
-        .loading-spinner {
-            width: 38px;
-            height: 38px;
-            animation: spinIcon 0.85s linear infinite;
+        .setting-overlay.active { display: flex; }
+
+        .setting-header {
+            display: flex; align-items: center; padding: calc(env(safe-area-inset-top, 0px) + 14px) 16px 12px 16px;
+            border-bottom: 1px solid #e5e7eb; background-color: #ffffff; flex-shrink: 0; gap: 12px;
         }
+        .setting-header-logo {
+            display: flex; align-items: center; gap: 4px;
+        }
+        .setting-logo-o { width: 20px; height: 20px; border: 2.8px solid #0078d4; border-radius: 50%; }
+        .setting-logo-kana { font-size: 12px; font-weight: 700; color: #0078d4; }
+        .setting-header-title { font-size: 17px; font-weight: 600; color: #111; }
+
+        .setting-section-header {
+            background-color: #e6f0f7; color: #1d72b8; font-size: 13px; font-weight: 600;
+            padding: 8px 16px; border-bottom: 1px solid #d1d5db; border-top: 1px solid #d1d5db; margin-top: -1px;
+            letter-spacing: -0.2px;
+        }
+        .setting-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 14px 16px; background-color: #ffffff; border-bottom: 1px solid #e5e7eb; font-size: 15px; color: #111;
+        }
+        .setting-row-desc {
+            font-size: 13px; color: #666; line-height: 1.5; padding: 12px 16px; background-color: #ffffff; border-bottom: 1px solid #e5e7eb;
+        }
+        .setting-value { color: #333; font-variant-numeric: tabular-nums; font-weight: 400; }
+        
+        /* トグルスイッチ */
+        .toggle-switch {
+            position: relative; width: 51px; height: 31px; background-color: #e5e7eb; border-radius: 16px;
+            padding: 2px; cursor: pointer; transition: background 0.3s;
+        }
+        .toggle-switch::after {
+            content: ''; position: absolute; top: 2px; left: 2px; width: 27px; height: 27px;
+            background-color: #ffffff; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.2); transition: transform 0.3s;
+        }
+        .toggle-switch.checked { background-color: #34c759; }
+        .toggle-switch.checked::after { transform: translateX(20px); }
+
+        /* カプセル型（ピル型）の「表示」ボタン */
+        .setting-btn-blue {
+            background-color: #0078d4; color: #ffffff; font-size: 13.5px; font-weight: 600;
+            padding: 5px 20px; border-radius: 50px; border: none; cursor: pointer;
+            letter-spacing: 0.3px;
+        }
+        .setting-btn-blue:active { opacity: 0.8; }
+
+        /* 閉じるボタンフッター */
+        .setting-footer-close {
+            background-color: #e6f0f7; padding: 16px; text-align: right; border-top: 1px solid #d1d5db; margin-top: auto;
+        }
+        .setting-close-link {
+            color: #1d72b8; font-size: 15px; font-weight: 600; cursor: pointer; text-decoration: none;
+        }
+        .setting-close-link:active { opacity: 0.7; }
     </style>
 </head>
 <body>
 
-    <!-- 更新時の暗いオーバーレイ＆スピナー -->
+    <!-- ローディングオーバーレイ -->
     <div class="loading-overlay" id="loadingOverlay">
         <svg class="loading-spinner" viewBox="0 0 40 40">
             <defs>
@@ -301,6 +324,56 @@
             </defs>
             <circle cx="20" cy="20" r="16" fill="none" stroke="url(#lTikeGrad)" stroke-width="4" stroke-linecap="round" stroke-dasharray="78 24" />
         </svg>
+    </div>
+
+    <!-- バージョン情報と設定画面 -->
+    <div class="setting-overlay" id="settingOverlay">
+        <div class="setting-header">
+            <div class="setting-header-logo">
+                <div class="setting-logo-o"></div>
+                <span class="setting-logo-kana">ーチケ</span>
+            </div>
+            <div class="setting-header-title">バージョン情報 と 設定</div>
+        </div>
+
+        <div class="setting-section-header">バージョン</div>
+        <div class="setting-row">
+            <span>バージョン</span>
+            <span class="setting-value">2.1.49</span>
+        </div>
+        <div class="setting-row">
+            <span>AID</span>
+            <span class="setting-value" id="settingAid">hoWWAvYV</span>
+        </div>
+        <div class="setting-row">
+            <span>TEL</span>
+            <span class="setting-value" id="settingTel">07023018161</span>
+        </div>
+
+        <div class="setting-section-header">レポート送信設定</div>
+        <div class="setting-row-desc">
+            アプリケーション改善のため、予期せぬ動作を検知したとき、レポートの送信にご協力をお願いいたします。
+        </div>
+        <div class="setting-row">
+            <span>レポート送信を許可する</span>
+            <div class="toggle-switch" id="reportToggle"></div>
+        </div>
+
+        <div class="setting-section-header">認証</div>
+        <div class="setting-row">
+            <span>認証解除</span>
+            <button class="setting-btn-blue" onclick="alert('認証解除画面です');">表示</button>
+        </div>
+
+        <div class="setting-section-header">ライセンス</div>
+        <div class="setting-row">
+            <span>ライセンス</span>
+            <button class="setting-btn-blue" onclick="alert('ライセンス情報です');">表示</button>
+        </div>
+
+        <div class="setting-footer-close">
+            <span class="setting-close-link" onclick="closeSetting()">閉じる</span>
+        </div>
     </div>
 
     <div class="app-header-container" id="headerContainer">
@@ -371,7 +444,6 @@
                 </div>
             </div>
             
-            <!-- チケットの購入（Safariへ飛ぶ直接リンク） -->
             <a href="https://l-tike.com" target="_blank" rel="noopener noreferrer" class="menu-item has-divider" onclick="closeMenu()">
                 <div class="menu-item-left">
                     <svg class="menu-icon-svg" viewBox="0 0 24 24"><path d="M20 6h-2.18c.11-.31.18-.65.18-1 0-1.66-1.34-3-3-3-1.05 0-1.96.54-2.5 1.35l-.5.67-.5-.68C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.1 0-1.99.9-1.99 2L2 19c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-5-2c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM9 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm11 15H4v-2h16v2zm0-5H4V8h5.08L7 10.83 8.62 12 11 8.76l1-1.36 1 1.36L15.38 12 17 10.83 14.92 8H20v6z"/></svg>
@@ -387,7 +459,6 @@
                 <span class="menu-arrow-right">›</span>
             </div>
             
-            <!-- 電子チケット操作ガイド（Safariへ飛ぶ直接リンク） -->
             <a href="https://l-tike.com/e-tike/navi/guide/" target="_blank" rel="noopener noreferrer" class="menu-item" onclick="closeMenu()">
                 <div class="menu-item-left">
                     <svg class="menu-icon-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 16h-2v-2h2v2zm1.07-7.75l-.9.92C12.45 11.9 12 12.5 12 14h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.03-.42 1.98-1.93 2.75z"/></svg>
@@ -395,7 +466,6 @@
                 </div>
             </a>
             
-            <!-- FAQ（Safariへ飛ぶ直接リンク） -->
             <a href="https://faq.l-tike.com/#_ga=2.56074984.272454060.1617853048-1085379421.1616585186" target="_blank" rel="noopener noreferrer" class="menu-item" onclick="closeMenu()">
                 <div class="menu-item-left">
                     <svg class="menu-icon-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 16h-2v-2h2v2zm1.07-7.75l-.9.92C12.45 11.9 12 12.5 12 14h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.03-.42 1.98-1.93 2.75z"/></svg>
@@ -403,7 +473,6 @@
                 </div>
             </a>
             
-            <!-- お問い合わせフォーム -->
             <div class="menu-item has-divider" onclick="closeMenu()">
                 <div class="menu-item-left">
                     <svg class="menu-icon-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 16h-2v-2h2v2zm1.07-7.75l-.9.92C12.45 11.9 12 12.5 12 14h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.03-.42 1.98-1.93 2.75z"/></svg>
@@ -417,13 +486,14 @@
                     <span>緊急時はこちら</span>
                 </div>
             </div>
-            <div class="menu-item" onclick="closeMenu()">
+            <!-- バージョン情報と設定を開く -->
+            <div class="menu-item" onclick="openSetting()">
                 <div class="menu-item-left">
                     <svg class="menu-icon-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
                     <span>バージョン情報と設定</span>
                 </div>
             </div>
-            <!-- ローチケ電子を閉じる -->
+            
             <div class="menu-item" onclick="window.close();">
                 <div class="menu-item-left">
                     <svg class="menu-icon-svg" viewBox="0 0 24 24"><path d="M13 3h-2v10h2V3zm4.83 2.17l-1.42 1.42C17.99 7.86 19 9.81 19 12c0 3.87-3.13 7-7 7s-7-3.13-7-7c0-2.19 1.01-4.14 2.58-5.41L6.17 5.17C4.23 6.82 3 9.26 3 12c0 4.97 4.03 9 9 9s9-4.03 9-9c0-2.74-1.23-5.18-3.17-6.83z"/></svg>
@@ -553,7 +623,11 @@
                     setVal('valName', nameVal);
                 }
                 
-                if (data.phone) setVal('valPhone', data.phone);
+                if (data.phone) {
+                    setVal('valPhone', data.phone);
+                    const settingTel = document.getElementById('settingTel');
+                    if (settingTel) settingTel.textContent = data.phone;
+                }
                 
                 if (data.price) {
                     let priceVal = data.price.trim();
@@ -589,11 +663,12 @@
               menuBtn = document.getElementById('menuBtn'),
               menuOverlay = document.getElementById('menuOverlay'),
               refreshBtn = document.getElementById('refreshBtn'),
-              loadingOverlay = document.getElementById('loadingOverlay');
+              loadingOverlay = document.getElementById('loadingOverlay'),
+              settingOverlay = document.getElementById('settingOverlay'),
+              reportToggle = document.getElementById('reportToggle');
 
         let isChecked = false, isEntered = false, startX = 0, currentTranslateX = 0;
 
-        // 更新ボタン（↻）タップ時のローディング演出（約1秒間暗くしてリング回転）
         if (refreshBtn && loadingOverlay) {
             refreshBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -624,6 +699,21 @@
 
         function closeMenu() {
             if (menuOverlay) menuOverlay.classList.remove('active');
+        }
+
+        function openSetting() {
+            closeMenu();
+            if (settingOverlay) settingOverlay.classList.add('active');
+        }
+
+        function closeSetting() {
+            if (settingOverlay) settingOverlay.classList.remove('active');
+        }
+
+        if (reportToggle) {
+            reportToggle.addEventListener('click', () => {
+                reportToggle.classList.toggle('checked');
+            });
         }
 
         if (checkBox) {
