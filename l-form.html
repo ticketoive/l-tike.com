@@ -7,6 +7,7 @@
     <!-- LZ-String 圧縮ライブラリ -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
     <style>
+        * { box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", sans-serif;
             background-color: #f4f6f8;
@@ -37,8 +38,7 @@
         .color-select-row select { flex: 1; }
         .color-preview-box {
             width: 42px; height: 42px; border-radius: 10px; border: 1px solid #ccc;
-            flex-shrink: 0; background-color: #031566;
-            background-image: url('bg.jpg'); background-size: cover; background-position: center;
+            flex-shrink: 0; background-size: cover; background-position: center; background-repeat: no-repeat;
         }
         .hint { font-size: 11px; color: #666; margin-top: 3px; }
         button {
@@ -152,12 +152,16 @@
             const previewBox = document.getElementById('colorPreviewBox');
             if (bgChoice === 'orange') {
                 previewBox.style.backgroundImage = "url('IMG_8164.jpeg')";
+                previewBox.style.backgroundColor = "#ea580c";
             } else if (bgChoice === 'purple') {
                 previewBox.style.backgroundImage = "url('IMG_8174.jpeg')";
+                previewBox.style.backgroundColor = "#7c3aed";
             } else if (bgChoice === 'yellowgreen') {
                 previewBox.style.backgroundImage = "url('IMG_8168.jpeg')";
+                previewBox.style.backgroundColor = "#65a30d";
             } else {
                 previewBox.style.backgroundImage = "url('bg.jpg')";
+                previewBox.style.backgroundColor = "#031566";
             }
         }
 
