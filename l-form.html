@@ -83,6 +83,11 @@
         </div>
 
         <div class="form-group">
+            <label for="venue">会場名</label>
+            <input type="text" id="venue" value="Spotify O-EAST">
+        </div>
+
+        <div class="form-group">
             <label for="ticketType">券種（エリア等）</label>
             <input type="text" id="ticketType" value="前方優先エリア 自由">
         </div>
@@ -93,8 +98,14 @@
         </div>
 
         <div class="form-group">
-            <label for="name">名前</label>
+            <label for="name">名前（フルネーム）</label>
             <input type="text" id="name" value="増田 佑亮">
+            <div class="hint">※スペースを含めたフルネームを入力してください</div>
+        </div>
+
+        <div class="form-group">
+            <label for="reservationNo">予約番号</label>
+            <input type="text" id="reservationNo" value="9088557757">
         </div>
 
         <div class="form-group">
@@ -156,9 +167,11 @@
                 eventTitle: document.getElementById('event').value,
                 date: document.getElementById('date').value,
                 time: document.getElementById('time').value,
+                venue: document.getElementById('venue').value,
                 ticketType: document.getElementById('ticketType').value,
                 seatNum: document.getElementById('seatNum').value,
                 name: document.getElementById('name').value,
+                reservationNo: document.getElementById('reservationNo').value,
                 phone: document.getElementById('phone').value,
                 price: document.getElementById('price').value,
                 notice: document.getElementById('notice').value

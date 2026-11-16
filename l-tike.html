@@ -193,7 +193,7 @@
         .footer-arrow { font-size: 18px; font-weight: bold; }
         .footer-right-group { display: flex; align-items: center; gap: 10px; }
 
-        /* --- ポップアップメニュー用スタイル --- */
+        /* --- ポップアップメニュー用スタイル（横幅を少し左に拡張：330px） --- */
         .menu-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(0, 0, 0, 0.2); z-index: 9999; display: none;
@@ -202,7 +202,7 @@
         
         .menu-popup {
             position: absolute; top: calc(env(safe-area-inset-top, 0px) + 50px); right: 0; bottom: 0;
-            width: 300px; background: #0777be; border-radius: 0; box-shadow: -4px 4px 20px rgba(0,0,0,0.35);
+            width: 330px; background: #0777be; border-radius: 0; box-shadow: -4px 4px 20px rgba(0,0,0,0.35);
             color: #fff; font-size: 14px;
             overflow-y: auto; -webkit-overflow-scrolling: touch; z-index: 10000;
             animation: menuSlideIn 0.15s ease-out;
@@ -810,7 +810,7 @@
         if (menuBtn && menuOverlay) {
             menuBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                showMainMenu(); // メニューを開くときはメインビューにリセット
+                showMainMenu();
                 menuOverlay.classList.toggle('active');
             });
             menuOverlay.addEventListener('click', (e) => {
@@ -824,7 +824,6 @@
             if (menuOverlay) menuOverlay.classList.remove('active');
         }
 
-        // メインメニューとサブメニューの切り替え関数
         function showSubMenu() {
             if (mainMenuView) mainMenuView.classList.remove('active');
             if (subMenuView) subMenuView.classList.add('active');
