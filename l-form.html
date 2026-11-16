@@ -46,6 +46,10 @@
             width: 100%; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px;
         }
         button:hover { background-color: #005a9e; }
+        .time-row { display: flex; gap: 10px; }
+        .time-col { flex: 1; }
+        .radio-row { display: flex; gap: 15px; margin-top: 8px; font-size: 13px; }
+        .radio-row label { font-weight: normal; display: flex; align-items: center; gap: 4px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -68,7 +72,12 @@
 
         <div class="form-group">
             <label for="event">イベント名</label>
-            <input type="text" id="event" value="Ｍａｓｓｉｖｅ Ｍｕｓｉｃ Ｓｈｏｗｃａｓｅ Ｖｏｌ．１">
+            <input type="text" id="event" value="Massive Music Showcase Vol.1">
+            <div class="radio-row">
+                <label><input type="radio" name="eventMode" value="zenkaku" checked> 全角にする（標準）</label>
+                <label><input type="radio" name="eventMode" value="hankaku"> 半角にする</label>
+            </div>
+            <div class="hint">※英数字のみ全角に変換され、空白は四角くならない通常のスペースとして保持されます</div>
         </div>
 
         <div class="form-group">
@@ -78,8 +87,18 @@
         </div>
 
         <div class="form-group">
-            <label for="time">開場 / 開演時間</label>
-            <input type="text" id="time" value="開場 16:00 開演 17:00">
+            <label>開場・開演時間</label>
+            <div class="time-row">
+                <div class="time-col">
+                    <label for="openTime" style="font-weight: normal; font-size: 12px; color: #555;">開場時間（空欄なら非表示）</label>
+                    <input type="text" id="openTime" value="16:00" placeholder="例: 16:00">
+                </div>
+                <div class="time-col">
+                    <label for="startTime" style="font-weight: normal; font-size: 12px; color: #555;">開演時間（空欄なら非表示）</label>
+                    <input type="text" id="startTime" value="17:00" placeholder="例: 17:00">
+                </div>
+            </div>
+            <div class="hint">※どちらかを空欄にすると、その項目の文字と時間が一切表示されなくなります</div>
         </div>
 
         <div class="form-group">
@@ -161,12 +180,35 @@
             }
         }
 
+        // 英数字のみ全角に変換し、スペースは変換せずにそのまま維持する
+        function toZenkaku(str) {
+            return str.replace(/[A-Za-z0-9]/g, function(s) {
+                return String.fromCharCode(s.charCodeAt(0) + 0xFEE0);
+            });
+        }
+
+        function toHankaku(str) {
+            return str.replace(/[Ａ-Ｚａ-ｚ０-９]/g, function(s) {
+                return String.fromCharCode(s.charCodeAt(0) - 0xFEE0);
+            });
+        }
+
         function saveAndOpen() {
+            let eventTitleVal = document.getElementById('event').value;
+            const eventMode = document.querySelector('input[name="eventMode"]:checked').value;
+            
+            if (eventMode === 'zenkaku') {
+                eventTitleVal = toZenkaku(eventTitleVal);
+            } else if (eventMode === 'hankaku') {
+                eventTitleVal = toHankaku(eventTitleVal);
+            }
+
             const data = {
                 bgChoice: document.getElementById('bgChoice').value,
-                eventTitle: document.getElementById('event').value,
+                eventTitle: eventTitleVal,
                 date: document.getElementById('date').value,
-                time: document.getElementById('time').value,
+                openTime: document.getElementById('openTime').value,
+                startTime: document.getElementById('startTime').value,
                 venue: document.getElementById('venue').value,
                 ticketType: document.getElementById('ticketType').value,
                 seatNum: document.getElementById('seatNum').value,
