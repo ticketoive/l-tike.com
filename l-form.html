@@ -156,12 +156,18 @@
                 notice: document.getElementById('notice').value
             };
             
+            // TextEncoderを用いた100%安全なUTF-8 Base64エンコード
             const jsonString = JSON.stringify(data);
-            const base64Data = btoa(encodeURIComponent(jsonString).replace(/%([0-9A-F]{2})/g, function(match, p1) {
-                return String.fromCharCode('0x' + p1);
-            }));
+            const utf8Bytes = new TextEncoder().encode(jsonString);
+            let binaryString = '';
+            for (let i = 0; i < utf8Bytes.length; i++) {
+                binaryString += String.fromCharCode(utf8Bytes[i]);
+            }
+            const base64Data = btoa(binaryString);
             
-            window.location.href = `l-tike.html?data=${base64Data}`;
+            // localStorageにも念のため保存しつつ遷移
+            localStorage.setItem('l_tike_ticket_data', JSON.stringify(data));
+            window.location.href = `l-tike.html?data=${encodeURIComponent(base64Data)}`;
         }
 
         updateColorPreview();

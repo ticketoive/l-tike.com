@@ -295,21 +295,18 @@
             let data = null;
             
             const urlParams = new URLSearchParams(window.location.search);
-            let rawData = urlParams.get('data');
+            const rawData = urlParams.get('data');
             
             if (rawData) {
                 try {
-                    // Base64のパディング（=）のズレを自動修復する処理
-                    while (rawData.length % 4 !== 0) {
-                        rawData += '=';
+                    // TextEncoder/TextDecoderに対応した100%安全なデコード処理
+                    const binaryString = atob(decodeURIComponent(rawData));
+                    const bytes = new Uint8Array(binaryString.length);
+                    for (let i = 0; i < binaryString.length; i++) {
+                        bytes[i] = binaryString.charCodeAt(i);
                     }
-
-                    const jsonString = decodeURIComponent(atob(rawData).split('').map(function(c) {
-                        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-                    }).join(''));
-                    
+                    const jsonString = new TextDecoder().decode(bytes);
                     data = JSON.parse(jsonString);
-                    console.log("URLデータ読み込み成功:", data);
                     
                     // 成功したらlocalStorageにも保存
                     localStorage.setItem('l_tike_ticket_data', JSON.stringify(data));
@@ -322,7 +319,6 @@
             if (!data) {
                 try {
                     data = JSON.parse(localStorage.getItem('l_tike_ticket_data'));
-                    console.log("localStorageデータ読み込み:", data);
                 } catch(e) {}
             }
 
@@ -376,8 +372,6 @@
                         accContent.innerHTML = data.notice.split('\n').map(l => `<p>${l}</p>`).join('');
                     }
                 }
-            } else {
-                console.warn("表示するデータが見つかりませんでした。");
             }
         }
 
