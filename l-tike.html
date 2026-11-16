@@ -95,6 +95,19 @@
         .logo-main-kana { font-size: 13.5px; font-weight: 700; color: #fff; }
         .header-right { display: flex; align-items: center; gap: 18px; font-size: 23px; font-weight: 400; line-height: 1; cursor: pointer; }
 
+        /* 右上の更新アイコン回転用 */
+        #refreshBtn {
+            display: inline-block;
+            transition: transform 0.2s ease;
+        }
+        #refreshBtn.spinning {
+            animation: spinIcon 0.8s linear infinite;
+        }
+        @keyframes spinIcon {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         .event-title { font-size: 21px; font-weight: 600; line-height: 1.35; margin-top: 12px; position: relative; z-index: 4; word-break: break-all; color: #fff; }
         .event-meta-block { margin-top: auto; margin-bottom: -6px; position: relative; z-index: 4; }
         .event-meta-row { display: flex; align-items: center; font-size: 16.5px; font-weight: 600; margin-bottom: 3px; gap: 8px; font-variant-numeric: tabular-nums; }
@@ -249,9 +262,46 @@
         }
 
         .menu-arrow-right { font-size: 16px; opacity: 0.8; font-weight: bold; }
+
+        /* --- 更新時の暗いオーバーレイ＆中央グラデーションスピナー --- */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.62);
+            z-index: 20000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        .loading-overlay.active {
+            display: flex;
+        }
+        .loading-spinner {
+            width: 38px;
+            height: 38px;
+            animation: spinIcon 0.85s linear infinite;
+        }
     </style>
 </head>
 <body>
+
+    <!-- 更新時の暗いオーバーレイ＆スピナー -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <svg class="loading-spinner" viewBox="0 0 40 40">
+            <defs>
+                <linearGradient id="lTikeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#38bdf8" stop-opacity="0" />
+                    <stop offset="35%" stop-color="#38bdf8" stop-opacity="0.7" />
+                    <stop offset="75%" stop-color="#a855f7" stop-opacity="0.95" />
+                    <stop offset="100%" stop-color="#ec4899" stop-opacity="1" />
+                </linearGradient>
+            </defs>
+            <circle cx="20" cy="20" r="16" fill="none" stroke="url(#lTikeGrad)" stroke-width="4" stroke-linecap="round" stroke-dasharray="78 24" />
+        </svg>
+    </div>
 
     <div class="app-header-container" id="headerContainer">
         <div class="floating-ro-ring ring-1"></div>
@@ -284,7 +334,7 @@
                     <span>入場／引換</span>
                 </div>
                 <div class="header-right">
-                    <span>↻</span>
+                    <span id="refreshBtn">↻</span>
                     <span id="menuBtn">≡</span>
                 </div>
             </div>
@@ -435,7 +485,6 @@
         function loadTicketData() {
             let data = null;
             
-            // 1. URLパラメータからデータを取得を試みる
             const urlParams = new URLSearchParams(window.location.search);
             const rawData = urlParams.get('data');
             
@@ -461,12 +510,10 @@
                 }
             }
             
-            // 2. URLにデータがない場合はLocalStorageから保持データを読み込む
             if (!data) {
                 try { data = JSON.parse(localStorage.getItem('l_tike_ticket_data')); } catch(e) {}
             }
 
-            // 入力・保存されたデータがある場合のみ、HTMLの初期値（固定値）を上書きする
             if (data) {
                 const header = document.getElementById('headerContainer');
                 if (header) {
@@ -540,9 +587,28 @@
               accordionBar = document.getElementById('accordionBar'),
               accordionContent = document.getElementById('accordionContent'),
               menuBtn = document.getElementById('menuBtn'),
-              menuOverlay = document.getElementById('menuOverlay');
+              menuOverlay = document.getElementById('menuOverlay'),
+              refreshBtn = document.getElementById('refreshBtn'),
+              loadingOverlay = document.getElementById('loadingOverlay');
 
         let isChecked = false, isEntered = false, startX = 0, currentTranslateX = 0;
+
+        // 更新ボタン（↻）タップ時のローディング演出（約1秒間暗くしてリング回転）
+        if (refreshBtn && loadingOverlay) {
+            refreshBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (loadingOverlay.classList.contains('active')) return;
+                
+                refreshBtn.classList.add('spinning');
+                loadingOverlay.classList.add('active');
+                
+                setTimeout(() => {
+                    loadTicketData();
+                    refreshBtn.classList.remove('spinning');
+                    loadingOverlay.classList.remove('active');
+                }, 1000);
+            });
+        }
 
         if (menuBtn && menuOverlay) {
             menuBtn.addEventListener('click', (e) => {
@@ -579,7 +645,7 @@
         if (headerContainer) {
             headerContainer.addEventListener('pointerdown', (e) => {
                 if (!isChecked || isEntered) return;
-                if (e.target.id === 'menuBtn' || e.target.closest('#menuOverlay')) return;
+                if (e.target.id === 'menuBtn' || e.target.id === 'refreshBtn' || e.target.closest('#menuOverlay')) return;
                 if (scratchContainer) scratchContainer.style.display = 'none';
                 if (auroraSlideLayer) auroraSlideLayer.classList.add('active');
                 startX = e.clientX;
