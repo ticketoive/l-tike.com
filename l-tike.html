@@ -237,7 +237,7 @@
         .footer-arrow { font-size: 18px; font-weight: bold; }
         .footer-right-group { display: flex; align-items: center; gap: 10px; }
 
-        /* --- ポップアップメニュー用スタイル --- */
+        /* --- ポップアップメニュー用スタイル（中間サイズに調整） --- */
         .menu-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(0, 0, 0, 0.2); z-index: 9999; display: none;
@@ -246,7 +246,7 @@
         
         .menu-popup {
             position: absolute; top: calc(env(safe-area-inset-top, 0px) + 50px); right: 0; bottom: 0;
-            width: 360px; background: #0777be; border-radius: 0; box-shadow: -4px 4px 20px rgba(0,0,0,0.35);
+            width: 335px; background: #0777be; border-radius: 0; box-shadow: -4px 4px 20px rgba(0,0,0,0.35);
             color: #fff; font-size: 14px;
             overflow-y: auto; -webkit-overflow-scrolling: touch; z-index: 10000;
             animation: menuSlideIn 0.15s ease-out;
@@ -683,12 +683,9 @@
             </div>
         </div>
 
-        <div class="app-footer" id="goToEntryBtn">
+        <!-- チケット詳細画面の下部：左側に「←」のみがある水色フッター -->
+        <div class="app-footer" id="goToEntryBtn" style="justify-content: flex-start;">
             <span class="footer-arrow">←</span>
-            <div class="footer-right-group">
-                <span>入場／引換</span>
-                <span class="footer-arrow" style="visibility: hidden;">→</span>
-            </div>
         </div>
     </div>
 
