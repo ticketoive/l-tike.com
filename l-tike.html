@@ -293,73 +293,88 @@
     <script>
         function loadTicketData() {
             let data = null;
+            
+            // 1. URLパラメータ（?data=...）の取得
             const urlParams = new URLSearchParams(window.location.search);
             const rawData = urlParams.get('data');
             
             if (rawData) {
                 try {
+                    // Base64デコード処理（安全なUTF-8復元）
                     const jsonString = decodeURIComponent(atob(rawData).split('').map(function(c) {
                         return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
                     }).join(''));
                     data = JSON.parse(jsonString);
+                    // 成功したらスマホやブラウザの保存領域にも保持させる
                     localStorage.setItem('l_tike_ticket_data', JSON.stringify(data));
                 } catch(e) {
-                    console.error("データ解析エラー", e);
+                    console.error("URLデータのデコードに失敗しました:", e);
                 }
             }
             
+            // 2. 万が一URLから取れなかった場合は localStorage からフォールバック読み込み
             if (!data) {
-                try { data = JSON.parse(localStorage.getItem('l_tike_ticket_data')); } catch(e) {}
+                try {
+                    data = JSON.parse(localStorage.getItem('l_tike_ticket_data'));
+                } catch(e) {}
             }
 
-            if (!data) {
-                data = {
-                    bgChoice: 'default',
-                    eventTitle: 'Ｍａｓｓｉｖｅ Ｍｕｓｉｃ Ｓｈｏｗｃａｓｅ Ｖｏｌ．１',
-                    date: '2026.11.11(Wed)',
-                    time: '開場 16:00 開演 17:00',
-                    ticketType: '前方優先エリア 自由',
-                    seatNum: '整理番号 A 102番',
-                    name: '増田 佑亮様',
-                    phone: '07023018161',
-                    price: '10,000円',
-                    notice: '※営利目的の転売禁止\n※6歳以上有料 ※ドリンク代別途必要'
+            // 3. 画面への反映処理
+            if (data) {
+                const header = document.getElementById('headerContainer');
+                if (header) {
+                    if (data.bgChoice === 'orange') {
+                        header.style.backgroundImage = "url('IMG_8164.jpeg')";
+                        header.classList.add('orange-theme');
+                    } else {
+                        header.style.backgroundImage = "url('bg.jpg')";
+                        header.classList.remove('orange-theme');
+                    }
+                }
+                
+                const setVal = (id, val) => {
+                    const el = document.getElementById(id);
+                    if (el && val !== undefined && val !== null) {
+                        el.textContent = val;
+                    }
                 };
-            }
 
-            const header = document.getElementById('headerContainer');
-            if (header) {
-                if (data.bgChoice === 'orange') {
-                    header.style.backgroundImage = "url('IMG_8164.jpeg')";
-                    header.classList.add('orange-theme');
-                } else {
-                    header.style.backgroundImage = "url('bg.jpg')";
-                    header.classList.remove('orange-theme');
+                if (data.eventTitle) setVal('valEventTitle', data.eventTitle);
+                if (data.date) setVal('valDate', data.date);
+                if (data.time) setVal('valTime', data.time);
+                if (data.ticketType) setVal('valTicketType', data.ticketType);
+                if (data.seatNum) setVal('valSeatNum', data.seatNum);
+                
+                // 名前の「様」の重複防止処理
+                if (data.name) {
+                    let nameVal = data.name.trim();
+                    if (!nameVal.endsWith('様') && !nameVal.endsWith('さま')) {
+                        nameVal += '様';
+                    }
+                    setVal('valName', nameVal);
                 }
-            }
-            
-            const setVal = (id, val) => {
-                const el = document.getElementById(id);
-                if (el) el.textContent = val;
-            };
-
-            if (data.eventTitle) setVal('valEventTitle', data.eventTitle);
-            if (data.date) setVal('valDate', data.date);
-            if (data.time) setVal('valTime', data.time);
-            if (data.ticketType) setVal('valTicketType', data.ticketType);
-            if (data.seatNum) setVal('valSeatNum', data.seatNum);
-            if (data.name) setVal('valName', data.name + (data.name.endsWith('様') ? '' : '様'));
-            if (data.phone) setVal('valPhone', data.phone);
-            if (data.price) setVal('valPrice', data.price + (data.price.includes('円') ? '' : '円'));
-            
-            if (data.notice) {
-                const accContent = document.getElementById('accordionContent');
-                if (accContent) {
-                    accContent.innerHTML = data.notice.split('\n').map(l => `<p>${l}</p>`).join('');
+                
+                if (data.phone) setVal('valPhone', data.phone);
+                
+                // 金額の「円」の重複防止処理
+                if (data.price) {
+                    let priceVal = data.price.trim();
+                    if (!priceVal.includes('円')) {
+                        priceVal += '円';
+                    }
+                    setVal('valPrice', priceVal);
+                }
+                
+                if (data.notice) {
+                    const accContent = document.getElementById('accordionContent');
+                    if (accContent) {
+                        accContent.innerHTML = data.notice.split('\n').map(l => `<p>${l}</p>`).join('');
+                    }
                 }
             }
         }
 
+        // 読み込み実行
         loadTicketData();
 
         const checkBox = document.getElementById('checkBox'),
