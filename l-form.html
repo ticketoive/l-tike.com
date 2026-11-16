@@ -56,10 +56,11 @@
         <div class="form-group">
             <label for="bgChoice">ヘッダー背景色</label>
             <div class="color-select-row">
-                <!-- 画像ファイル名を消去し、選択肢をシンプルな名称に変更 -->
                 <select id="bgChoice" onchange="updateColorPreview()">
-                    <option value="default">標準（青）</option>
+                    <option value="default">標準（濃い青）</option>
                     <option value="orange">オレンジ</option>
+                    <option value="purple">紫</option>
+                    <option value="yellowgreen">黄緑</option>
                 </select>
                 <div class="color-preview-box" id="colorPreviewBox"></div>
             </div>
@@ -121,6 +122,10 @@
             const previewBox = document.getElementById('colorPreviewBox');
             if (bgChoice === 'orange') {
                 previewBox.style.backgroundImage = "url('IMG_8164.jpeg')";
+            } else if (bgChoice === 'purple') {
+                previewBox.style.backgroundImage = "url('IMG_8174.jpeg')";
+            } else if (bgChoice === 'yellowgreen') {
+                previewBox.style.backgroundImage = "url('IMG_8168.jpeg')";
             } else {
                 previewBox.style.backgroundImage = "url('bg.jpg')";
             }
