@@ -56,9 +56,10 @@
         <div class="form-group">
             <label for="bgChoice">ヘッダー背景色</label>
             <div class="color-select-row">
+                <!-- 画像ファイル名を消去し、選択肢をシンプルな名称に変更 -->
                 <select id="bgChoice" onchange="updateColorPreview()">
-                    <option value="default">標準（bg.jpg）</option>
-                    <option value="orange">オレンジ（IMG_8164.jpeg）</option>
+                    <option value="default">標準（青）</option>
+                    <option value="orange">オレンジ</option>
                 </select>
                 <div class="color-preview-box" id="colorPreviewBox"></div>
             </div>
@@ -159,8 +160,6 @@
             };
             
             const jsonString = JSON.stringify(data);
-            
-            // LZ-StringでURL用に強力圧縮
             const compressedData = LZString.compressToEncodedURIComponent(jsonString);
             
             localStorage.setItem('l_tike_ticket_data', JSON.stringify(data));
