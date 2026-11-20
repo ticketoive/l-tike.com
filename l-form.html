@@ -50,6 +50,23 @@
         .time-col { flex: 1; }
         .radio-row { display: flex; gap: 15px; margin-top: 8px; font-size: 13px; }
         .radio-row label { font-weight: normal; display: flex; align-items: center; gap: 4px; cursor: pointer; }
+        .checkbox-inline-row {
+            margin-top: 8px;
+            font-size: 13px;
+        }
+        .checkbox-inline-row label {
+            font-weight: normal;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            margin-bottom: 0;
+        }
+        .checkbox-inline-row input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -141,6 +158,9 @@
             <label for="notice">注意事項（ご来場までにご確認ください）</label>
             <textarea id="notice" rows="4">※営利目的の転売禁止
 ※6歳以上有料 ※ドリンク代別途必要 ※整理番号順入場、オールスタンディング ※入場時に身分証明確認をさせていただく場合がございます。写真付き身分証明書を必ず持参お願いします。</textarea>
+            <div class="checkbox-inline-row">
+                <label><input type="checkbox" id="hideNoticeBar"> 「ご来場までにご確認ください」の帯をなしにする（切り取る）</label>
+            </div>
         </div>
 
         <button type="button" onclick="saveAndOpen()">チケットを作成して確認する</button>
@@ -220,7 +240,8 @@
                 reservationNo: document.getElementById('reservationNo').value,
                 phone: document.getElementById('phone').value,
                 price: document.getElementById('price').value,
-                notice: document.getElementById('notice').value
+                notice: document.getElementById('notice').value,
+                hideNoticeBar: document.getElementById('hideNoticeBar').checked
             };
             
             const jsonString = JSON.stringify(data);

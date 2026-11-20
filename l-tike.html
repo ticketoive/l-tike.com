@@ -969,6 +969,29 @@
                     if (accContent) accContent.innerHTML = formattedNotice;
                     if (accContentDetail) accContentDetail.innerHTML = formattedNotice;
                 }
+
+                // 「ご来場までにご確認ください」の帯をなしにする場合、帯と展開コンテンツを完全に非表示
+                const shouldHideBar = Boolean(data.hideNoticeBar);
+                const barEl = document.getElementById('accordionBar');
+                const barDetailEl = document.getElementById('accordionBarDetail');
+                const contentEl = document.getElementById('accordionContent');
+                const contentDetailEl = document.getElementById('accordionContentDetail');
+
+                if (barEl) barEl.style.display = shouldHideBar ? 'none' : 'flex';
+                if (barDetailEl) barDetailEl.style.display = shouldHideBar ? 'none' : 'flex';
+                if (shouldHideBar) {
+                    if (contentEl) {
+                        contentEl.classList.remove('open');
+                        contentEl.style.display = 'none';
+                    }
+                    if (contentDetailEl) {
+                        contentDetailEl.classList.remove('open');
+                        contentDetailEl.style.display = 'none';
+                    }
+                } else {
+                    if (contentEl) contentEl.style.display = '';
+                    if (contentDetailEl) contentDetailEl.style.display = '';
+                }
             }
         }
 
